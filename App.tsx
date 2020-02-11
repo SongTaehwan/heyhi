@@ -1,14 +1,47 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import Splash from '@screens/Splash';
+import Language from '@screens/Language';
+import SignIn from '@screens/SignIn';
+import RestorePassword from '@screens/RestorePassword';
+import Account from '@screens/Account';
+import ChatRoom from '@screens/ChatRoom';
+import Main from '@screens/Main';
+import { setNavigator } from '@util/navigationRef';
 
-import Root from '@screens/Root';
+const Stack = createStackNavigator();
+const BottomTab = createMaterialBottomTabNavigator();
 
-const App = () => {
+const LoginFlow = () => {
   return (
-    <SafeAreaView>
-      <Root />
-    </SafeAreaView>
+    <Stack.Navigator>
+      <Stack.Screen name={'Splash'} component={Splash} />
+      <Stack.Screen name={'Language'} component={Language} />
+      <Stack.Screen name={'SignIn'} component={SignIn} />
+      <Stack.Screen name={'RestorePassword'} component={RestorePassword} />
+    </Stack.Navigator>
   );
 };
 
-export default App;
+const MainFlow = () => {
+  return (
+    <BottomTab.Navigator>
+      <BottomTab.Screen name={'Main'} component={Main} />
+      <BottomTab.Screen name={'Chat'} component={ChatRoom} />
+      <BottomTab.Screen name={'Account'} component={Account} />
+    </BottomTab.Navigator>
+  );
+};
+
+export default () => {
+  return (
+    <NavigationContainer ref={navigator => setNavigator(navigator)}>
+      <Stack.Navigator>
+        <Stack.Screen name={'LoginFlow'} component={LoginFlow} />
+        <Stack.Screen name={'MainFlow'} component={MainFlow} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
