@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Account = () => {
+const Account = (): JSX.Element => {
   return (
     <View>
       <Text>Accont setting</Text>

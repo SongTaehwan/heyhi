@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Language = () => {
+const Language = (): JSX.Element => {
   return (
     <View>
       <Text>Language Select</Text>

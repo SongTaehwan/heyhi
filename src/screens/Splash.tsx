@@ -1,15 +1,18 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { Button } from 'react-native-elements';
+import { NavigationProp } from '@type/index';
 
-const Splash = ({ navigation }) => {
+interface SplashProp {
+  navigation: NavigationProp<null, 'Splash'>;
+}
+
+const Splash = ({ navigation }: SplashProp): JSX.Element => {
+  console.log(navigation);
   return (
     <View>
       <Text>Splash</Text>
-      <Button
-        title={'go to Main'}
-        onPress={() => navigation.navigate('MainFlow')}
-      />
+      <Button title={'go to Main'} />
     </View>
   );
 };
