@@ -1,6 +1,6 @@
 import React from 'react';
 
-const useLocation = () => {
+const useLocation = (): [] => {
   return [];
 };
 
