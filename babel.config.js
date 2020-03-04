@@ -10,6 +10,7 @@ module.exports = {
           '@components': './src/components',
           '@screens': './src/screens',
           '@context': './src/context',
+          '@style': './src/constant/index.ts',
           '@hooks': './src/hooks',
           '@util': './src/util',
           '@type': './src/type',

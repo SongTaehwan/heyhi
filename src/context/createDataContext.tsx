@@ -38,7 +38,7 @@ export interface DataContextGenerator<R, A, S> {
   (R: R, A: A, S: S): { Context: DataContext; Provider: DataProvider };
 }
 
-const createDataContext: <R, A, S extends DataState>(
+const createDataContext: <R, A, S>(
   reducer: R,
   actions: A,
   state: S,

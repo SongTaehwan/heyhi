@@ -14,7 +14,7 @@ import { setNavigator } from '@util/navigationRef';
 const Stack = createStackNavigator();
 const BottomTab = createMaterialBottomTabNavigator();
 
-const LoginFlow = () => {
+const LoginFlow = (): JSX.Element => {
   return (
     <Stack.Navigator>
       <Stack.Screen name={'Splash'} component={Splash} />
@@ -25,7 +25,7 @@ const LoginFlow = () => {
   );
 };
 
-const MainFlow = () => {
+const MainFlow = (): JSX.Element => {
   return (
     <BottomTab.Navigator>
       <BottomTab.Screen name={'Main'} component={Main} />
@@ -35,7 +35,7 @@ const MainFlow = () => {
   );
 };
 
-export default () => {
+const App = (): JSX.Element => {
   return (
     <NavigationContainer ref={navigator => setNavigator(navigator)}>
       <Stack.Navigator>
@@ -45,3 +45,5 @@ export default () => {
     </NavigationContainer>
   );
 };
+
+export default App;

@@ -20,6 +20,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@context/*": ["src/context/*"],
       "@screens/*": ["src/screens/*"],
+      "@style": ["src/constant/index.ts"],
       "@components/*": ["src/components/*"],
       "@constant/*": ["src/constant/*"],
       "@components": ["src/components/index.ts"],

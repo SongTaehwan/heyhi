@@ -5,7 +5,7 @@ type Props = {
   placeHolder: string;
 };
 
-const Basic = ({ placeHolder }: Props) => {
+const Basic = ({ placeHolder }: Props): JSX.Element => {
   return <Input placeholder={''} />;
 };
 
