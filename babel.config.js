@@ -14,6 +14,7 @@ module.exports = {
           '@util': './src/util',
           '@type': './src/type',
           '@api': './src/api',
+          '@constant': './src/constant',
         },
       },
     ],

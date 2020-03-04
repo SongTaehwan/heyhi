@@ -1,3 +1,1 @@
-import Styles from './styles';
-
-export { Styles };
+export { default as Styles } from './styles';

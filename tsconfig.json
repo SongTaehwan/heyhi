@@ -21,7 +21,9 @@
       "@context/*": ["src/context/*"],
       "@screens/*": ["src/screens/*"],
       "@components/*": ["src/components/*"],
-      "@components": ["src/components/index.ts"]
+      "@constant/*": ["src/constant/*"],
+      "@components": ["src/components/index.ts"],
+      "@constant": ["src/constant/index.ts"],
     }
   },
   "exclude": [
