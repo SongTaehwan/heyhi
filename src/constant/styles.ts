@@ -1,4 +1,6 @@
-const Pallette = {
+import { TextStyle } from 'react-native';
+
+export const Pallette = {
   white: '#ffffff',
   robinSEgg: '#5adbff',
   brightSkyBlue: '#00c7ff',
@@ -7,9 +9,22 @@ const Pallette = {
   darkSlateBlue: '#172b4d',
   purpley: '#7764e4',
   blueyGrey: '#8898aa',
+  veryLightPink: '#cecece',
 };
 
-const TextStyles = {
+interface Style {
+  HeadLine: TextStyle;
+  Title: TextStyle;
+  LargeBody: TextStyle;
+  SecondaryBodyBold: TextStyle;
+  SecondaryBody: TextStyle;
+  BodyBold: TextStyle;
+  Body: TextStyle;
+  Placeholder: TextStyle;
+  Button: TextStyle;
+}
+
+export const TextStyles: Style = {
   HeadLine: {
     fontSize: 35,
     fontWeight: 'bold',
@@ -53,26 +68,20 @@ const TextStyles = {
   },
 };
 
-const ParagraphStyles = {
+export const ParagraphStyles = {
   LargeBody: {
-    height: 30,
+    lineHeight: 30,
     fontSize: 18,
     color: Pallette.darkSlateBlue,
   },
   Body: {
-    height: 24,
+    lineHeight: 24,
     fontSize: 15,
     color: Pallette.darkSlateBlue,
   },
   SmallBody: {
-    height: 17,
+    lineHeight: 17,
     fontSize: 13,
     color: Pallette.darkSlateBlue,
   },
-};
-
-export default {
-  Pallette,
-  TextStyles,
-  ParagraphStyles,
 };

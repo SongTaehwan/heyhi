@@ -20,8 +20,11 @@
       "@hooks/*": ["src/hooks/*"],
       "@context/*": ["src/context/*"],
       "@screens/*": ["src/screens/*"],
+      "@style": ["src/constant/index.ts"],
       "@components/*": ["src/components/*"],
-      "@components": ["src/components/index.ts"]
+      "@constant/*": ["src/constant/*"],
+      "@components": ["src/components/index.ts"],
+      "@constant": ["src/constant/index.ts"],
     }
   },
   "exclude": [
