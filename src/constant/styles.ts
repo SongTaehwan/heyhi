@@ -10,6 +10,7 @@ export const Pallette = {
   purpley: '#7764e4',
   blueyGrey: '#8898aa',
   veryLightPink: '#cecece',
+  brightRed: '#F76C6C',
 };
 
 interface Style {
