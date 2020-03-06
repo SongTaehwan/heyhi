@@ -24,6 +24,7 @@ const NoButton = (props: CheckableButton): JSX.Element => {
     borderRadius: 20,
     fontSize: 15,
   };
+
   const titleStyle = {
     color: props.outline ? '#000' : '#fff',
     width: 84,
@@ -35,14 +36,11 @@ const NoButton = (props: CheckableButton): JSX.Element => {
       ? { ...styles.outline, ...commonBtnStyle }
       : { ...styles.solid, ...commonBtnStyle };
 
+  const iconStyle = { color: props.outline ? Pallette.brightRed : '#fff' };
+
   return (
     <Button
-      icon={
-        <Icon
-          name={'thumbs-down'}
-          style={{ color: props.outline ? Pallette.brightRed : '#fff' }}
-        />
-      }
+      icon={<Icon name={'thumbs-down'} style={iconStyle} />}
       titleStyle={titleStyle}
       title={'No'}
       type={props.type}

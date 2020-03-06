@@ -36,14 +36,11 @@ const YesButton = (props: CheckableButton): JSX.Element => {
       ? { ...styles.outline, ...commonBtnStyle }
       : { ...styles.solid, ...commonBtnStyle };
 
+  const iconStyle = { color: props.outline ? Pallette.brightSkyBlue : '#fff' };
+
   return (
     <Button
-      icon={
-        <Icon
-          name={'thumbs-up'}
-          style={{ color: props.outline ? Pallette.brightSkyBlue : '#fff' }}
-        />
-      }
+      icon={<Icon name={'thumbs-up'} style={iconStyle} />}
       titleStyle={titleStyle}
       title={'Yes!'}
       type={props.type}

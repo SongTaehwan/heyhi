@@ -8,3 +8,10 @@ export interface ClickableButton extends ButtonProps {
 export interface CheckableButton extends ButtonProps {
   outline?: boolean;
 }
+
+export interface IconButtonProps extends ButtonProps {
+  iconName: string;
+  iconSize: number;
+  iconColor: string;
+  iconStyle: object;
+}

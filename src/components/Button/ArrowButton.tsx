@@ -3,10 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 
-interface ArrowButtonProps {
-  iconName: string;
-  iconSize: number;
-}
+import { IconButtonProps } from './types';
 
 const styles = StyleSheet.create({
   button: {
@@ -16,11 +13,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const ArrowButton = (props: ArrowButtonProps): JSX.Element => {
+const ArrowButton = (props: IconButtonProps): JSX.Element => {
   return (
     <Button
       icon={<Icon name={props.iconName} size={props.iconSize} />}
       buttonStyle={styles.button}
+      onPress={props.onPress}
     />
   );
 };
