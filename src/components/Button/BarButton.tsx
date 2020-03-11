@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-native-elements';
 import { ClickableButton } from './types';
 import { StyleSheet } from 'react-native';
-import { st } from '@style';
+import st from '@styles';
 
 const styles = StyleSheet.create({
   square: {
@@ -40,6 +40,7 @@ const BarButton = (props: ClickableButton): JSX.Element => {
 
   return (
     <Button
+      containerStyle={props.containerStyle}
       title={props.title}
       type={'solid'}
       onPress={props.onPress}
@@ -57,6 +58,9 @@ const BarButton = (props: ClickableButton): JSX.Element => {
 BarButton.defaultProps = {
   round: false,
   title: 'Click',
+  containerStyle: {
+    width: '100%',
+  },
 };
 
 export default BarButton;

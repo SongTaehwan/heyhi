@@ -20,11 +20,12 @@
       "@hooks/*": ["src/hooks/*"],
       "@context/*": ["src/context/*"],
       "@screens/*": ["src/screens/*"],
-      "@style": ["src/constant/index.ts"],
-      "@components/*": ["src/components/*"],
-      "@constant/*": ["src/constant/*"],
-      "@components": ["src/components/index.ts"],
+      "@routes": ["src/Routes/index.ts"],
+      "@routes/types": ["src/Routes/types.ts"],
+      "@images": ["src/assets/images/*"],
+      "@styles": ["src/constant/styles.ts"],
       "@constant": ["src/constant/index.ts"],
+      "@components": ["src/components/index.ts"]
     }
   },
   "exclude": [

@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const RestorePassword = (): JSX.Element => {
+const LanguageSelect = (): JSX.Element => {
   return (
     <View>
-      <Text>Restore pw</Text>
+      <Text>{'Language'}</Text>
     </View>
   );
 };
 
-export default RestorePassword;
+export default LanguageSelect;

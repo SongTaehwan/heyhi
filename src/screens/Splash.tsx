@@ -1,23 +1,35 @@
-import { View } from 'react-native';
-import React from 'react';
-import { NavigationProp } from '@type/index';
-import { Paragraph } from '@components/layout';
-import { Button } from 'react-native-elements';
+import { View, StyleSheet, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import st from '@styles';
 
-interface SplashProp {
-  navigation: NavigationProp<null, 'Splash'>;
-}
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  title: {
+    // color: st.Pallette.robinSEgg,
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+});
 
-const Splash = ({ navigation }: SplashProp): JSX.Element => {
+const title = 'Hey, Hi!';
+
+const Splash = (): JSX.Element => {
+  const [splashTitle, setSplashTitle] = useState('');
+  useEffect(() => {
+    for (let i = 0; i < title.length; i++) {
+      setTimeout(() => {
+        setSplashTitle(prevTitle => prevTitle + title[i]);
+      }, 100 * i);
+    }
+  }, []);
   return (
-    <View>
-      <Paragraph contents={`One Line\nTwo Line\nThree Line`} />
-      <Paragraph styleName="Body" contents={`One Line\nTwo Line\nThree Line`} />
-      <Paragraph
-        styleName="SmallBody"
-        contents={`One Line\nTwo Line\nThree Line`}
-      />
-      <Button title={'go to Main'} />
+    <View style={styles.container}>
+      <Text style={styles.title}>{splashTitle}</Text>
     </View>
   );
 };
