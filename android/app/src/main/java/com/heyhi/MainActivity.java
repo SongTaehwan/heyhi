@@ -5,6 +5,10 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
+// react-native-bootsplash
+import android.os.Bundle;
+import com.zoontek.rnbootsplash.RNBootSplash;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -16,6 +20,11 @@ public class MainActivity extends ReactActivity {
     return "heyhi";
   }
 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    RNBootSplash.show(R.drawable.splashscreen, MainActivity.this); // <- display the "bootsplash" xml view over our MainActivity
+  }
 
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {

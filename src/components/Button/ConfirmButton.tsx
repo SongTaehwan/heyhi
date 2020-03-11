@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-native-elements';
 import { ClickableButton } from './types';
 import { StyleSheet } from 'react-native';
-import { st } from '@style';
+import st from '@styles';
 
 const styles = StyleSheet.create({
   square: {

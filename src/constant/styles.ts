@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 
 export const Pallette = {
   white: '#ffffff',
@@ -10,19 +10,12 @@ export const Pallette = {
   purpley: '#7764e4',
   blueyGrey: '#8898aa',
   veryLightPink: '#cecece',
+  veryLightPinkTwo: '#efefef',
   brightRed: '#F76C6C',
 };
 
 interface Style {
-  HeadLine: TextStyle;
-  Title: TextStyle;
-  LargeBody: TextStyle;
-  SecondaryBodyBold: TextStyle;
-  SecondaryBody: TextStyle;
-  BodyBold: TextStyle;
-  Body: TextStyle;
-  Placeholder: TextStyle;
-  Button: TextStyle;
+  [key: string]: TextStyle;
 }
 
 export const TextStyles: Style = {
@@ -85,4 +78,24 @@ export const ParagraphStyles = {
     fontSize: 13,
     color: Pallette.darkSlateBlue,
   },
+};
+
+export const Container = StyleSheet.create({
+  default: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  topless: {
+    paddingTop: 0,
+  },
+  bottomless: {
+    paddingBottom: 0,
+  },
+});
+
+export default {
+  Pallette,
+  ParagraphStyles,
+  TextStyles,
+  Container,
 };

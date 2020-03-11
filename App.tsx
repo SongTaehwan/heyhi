@@ -1,48 +1,71 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import React from 'react';
-import Splash from '@screens/Splash';
-import Language from '@screens/Language';
-import SignIn from '@screens/SignIn';
-import RestorePassword from '@screens/RestorePassword';
-import Account from '@screens/Account';
-import ChatRoom from '@screens/ChatRoom';
-import Main from '@screens/Main';
+import RootErrorBoundary from 'react-native-error-boundary';
+import React, { useEffect, useState } from 'react';
+import RNBootSplash from 'react-native-bootsplash';
 import { setNavigator } from '@util/navigationRef';
+import { TutorialFlow, LoginFlow, MainFlow } from '@routes';
+import Splash from '@screens/Splash';
 
-const Stack = createStackNavigator();
-const BottomTab = createMaterialBottomTabNavigator();
+const RootStack = createStackNavigator();
 
-const LoginFlow = (): JSX.Element => {
+const App = (props): JSX.Element => {
+  // TODO: Create AuthContext for token and tutorial
+
+  const [showTutorial, setTutorial] = useState(false); // NOTE: true if you want to check tutorial
+  const [hasToken, setToken] = useState(false); // NOTE: true if you want to skip Loginflow
+  const [isLoading, setLoading] = useState(true);
+
+  const initializeApp = async (): Promise<void> => {
+    const [[, token], [, tutorial]] = await AsyncStorage.multiGet([
+      'token',
+      'tutorial',
+    ]);
+
+    RNBootSplash.hide({ duration: 200 });
+
+    setTimeout(() => {
+      setLoading(false);
+
+      if (token !== null) {
+        setToken(true);
+      }
+
+      if (tutorial !== null) {
+        setTutorial(true);
+      }
+    }, 1500);
+  };
+
+  const childErrorhandler = (error: Error, stackTrace: string): void => {
+    console.log(error.message);
+    // TODO: report error to a cash analysis service like crashlytics from firebase
+  };
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
+  if (isLoading) {
+    return <Splash />;
+  }
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen name={'Splash'} component={Splash} />
-      <Stack.Screen name={'Language'} component={Language} />
-      <Stack.Screen name={'SignIn'} component={SignIn} />
-      <Stack.Screen name={'RestorePassword'} component={RestorePassword} />
-    </Stack.Navigator>
-  );
-};
-
-const MainFlow = (): JSX.Element => {
-  return (
-    <BottomTab.Navigator>
-      <BottomTab.Screen name={'Main'} component={Main} />
-      <BottomTab.Screen name={'Chat'} component={ChatRoom} />
-      <BottomTab.Screen name={'Account'} component={Account} />
-    </BottomTab.Navigator>
-  );
-};
-
-const App = (): JSX.Element => {
-  return (
-    <NavigationContainer ref={navigator => setNavigator(navigator)}>
-      <Stack.Navigator>
-        <Stack.Screen name={'LoginFlow'} component={LoginFlow} />
-        <Stack.Screen name={'MainFlow'} component={MainFlow} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // TODO: Build Error Fallback component for Production
+    <RootErrorBoundary onError={childErrorhandler}>
+      <NavigationContainer ref={navigator => setNavigator(navigator)}>
+        <RootStack.Navigator headerMode={'none'}>
+          {showTutorial && (
+            <RootStack.Screen name={'TutorialFlow'} component={TutorialFlow} />
+          )}
+          {!hasToken && (
+            <RootStack.Screen name={'LoginFlow'} component={LoginFlow} />
+          )}
+          <RootStack.Screen name={'MainFlow'} component={MainFlow} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </RootErrorBoundary>
   );
 };
 

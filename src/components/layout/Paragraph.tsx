@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { ParagraphStyles } from '@constant/styles';
+import { ParagraphStyles } from '@styles';
 
 type ParagraphStyles = 'LargeBody' | 'Body' | 'SmallBody';
 

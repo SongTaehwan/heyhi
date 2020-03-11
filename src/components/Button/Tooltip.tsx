@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 import React from 'react';
-import { st } from '@style';
+import st from '@styles';
 
 interface TooltipProps {
   tipText: string;
