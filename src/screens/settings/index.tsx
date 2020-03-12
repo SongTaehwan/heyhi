@@ -2,12 +2,12 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
+
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { SettingsStackParamList } from '@routes/types';
 
 import { Layout, Title } from '@components';
-
 import { Pallette } from '@styles';
 
 interface SettingsProps {
