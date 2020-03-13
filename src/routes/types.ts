@@ -13,5 +13,6 @@ export type TutorialStackParamList = {
 export type LoginStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
-  RestorePassword: undefined;
+  PasswordRestoration: undefined;
+  PasswordCreation: undefined;
 };

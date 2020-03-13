@@ -1,15 +1,24 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import _debounce from 'lodash/debounce';
-import { Layout, Title, BarButton, VSpace, TextField } from '@components';
+import {
+  Layout,
+  Title,
+  BarButton,
+  VSpace,
+  TextField,
+  ContentLayer,
+} from '@components';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { LoginStackParamList } from '@routes/types';
+import { RouteProp } from '@react-navigation/native';
+
+interface PasswordRestoration {
+  navigation: StackNavigationProp<LoginStackParamList, 'PasswordRestoration'>;
+  route: RouteProp<LoginStackParamList, 'PasswordRestoration'>;
+}
 
 const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    paddingHorizontal: 40,
-    paddingTop: 40,
-  },
   guidText: {
     fontSize: 18,
     textAlign: 'center',
@@ -17,17 +26,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const PasswordRestore = (): JSX.Element => {
+const PasswordRestoration = ({
+  navigation,
+}: PasswordRestoration): JSX.Element => {
   const [email, setEmail] = useState<string>('');
 
   const changeEmail = (userEmail: string): void => {
     setEmail(userEmail);
   };
-  console.log(email);
+
   const debounceOnChangeEmail = _debounce(changeEmail, 500);
+
   return (
     <Layout>
-      <View style={styles.content}>
+      <ContentLayer>
         <Title h2 text="Create a new Password" />
         <VSpace space={30} />
         <Text style={styles.guidText}>
@@ -41,10 +53,14 @@ const PasswordRestore = (): JSX.Element => {
           onChangeText={debounceOnChangeEmail}
           inputContainerStyle={{ width: '90%' }}
         />
-      </View>
-      <BarButton title="SEND RESET LINK" disabled={email.length === 0} />
+      </ContentLayer>
+      <BarButton
+        title="SEND RESET LINK"
+        disabled={email.length === 0}
+        onPress={(): void => navigation.navigate('PasswordCreation')}
+      />
     </Layout>
   );
 };
 
-export default PasswordRestore;
+export default PasswordRestoration;
