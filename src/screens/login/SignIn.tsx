@@ -77,7 +77,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         <VSpace space={30} />
 
         <TextField placeholder="Email" onChangeText={onChangeEmail} />
-        <VSpace space={10} />
+        <VSpace />
         <TextField
           placeholder="Password"
           secureTextEntry
@@ -93,14 +93,14 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
             text="Forget Password?"
             onPress={(): void => navigation.navigate('PasswordRestoration')}
           />
-          <VSpace space={10} />
+          <VSpace />
           <Text style={{ color: st.Pallette.veryLightPink, fontSize: 15 }}>
             {'or'}
           </Text>
-          <VSpace space={10} />
+          <VSpace />
           <TextButton
             text="Join us"
-            onPress={(): void => navigation.navigate('SignUp')}
+            onPress={(): void => navigation.navigate('SignUpFlow')}
           />
         </View>
 
