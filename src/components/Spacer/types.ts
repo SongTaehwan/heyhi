@@ -1,3 +1,3 @@
 export interface SpaceProp {
-  space: number;
+  space?: number;
 }

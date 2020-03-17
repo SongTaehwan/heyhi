@@ -30,6 +30,7 @@ export type LoginStackParamList = {
 };
 
 export type SignUpStackParamList = {
+  AccountCreation: undefined;
   EmailVerification: undefined;
   InterestSelection: undefined;
 };

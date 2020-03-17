@@ -11,6 +11,7 @@ import {
   BarButton,
 } from '@components';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+import useText from '@hooks/useText';
 
 type EmailVerificationProps = NavigationFlowProps<
   SignUpStackParamList,
@@ -31,32 +32,20 @@ const styles = StyleSheet.create({
 const EmailVerification = ({
   navigation,
 }: EmailVerificationProps): JSX.Element => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useText('', { isEmail: true });
   // TODO: Add blow code
   const [showVerificationField, setShowField] = useState('');
   const [verificationCode, setCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleEmailChange = (userEmail: string): void => {
-    if (isEmail(userEmail)) {
-      setEmail(userEmail);
-    } else {
-      setEmail('');
-    }
-  };
-
-  const debouncedEamilHandler = _debounce(handleEmailChange, 300);
   const debouncedCodehandler = _debounce(setCode, 300);
-
+  console.log(email);
   return (
     <Layout>
       <ContentLayer>
         <Title h2>{'Verify your email'}</Title>
         <VSpace space={30} />
-        <TextField
-          placeholder={'Type your email'}
-          onChangeText={debouncedEamilHandler}
-        />
+        <TextField placeholder={'Type your email'} onChangeText={setEmail} />
         <VSpace />
         <BarButton title={'Send mail'} round disabled={email.length === 0} />
         <VSpace space={35} />

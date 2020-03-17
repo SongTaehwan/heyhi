@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import React from 'react';
-import { SpaceProp } from '@components/spacer/types';
+import { SpaceProp } from './types';
 
 const VSpace: React.FC<SpaceProp> = ({
   space = 10,
