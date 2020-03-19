@@ -35,9 +35,6 @@ const Chip = (props: ChipProps): JSX.Element => {
     ? { ...defaultTextStyle, color: props.color }
     : defaultTextStyle;
 
-  // console.log(defaultTextStyle);
-  // console.log(textStyle);
-
   return (
     <View style={viewStyle}>
       <Text style={textStyle}>{props.text}</Text>
