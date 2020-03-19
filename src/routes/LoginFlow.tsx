@@ -2,7 +2,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import React from 'react';
-import RestorePassword from '@screens/login/RestorePassword';
+import PasswordRestoration from '@screens/login/PasswordRestoration';
+import PasswordCreation from '@screens/login/PasswordCreation';
 import SignIn from '@screens/login/SignIn';
 import Language from '@screens/Language';
 import { Container } from '@components';
@@ -27,8 +28,12 @@ const LoginFlow = (props: LoginFlowProps): JSX.Element => {
         <LoginStack.Screen name={'SignIn'} component={SignIn} />
         {/* <LoginStack.Screen name={'Language'} component={Language} /> */}
         <LoginStack.Screen
-          name={'RestorePassword'}
-          component={RestorePassword}
+          name={'PasswordRestoration'}
+          component={PasswordRestoration}
+        />
+        <LoginStack.Screen
+          name={'PasswordCreation'}
+          component={PasswordCreation}
         />
       </LoginStack.Navigator>
     </Container>

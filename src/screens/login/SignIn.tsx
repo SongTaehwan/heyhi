@@ -91,7 +91,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <TextButton
             text="Forget Password?"
-            onPress={(): void => navigation.navigate('RestorePassword')}
+            onPress={(): void => navigation.navigate('PasswordRestoration')}
           />
           <VSpace space={10} />
           <Text style={{ color: st.Pallette.veryLightPink, fontSize: 15 }}>

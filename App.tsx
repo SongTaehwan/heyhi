@@ -13,7 +13,7 @@ const RootStack = createStackNavigator();
 const App = (props): JSX.Element => {
   // TODO: Create AuthContext for token and tutorial
 
-  const [showTutorial, setTutorial] = useState(false); // NOTE: true if you want to check tutorial
+  const [showTutorial, setTutorial] = useState(true); // NOTE: true if you want to check tutorial
   const [hasToken, setToken] = useState(false); // NOTE: true if you want to skip Loginflow
   const [isLoading, setLoading] = useState(true);
 
