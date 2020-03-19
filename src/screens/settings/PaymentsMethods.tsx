@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
   },
   infoWrap: {
     width: 223,
-    justifyContent: 'center',
     paddingHorizontal: 20,
   },
   subTerm: {
@@ -64,6 +63,7 @@ const styles = StyleSheet.create({
 });
 
 const PaymentsMethods = (): JSX.Element => {
+  const [selectedPrice, setPrice] = useState({});
   const priceList = [
     {
       priceText: '$1.99',
