@@ -1,32 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 import { Layout } from '@components';
 import { Pallette } from '@styles';
-
-const list = [
-  {
-    title: 'New matches',
-    subtitle: `You've got a new match with mate.`,
-  },
-  {
-    title: 'New matches',
-    subtitle: `This message from mates.\nIncluding matching request.`,
-  },
-  {
-    title: 'Email',
-  },
-  {
-    title: 'Push Notification',
-  },
-  {
-    title: 'In-App Viberations',
-  },
-  {
-    title: 'In-App Sounds',
-  },
-];
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -40,6 +17,46 @@ const styles = StyleSheet.create({
 });
 
 const Notification = (): JSX.Element => {
+  const [newMatch, setNewMatch] = useState(true);
+  const [email, setEmail] = useState(true);
+  const [notification, setNotification] = useState(true);
+  const [viberation, setViberation] = useState(true);
+  const [sound, setSound] = useState(true);
+
+  const list = [
+    {
+      title: 'New matches',
+      subtitle: `You've got a new match with mate.`,
+      value: newMatch,
+      onValueChange: (value: boolean): void => setNewMatch(value),
+    },
+    {
+      title: 'New matches',
+      subtitle: `This message from mates.\nIncluding matching request.`,
+      value: newMatch,
+      onValueChange: (value: boolean): void => setNewMatch(value),
+    },
+    {
+      title: 'Email',
+      value: email,
+      onValueChange: (value: boolean): void => setEmail(value),
+    },
+    {
+      title: 'Push Notification',
+      value: notification,
+      onValueChange: (value: boolean): void => setNotification(value),
+    },
+    {
+      title: 'In-App Viberations',
+      value: viberation,
+      onValueChange: (value: boolean): void => setViberation(value),
+    },
+    {
+      title: 'In-App Sounds',
+      value: sound,
+      onValueChange: (value: boolean): void => setSound(value),
+    },
+  ];
   return (
     <Layout>
       <View>
@@ -52,7 +69,12 @@ const Notification = (): JSX.Element => {
             subtitleStyle={styles.subtitle}
             bottomDivider
             switch={{
-              thumbColor: Pallette.brightSkyBlue,
+              value: item.value,
+              trackColor: {
+                false: Pallette.matterhorn,
+                true: Pallette.brightSkyBlue,
+              },
+              onValueChange: item.onValueChange,
             }}
           />
         ))}
