@@ -12,6 +12,19 @@ export const Pallette = {
   veryLightPink: '#cecece',
   veryLightPinkTwo: '#efefef',
   brightRed: '#F76C6C',
+  matterhorn: '#4b4b4b',
+  dodgerBlue: '#0076FF',
+  lightCyan: '#E5F9FF',
+  aliceBlue: '#e5f1ff',
+  seashell: '#FFF3E5',
+  magnolia: '#F7E5FF',
+  caribbeanGreen: '#9de9ff',
+  mediumSpringGreen: '#09ECAF',
+  columbiaBlue: '#9ECAFF',
+  peachOrange: '#ff9b26',
+  electricPurple: '#BC25FF',
+  caramel: '#ffd19d',
+  mauve: '#e19dff',
 };
 
 interface Style {
