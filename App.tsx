@@ -5,7 +5,13 @@ import RootErrorBoundary from 'react-native-error-boundary';
 import React, { useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import { setNavigator } from '@util/navigationRef';
-import { TutorialFlow, LoginFlow, SignUpFlow, MainFlow } from '@routes';
+import {
+  TutorialFlow,
+  LoginFlow,
+  SignUpFlow,
+  MainFlow,
+  SettingsFlow,
+} from '@routes';
 import Splash from '@screens/Splash';
 
 const RootStack = createStackNavigator();
@@ -66,6 +72,7 @@ const App = (props): JSX.Element => {
             </>
           )}
           <RootStack.Screen name={'MainFlow'} component={MainFlow} />
+          <RootStack.Screen name={'SettingsFlow'} component={SettingsFlow} />
         </RootStack.Navigator>
       </NavigationContainer>
     </RootErrorBoundary>

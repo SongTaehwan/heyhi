@@ -14,6 +14,7 @@ export type RootStackParamList = {
   LoginFlow: undefined;
   SignUpFlow: undefined;
   MainFlow: undefined;
+  SettingsFlow: undefined;
 };
 
 export type TutorialStackParamList = {
@@ -33,4 +34,12 @@ export type SignUpStackParamList = {
   AccountCreation: undefined;
   EmailVerification: undefined;
   InterestSelection: undefined;
+};
+export type SettingsStackParamList = {
+  Settings: undefined;
+  ChangePassword: undefined;
+  PaymentsMethods: undefined;
+  Notification: undefined;
+  History: undefined;
+  Location: undefined;
 };

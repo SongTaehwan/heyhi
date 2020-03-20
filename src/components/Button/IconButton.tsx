@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 
-import { Pallette } from '@constant/styles';
+import { Pallette } from '@styles';
 
 import { IconButtonProps } from './types';
 

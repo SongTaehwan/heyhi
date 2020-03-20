@@ -16,3 +16,4 @@ export { default as Divider } from './Divider';
 export { default as PinCode } from './PinCode';
 export { default as ContentLayer } from './ContentLayer';
 export { default as DropBox } from './DropBox';
+export { default as Chip } from './Chip';
