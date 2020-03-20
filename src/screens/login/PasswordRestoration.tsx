@@ -1,6 +1,7 @@
 import { Text, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
-import _debounce from 'lodash/debounce';
+import React from 'react';
+import { LoginStackParamList, NavigationFlowProps } from '@routes/types';
+import useText from '@hooks/useText';
 import {
   Layout,
   Title,
@@ -9,14 +10,11 @@ import {
   TextField,
   ContentLayer,
 } from '@components';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { LoginStackParamList } from '@routes/types';
-import { RouteProp } from '@react-navigation/native';
 
-interface PasswordRestoration {
-  navigation: StackNavigationProp<LoginStackParamList, 'PasswordRestoration'>;
-  route: RouteProp<LoginStackParamList, 'PasswordRestoration'>;
-}
+type PasswordRestoration = NavigationFlowProps<
+  LoginStackParamList,
+  'PasswordRestoration'
+>;
 
 const styles = StyleSheet.create({
   guidText: {
@@ -29,13 +27,7 @@ const styles = StyleSheet.create({
 const PasswordRestoration = ({
   navigation,
 }: PasswordRestoration): JSX.Element => {
-  const [email, setEmail] = useState<string>('');
-
-  const changeEmail = (userEmail: string): void => {
-    setEmail(userEmail);
-  };
-
-  const debounceOnChangeEmail = _debounce(changeEmail, 500);
+  const [email, setEmail] = useText('', { isEmail: true });
 
   return (
     <Layout>
@@ -50,7 +42,7 @@ const PasswordRestoration = ({
         <VSpace space={30} />
         <TextField
           placeholder="Email"
-          onChangeText={debounceOnChangeEmail}
+          onChangeText={setEmail}
           inputContainerStyle={{ width: '90%' }}
         />
       </ContentLayer>
