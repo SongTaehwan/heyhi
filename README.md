@@ -44,8 +44,8 @@ src
 │   ├── mutation
 │   └── query
 ├── components
-│   ├── Button
-│   ├── Spacer
+│   ├── button
+│   ├── spacer
 │   ├── input
 │   └── layout
 ├── constant

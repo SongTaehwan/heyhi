@@ -1,11 +1,33 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+
+import { Layout, Divider, VSpace } from '@components';
+
+const styles = StyleSheet.create({
+  wrap: {
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+});
 
 const Hisgtory = (): JSX.Element => {
+  const historyList = [
+    { title: '2020.12.12 6PM Paris with James' },
+    { title: '2020.12.12 6PM Paris with James' },
+  ];
+
   return (
-    <View>
-      <Text>Hisgtory</Text>
-    </View>
+    <Layout>
+      {historyList.map((item, i) => (
+        <>
+          <View style={styles.wrap} key={i}>
+            <Text>{item.title}</Text>
+            <VSpace space={8} />
+          </View>
+          <Divider />
+        </>
+      ))}
+    </Layout>
   );
 };
 

@@ -1,9 +1,11 @@
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
-import _ from 'lodash';
-import { LoginStackParamList } from '@routes/types';
+import React from 'react';
+import {
+  LoginStackParamList,
+  NavigationFlowProps,
+  RootStackParamList,
+} from '@routes/types';
+import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
 import { st } from '@constant';
 import {
@@ -16,10 +18,10 @@ import {
   TextButton,
 } from '@components';
 
-interface SignInProps {
-  navigation: StackNavigationProp<LoginStackParamList, 'SignIn'>;
-  route: RouteProp<LoginStackParamList, 'SignIn'>;
-}
+type SignInProps = NavigationFlowProps<
+  LoginStackParamList & RootStackParamList,
+  'SignIn'
+>;
 
 const styles = StyleSheet.create({
   container: {
@@ -45,27 +47,8 @@ const styles = StyleSheet.create({
 });
 
 const SignIn = ({ navigation }: SignInProps): JSX.Element => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  const changeEmail = (userEmail: string): void => {
-    setEmail(userEmail);
-  };
-
-  const changePassword = (userEmail: string): void => {
-    setPassword(userEmail);
-  };
-
-  const debounceEmailHandler = _.debounce(changeEmail, 500);
-  const debouncePasswordHandler = _.debounce(changePassword, 500);
-
-  const onChangeEmail = (userEmail: string): void => {
-    debounceEmailHandler(userEmail);
-  };
-
-  const onChangePassword = (userPassword: string): void => {
-    debouncePasswordHandler(userPassword);
-  };
+  const [email, setEmail] = useText('test@mail.com', { isEmail: true });
+  const [password, setPassword] = useText('123456');
 
   return (
     <Layout>
@@ -76,12 +59,12 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         <Text style={styles.titleText}>Login</Text>
         <VSpace space={30} />
 
-        <TextField placeholder="Email" onChangeText={onChangeEmail} />
-        <VSpace space={10} />
+        <TextField placeholder="Email" onChangeText={setEmail} />
+        <VSpace />
         <TextField
           placeholder="Password"
           secureTextEntry
-          onChangeText={onChangePassword}
+          onChangeText={setPassword}
         />
         <VSpace space={40} />
 
@@ -93,23 +76,28 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
             text="Forget Password?"
             onPress={(): void => navigation.navigate('PasswordRestoration')}
           />
-          <VSpace space={10} />
+          <VSpace />
           <Text style={{ color: st.Pallette.veryLightPink, fontSize: 15 }}>
             {'or'}
           </Text>
-          <VSpace space={10} />
+          <VSpace />
           <TextButton
             text="Join us"
-            onPress={(): void => navigation.navigate('SignUp')}
+            onPress={(): void => navigation.navigate('SignUpFlow')}
           />
         </View>
 
         <VSpace space={20} />
         <Divider />
       </View>
-      <BarButton title="LOGIN" />
+      <BarButton title="LOGIN" disabled={email.length === 0} />
     </Layout>
   );
+};
+
+SignIn.whyDidYouRender = {
+  trackHooks: true,
+  logOnDifferentValues: true,
 };
 
 export default SignIn;

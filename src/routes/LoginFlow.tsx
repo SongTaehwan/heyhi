@@ -8,6 +8,7 @@ import SignIn from '@screens/login/SignIn';
 import Language from '@screens/Language';
 import { Container } from '@components';
 import { RootStackParamList } from './types';
+import SignUpFlow from './SignUpFlow';
 
 interface LoginFlowProps {
   navigation: StackNavigationProp<RootStackParamList, 'LoginFlow'>;
@@ -35,6 +36,7 @@ const LoginFlow = (props: LoginFlowProps): JSX.Element => {
           name={'PasswordCreation'}
           component={PasswordCreation}
         />
+        {/* <LoginStack.Screen name={'SignUpFlow'} component={SignUpFlow} /> */}
       </LoginStack.Navigator>
     </Container>
   );

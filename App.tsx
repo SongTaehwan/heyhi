@@ -5,7 +5,13 @@ import RootErrorBoundary from 'react-native-error-boundary';
 import React, { useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import { setNavigator } from '@util/navigationRef';
-import { TutorialFlow, LoginFlow, MainFlow, SettingsFlow } from '@routes';
+import {
+  TutorialFlow,
+  LoginFlow,
+  SignUpFlow,
+  MainFlow,
+  SettingsFlow,
+} from '@routes';
 import Splash from '@screens/Splash';
 
 const RootStack = createStackNavigator();
@@ -13,7 +19,7 @@ const RootStack = createStackNavigator();
 const App = (props): JSX.Element => {
   // TODO: Create AuthContext for token and tutorial
 
-  const [showTutorial, setTutorial] = useState(true); // NOTE: true if you want to check tutorial
+  const [showTutorial, setTutorial] = useState(false); // NOTE: true if you want to check tutorial
   const [hasToken, setToken] = useState(false); // NOTE: true if you want to skip Loginflow
   const [isLoading, setLoading] = useState(true);
 
@@ -60,7 +66,10 @@ const App = (props): JSX.Element => {
             <RootStack.Screen name={'TutorialFlow'} component={TutorialFlow} />
           )}
           {!hasToken && (
-            <RootStack.Screen name={'LoginFlow'} component={LoginFlow} />
+            <>
+              <RootStack.Screen name={'LoginFlow'} component={LoginFlow} />
+              <RootStack.Screen name={'SignUpFlow'} component={SignUpFlow} />
+            </>
           )}
           <RootStack.Screen name={'MainFlow'} component={MainFlow} />
           <RootStack.Screen name={'SettingsFlow'} component={SettingsFlow} />

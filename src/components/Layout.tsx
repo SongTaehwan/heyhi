@@ -1,10 +1,11 @@
-import React from 'react';
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import React from 'react';
 
 interface Layout {
   children: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
 const styles = StyleSheet.create({
@@ -17,10 +18,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const Layout = ({ style, children }: Layout): JSX.Element => {
-  const layoutStyle = style || styles.contentStyle;
+const Layout = ({
+  containerStyle,
+  contentContainerStyle,
+  children,
+}: Layout): JSX.Element => {
+  const layoutContainerStyle = StyleSheet.flatten([
+    containerStyle,
+    styles.container,
+  ]);
+  const layoutStyle = StyleSheet.flatten([
+    contentContainerStyle,
+    styles.contentStyle,
+  ]);
+
   return (
-    <View style={styles.container}>
+    <View style={layoutContainerStyle}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={layoutStyle}>
