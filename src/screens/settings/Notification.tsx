@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { Layout } from '@components';
 import { Pallette } from '@styles';
@@ -17,44 +18,68 @@ const styles = StyleSheet.create({
 });
 
 const Notification = (): JSX.Element => {
-  const [newMatch, setNewMatch] = useState(true);
-  const [email, setEmail] = useState(true);
-  const [notification, setNotification] = useState(true);
-  const [viberation, setViberation] = useState(true);
-  const [sound, setSound] = useState(true);
+  const [notifications, setNotifications] = useState({
+    newMatch: true,
+    messages: true,
+    email: true,
+    push: true,
+    viberation: true,
+    sound: true,
+  });
+
+  useEffect(() => {
+    async function setValue(): Promise<void> {
+      const value = await AsyncStorage.getItem('notifications');
+      if (value) setNotifications(JSON.parse(value));
+    }
+
+    setValue();
+  }, []);
+
+  useEffect(() => {
+    return (): void => {
+      AsyncStorage.setItem('notifications', JSON.stringify(notifications));
+    };
+  });
 
   const list = [
     {
       title: 'New matches',
       subtitle: `You've got a new match with mate.`,
-      value: newMatch,
-      onValueChange: (value: boolean): void => setNewMatch(value),
+      value: notifications.newMatch,
+      onValueChange: (value: boolean): void =>
+        setNotifications({ ...notifications, newMatch: value }),
     },
     {
-      title: 'New matches',
+      title: 'Messages',
       subtitle: `This message from mates.\nIncluding matching request.`,
-      value: newMatch,
-      onValueChange: (value: boolean): void => setNewMatch(value),
+      value: notifications.messages,
+      onValueChange: (value: boolean): void =>
+        setNotifications({ ...notifications, messages: value }),
     },
     {
       title: 'Email',
-      value: email,
-      onValueChange: (value: boolean): void => setEmail(value),
+      value: notifications.email,
+      onValueChange: (value: boolean): void =>
+        setNotifications({ ...notifications, email: value }),
     },
     {
       title: 'Push Notification',
-      value: notification,
-      onValueChange: (value: boolean): void => setNotification(value),
+      value: notifications.push,
+      onValueChange: (value: boolean): void =>
+        setNotifications({ ...notifications, push: value }),
     },
     {
       title: 'In-App Viberations',
-      value: viberation,
-      onValueChange: (value: boolean): void => setViberation(value),
+      value: notifications.viberation,
+      onValueChange: (value: boolean): void =>
+        setNotifications({ ...notifications, viberation: value }),
     },
     {
       title: 'In-App Sounds',
-      value: sound,
-      onValueChange: (value: boolean): void => setSound(value),
+      value: notifications.sound,
+      onValueChange: (value: boolean): void =>
+        setNotifications({ ...notifications, sound: value }),
     },
   ];
   return (
