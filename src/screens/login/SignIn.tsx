@@ -17,6 +17,8 @@ import {
   Divider,
   TextButton,
 } from '@components';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 type SignInProps = NavigationFlowProps<
   LoginStackParamList & RootStackParamList,
@@ -49,7 +51,18 @@ const styles = StyleSheet.create({
 const SignIn = ({ navigation }: SignInProps): JSX.Element => {
   const [email, setEmail] = useText('test@mail.com', { isEmail: true });
   const [password, setPassword] = useText('123456');
-
+  const [setMutation] = useMutation(
+    gql`
+      mutation {
+        sendEmail(data: { email: "xoghks167@naver.com" })
+      }
+    `,
+    {
+      onCompleted: data => {
+        debugger;
+      },
+    },
+  );
   return (
     <Layout>
       <View style={styles.formWrapper}>
@@ -90,7 +103,11 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         <VSpace space={20} />
         <Divider />
       </View>
-      <BarButton title="LOGIN" disabled={email.length === 0} />
+      <BarButton
+        title="LOGIN"
+        disabled={email.length === 0}
+        onPress={() => setMutation()}
+      />
     </Layout>
   );
 };

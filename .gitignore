@@ -60,3 +60,6 @@ buck-out/
 
 # package-lock.json
 .env
+
+# apollo.config.js
+apollo.config.js
