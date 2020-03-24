@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { StackActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import {
   LoginStackParamList,
@@ -17,8 +19,9 @@ import {
   Divider,
   TextButton,
 } from '@components';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+
+import { AUTHENTICATION } from '@api/mutation';
 
 type SignInProps = NavigationFlowProps<
   LoginStackParamList & RootStackParamList,
@@ -49,20 +52,36 @@ const styles = StyleSheet.create({
 });
 
 const SignIn = ({ navigation }: SignInProps): JSX.Element => {
-  const [email, setEmail] = useText('test@mail.com', { isEmail: true });
-  const [password, setPassword] = useText('123456');
-  const [setMutation] = useMutation(
-    gql`
-      mutation {
-        sendEmail(data: { email: "xoghks167@naver.com" })
+  const [email, setEmail] = useText('', { isEmail: true });
+  const [password, setPassword] = useText('');
+
+  const [signIn] = useMutation(AUTHENTICATION.SIGN_IN, {
+    fetchPolicy: 'no-cache',
+    onCompleted: async data => {
+      const { accessToken, refreshToken } = data.passwordAuthentication;
+      console.log('data', data);
+      try {
+        await AsyncStorage.setItem('ACCESS_TOKEN', accessToken);
+        await AsyncStorage.setItem('REFRESH_TOKEN', refreshToken);
+
+        navigation.dispatch(StackActions.replace('MainFlow'));
+      } catch (error) {
+        console.log('error', error);
       }
-    `,
-    {
-      onCompleted: data => {
-        debugger;
-      },
     },
-  );
+  });
+
+  const onButtonSubmit = async () => {
+    await signIn({
+      variables: {
+        data: {
+          email,
+          password,
+        },
+      },
+    });
+  };
+
   return (
     <Layout>
       <View style={styles.formWrapper}>
@@ -106,7 +125,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
       <BarButton
         title="LOGIN"
         disabled={email.length === 0}
-        onPress={() => setMutation()}
+        onPress={onButtonSubmit}
       />
     </Layout>
   );

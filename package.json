@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-native start --reset-cache",
     "android": "react-native run-android --verbose",
-    "ios": "react-native run-ios --verbose",
+    "ios": "ENVFILE=.env react-native run-ios --verbose",
     "release": "react-native run-android --variant=release --verbose",
     "release:ios": "react-native run-ios --configuration Release --verbose",
     "reset": "cd android && ./gradlew clean && cd ..",
