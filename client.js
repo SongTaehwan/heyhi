@@ -4,11 +4,11 @@ import { createHttpLink } from 'apollo-link-http';
 import { ApolloLink, Observable } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import { onError } from 'apollo-link-error';
-import { path } from '@constant';
+import Config from 'react-native-config';
 
 // TODO: Customize ApolloClient setting ie. error handling, advanced options and cache setting
 // TODO: dig into request Link logic
-const httpLink = createHttpLink({ uri: path.API.GraphQLServer });
+const httpLink = createHttpLink({ uri: Config.API_HOST });
 
 const request = async operation => {
   const token = await AsyncStorage.getItem('ACCESS_TOKEN');

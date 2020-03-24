@@ -60,3 +60,6 @@ buck-out/
 
 # .env
 .env
+
+# apollo.config.js
+apollo.config.js

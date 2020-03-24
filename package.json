@@ -36,6 +36,7 @@
     "react": "16.12.0",
     "react-native": "0.61.5",
     "react-native-bootsplash": "^2.0.5",
+    "react-native-config": "^1.0.0",
     "react-native-confirmation-code-input": "git+https://github.com/SongTaehwan/react-native-confirmation-code-input.git#heyhi",
     "react-native-elements": "^1.2.7",
     "react-native-error-boundary": "^1.1.0",

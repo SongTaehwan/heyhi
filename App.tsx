@@ -13,6 +13,8 @@ import {
   SettingsFlow,
 } from '@routes';
 import Splash from '@screens/Splash';
+import { ApolloProvider } from '@apollo/react-hooks';
+import apolloClient from './client';
 
 const RootStack = createStackNavigator();
 
@@ -59,23 +61,28 @@ const App = (props): JSX.Element => {
 
   return (
     // TODO: Build Error Fallback component for Production
-    <RootErrorBoundary onError={childErrorhandler}>
-      <NavigationContainer ref={navigator => setNavigator(navigator)}>
-        <RootStack.Navigator headerMode={'none'}>
-          {showTutorial && (
-            <RootStack.Screen name={'TutorialFlow'} component={TutorialFlow} />
-          )}
-          {!hasToken && (
-            <>
-              <RootStack.Screen name={'LoginFlow'} component={LoginFlow} />
-              <RootStack.Screen name={'SignUpFlow'} component={SignUpFlow} />
-            </>
-          )}
-          <RootStack.Screen name={'MainFlow'} component={MainFlow} />
-          <RootStack.Screen name={'SettingsFlow'} component={SettingsFlow} />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </RootErrorBoundary>
+    <ApolloProvider client={apolloClient}>
+      <RootErrorBoundary onError={childErrorhandler}>
+        <NavigationContainer ref={navigator => setNavigator(navigator)}>
+          <RootStack.Navigator headerMode={'none'}>
+            {showTutorial && (
+              <RootStack.Screen
+                name={'TutorialFlow'}
+                component={TutorialFlow}
+              />
+            )}
+            {!hasToken && (
+              <>
+                <RootStack.Screen name={'LoginFlow'} component={LoginFlow} />
+                <RootStack.Screen name={'SignUpFlow'} component={SignUpFlow} />
+              </>
+            )}
+            <RootStack.Screen name={'MainFlow'} component={MainFlow} />
+            <RootStack.Screen name={'SettingsFlow'} component={SettingsFlow} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </RootErrorBoundary>
+    </ApolloProvider>
   );
 };
 
