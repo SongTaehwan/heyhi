@@ -16,6 +16,9 @@ interface SettingsProps {
 }
 
 const styles = StyleSheet.create({
+  wrap: {
+    paddingHorizontal: 20,
+  },
   titleFirst: {
     paddingVertical: 10,
     paddingHorizontal: 20,
