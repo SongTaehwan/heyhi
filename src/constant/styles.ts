@@ -5,6 +5,7 @@ export const Pallette = {
   whiteSmoke: '#f2f2f2',
   gray: '#7B7B7B',
   taupeGray: '#888888',
+  zambezi: '#5A5A5A',
   whisper: '#E6E6E6',
   robinSEgg: '#5adbff',
   purpley: '#7764e4',

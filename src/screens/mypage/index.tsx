@@ -79,6 +79,18 @@ const styles = StyleSheet.create({
   itemWrap: {},
   chipWrap: { alignItems: 'flex-start' },
   settingWrap: { position: 'absolute', right: 105 },
+  logoutWrap: { alignSelf: 'center' },
+  logoutView: {
+    width: 95,
+    height: 30,
+    borderWidth: 1,
+    borderColor: Pallette.veryLightPink,
+  },
+  logoutText: {
+    color: Pallette.zambezi,
+    fontSize: 14,
+    fontWeight: '400',
+  },
 });
 
 const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
@@ -197,6 +209,14 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
             }
           />
         ))}
+      </View>
+      <VSpace space={40} />
+      <View style={{ alignSelf: 'center' }}>
+        <Chip
+          text={'Log Out'}
+          viewStyle={styles.logoutView}
+          textStyle={styles.logoutText}
+        />
       </View>
     </Layout>
   );
