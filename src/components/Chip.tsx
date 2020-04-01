@@ -20,12 +20,13 @@ const styles = StyleSheet.create({
   textStyle: {
     fontWeight: '900',
     fontSize: 12,
+    color: 'black',
   },
 });
 
 const Chip = (props: ChipProps): JSX.Element => {
-  const defaultViewStyle = props.viewStyle ?? styles.viewStyle;
-  const defaultTextStyle = props.textStyle ?? styles.textStyle;
+  const defaultViewStyle = { ...styles.viewStyle, ...props?.viewStyle };
+  const defaultTextStyle = { ...styles.textStyle, ...props?.textStyle };
 
   const viewStyle = props.color
     ? { ...defaultViewStyle, borderColor: props.color }
