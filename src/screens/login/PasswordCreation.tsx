@@ -9,14 +9,12 @@ import {
   Divider,
   TextButton,
 } from '@components';
-import { LoginStackParamList } from '@routes/types';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { NavigationFlowProps, LoginStackParamList } from '@routes/types';
 
-interface PasswordCreationProps {
-  navigation: StackNavigationProp<LoginStackParamList, 'PasswordCreation'>;
-  route: RouteProp<LoginStackParamList, 'PasswordCreation'>;
-}
+type PasswordCreationProps = NavigationFlowProps<
+  LoginStackParamList,
+  'PasswordCreation'
+>;
 
 const PasswordCreation = ({
   navigation,

@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 40,
     paddingTop: 40,
+    backgroundColor: 'white',
   },
 });
 

@@ -25,6 +25,7 @@ export const Pallette = {
   electricPurple: '#BC25FF',
   caramel: '#ffd19d',
   mauve: '#e19dff',
+  grapeFruit: '#ff5353',
 };
 
 interface Style {

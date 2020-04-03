@@ -20,7 +20,6 @@ import {
   TextButton,
 } from '@components';
 import { useMutation } from '@apollo/react-hooks';
-
 import { AUTHENTICATION } from '@api/mutation';
 
 type SignInProps = NavigationFlowProps<
@@ -71,7 +70,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
     },
   });
 
-  const onButtonSubmit = async () => {
+  const onButtonSubmit = async (): Promise<any> => {
     await signIn({
       variables: {
         data: {

@@ -32,6 +32,10 @@ export type LoginStackParamList = {
 
 export type SignUpStackParamList = {
   AccountCreation: undefined;
+  BestShotUpload: undefined;
+  SelfieUpload: undefined;
+  ServicePolicy: undefined;
+  ServicePolicyDetail: undefined;
   EmailVerification: undefined;
   InterestSelection: undefined;
 };
