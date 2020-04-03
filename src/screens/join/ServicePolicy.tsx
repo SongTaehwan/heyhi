@@ -8,6 +8,7 @@ import {
   Checkbox,
   VSpace,
   Divider,
+  CheckableListItem,
 } from '@components';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 
@@ -42,7 +43,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           {'Terms & Conditions'}
         </Title>
         <VSpace space={30} />
-        <Checkbox large />
+        <CheckableListItem />
         <Divider style={styles.divider} />
         <Checkbox
           large
@@ -52,13 +53,13 @@ my personal information.
           wrapperStyle={styles.checkboxListItemWrapper}
         />
         <VSpace space={40} />
-        <Checkbox large />
+        <CheckableListItem />
         <VSpace space={40} />
-        <Checkbox large />
+        <CheckableListItem />
       </ContentLayer>
       <BarButton
         title={'NEXT'}
-        onPress={(): void => navigation.navigate('ServicePolicyDetail')}
+        onPress={(): void => navigation.navigate('EmailVerification')}
       />
     </Layout>
   );

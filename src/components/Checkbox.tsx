@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { CheckBox, CheckBoxProps } from 'react-native-elements';
+import { StyleSheet } from 'react-native';
+import React from 'react';
 import { st } from '@constant';
 
-interface CheckboxProps extends CheckBoxProps {
+export interface CheckboxProps extends CheckBoxProps {
   large?: boolean;
 }
 
@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
 const Checkbox = ({
   checked = false,
   large,
-  size,
-  title = 'title',
+  title,
   wrapperStyle,
   textStyle,
   ...rest
