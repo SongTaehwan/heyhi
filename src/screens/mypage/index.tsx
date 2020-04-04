@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
-    backgroundColor: Pallette.whiteSmoke,
+    backgroundColor: Pallette.veryLightPinkThree,
     borderRadius: 50,
   },
   profileImageEditBtnWrap: {
@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
     width: 42,
     height: 14,
     borderRadius: 7,
-    backgroundColor: Pallette.whisper,
-    borderColor: Pallette.whisper,
+    backgroundColor: Pallette.veryLightPinkFour,
+    borderColor: Pallette.veryLightPinkFour,
   },
-  profileImageEditBtnText: { fontSize: 10, color: Pallette.gray },
+  profileImageEditBtnText: { fontSize: 10, color: Pallette.brownGrey },
   infoWrap: {
     width: wp('100%'),
     paddingHorizontal: 20,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     borderColor: Pallette.veryLightPink,
   },
   logoutText: {
-    color: Pallette.zambezi,
+    color: Pallette.brownishGrey,
     fontSize: 14,
     fontWeight: '400',
   },
@@ -114,23 +114,30 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
       subtitleStyle: { fontSize: 12, color: Pallette.taupeGray },
       icon: 'location-pin',
       chevron: { name: 'md-sync' },
+      onpress: (): void => {
+        console.log('update location');
+      },
     },
     {
       title: 'Language Settings',
       icon: 'globe',
+      routeName: 'LanguageSettings',
     },
     {
       title: 'My Reviews',
       icon: 'star-outlined',
+      routeName: 'MyReviews',
     },
     {
       title: 'Edit Albums',
       icon: 'camera',
+      routeName: 'EditAlbums',
     },
     {
       title: user.email,
       icon: 'mail',
       chevron: { name: 'md-create' },
+      routeName: 'EditEmail',
     },
   ];
 
@@ -206,6 +213,11 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
               item.chevron
                 ? { ...defaultChevron, name: item.chevron.name }
                 : defaultChevron
+            }
+            onPress={
+              item.routeName
+                ? (): void => navigation.navigate(item.routeName)
+                : item.onpress
             }
           />
         ))}
