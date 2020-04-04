@@ -43,6 +43,7 @@ export type MyPageStackParamList = {
   MyReviews: undefined;
   EditAlbums: undefined;
   EditEmail: undefined;
+  Settings: undefined;
 };
 
 export type SettingsStackParamList = {
