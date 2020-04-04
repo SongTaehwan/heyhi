@@ -9,16 +9,16 @@ export const Grades = {
   premium: {
     backgroundColor: Pallette.aliceBlue,
     borderRightColor: Pallette.columbiaBlue,
-    chipColor: Pallette.dodgerBlue,
+    chipColor: Pallette.deepSkyBlue,
   },
   vip: {
     backgroundColor: Pallette.seashell,
     borderRightColor: Pallette.caramel,
-    chipColor: Pallette.peachOrange,
+    chipColor: Pallette.pumpkinOrange,
   },
   vvip: {
     backgroundColor: Pallette.magnolia,
     borderRightColor: Pallette.mauve,
-    chipColor: Pallette.electricPurple,
+    chipColor: Pallette.brightPurple,
   },
 };
