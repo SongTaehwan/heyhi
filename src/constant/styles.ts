@@ -31,6 +31,7 @@ export const Pallette = {
   brightSeaGreen: '#00ffa7',
   caribbeanGreen: '#9de9ff',
   mediumSpringGreen: '#09ECAF',
+  grapefruit: '#FF5353',
 };
 
 interface Style {

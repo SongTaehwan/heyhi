@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 });
 
 const MyReviews = (): JSX.Element => {
+  // TODO: Get reviews from API
   const reviews = [
     {
       reviewee: {
