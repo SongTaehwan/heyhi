@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { Layout } from '@components';
+import { Layout, HeadDivider } from '@components';
 import { Pallette } from '@styles';
 
 const styles = StyleSheet.create({
@@ -84,6 +84,7 @@ const Notification = (): JSX.Element => {
   ];
   return (
     <Layout>
+      <HeadDivider />
       <View>
         {list.map((item, i) => (
           <ListItem

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Layout, Divider, VSpace } from '@components';
+import { Layout, Divider, VSpace, HeadDivider } from '@components';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -18,6 +18,7 @@ const Hisgtory = (): JSX.Element => {
 
   return (
     <Layout>
+      <HeadDivider />
       {historyList.map((item, i) => (
         <>
           <View style={styles.wrap} key={i}>

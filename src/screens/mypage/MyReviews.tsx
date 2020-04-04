@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Layout, HSpace, VSpace, ImageView } from '@components';
+import { Layout, HSpace, VSpace, ImageView, HeadDivider } from '@components';
 import { Pallette } from '@styles';
 
 const styles = StyleSheet.create({
@@ -72,6 +72,7 @@ const MyReviews = (): JSX.Element => {
 
   return (
     <Layout>
+      <HeadDivider />
       <View style={styles.container}>
         {reviews.map((review, i) => (
           <>

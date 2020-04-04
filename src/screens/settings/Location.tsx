@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Slider } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { Layout, Divider, VSpace, HSpace } from '@components';
+import { Layout, Divider, VSpace, HSpace, HeadDivider } from '@components';
 import { Pallette } from '@styles';
 
 const styles = StyleSheet.create({
@@ -22,6 +22,7 @@ const Location = (): JSX.Element => {
 
   return (
     <Layout>
+      <HeadDivider />
       <View style={styles.wrap}>
         <Text>My Current Location</Text>
         <VSpace space={32} />
