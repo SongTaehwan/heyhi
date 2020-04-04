@@ -5,9 +5,16 @@ import {
 } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Chip, Layout, ImageView, Title, VSpace, BarButton } from '@components';
+import {
+  Chip,
+  Layout,
+  ImageView,
+  Title,
+  VSpace,
+  BarButton,
+  HeadDivider,
+} from '@components';
 import PaymentImage from '@images/tuto3.png';
-import { Pallette } from '@styles';
 import { Grades } from '@constant';
 
 const styles = StyleSheet.create({
@@ -96,6 +103,7 @@ const PaymentsMethods = (): JSX.Element => {
   ];
   return (
     <Layout>
+      <HeadDivider />
       <View style={styles.rootWrap}>
         <View>
           <ImageView
