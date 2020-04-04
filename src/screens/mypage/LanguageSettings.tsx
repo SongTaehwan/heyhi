@@ -1,8 +1,37 @@
 import React from 'react';
-import { Layout } from '@components';
+import { View, StyleSheet } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Entypo';
+
+import { Layout, HeadDivider } from '@components';
+import { Pallette } from '@styles';
+
+const styles = StyleSheet.create({
+  list: {
+    paddingHorizontal: 20,
+  },
+});
 
 const LanguageSettings = (): JSX.Element => {
-  return <Layout>LanguageSettings</Layout>;
+  const languages = ['English'];
+  return (
+    <Layout>
+      <HeadDivider />
+      <View>
+        {languages.map((language, i) => (
+          <ListItem
+            key={i}
+            title={language}
+            chevron={
+              <Icon name={'check'} size={20} color={Pallette.brightSkyBlue} />
+            }
+            bottomDivider
+            containerStyle={styles.list}
+          />
+        ))}
+      </View>
+    </Layout>
+  );
 };
 
 export default LanguageSettings;
