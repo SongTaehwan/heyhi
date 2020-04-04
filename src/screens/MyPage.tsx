@@ -182,7 +182,12 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
               </View>
             )}
             <View style={styles.settingWrap}>
-              <Icon name={'cog'} size={25} color={Pallette.veryLightPink} />
+              <Icon
+                name={'cog'}
+                size={25}
+                color={Pallette.veryLightPink}
+                onPress={(): void => navigation.navigate('Settings')}
+              />
             </View>
           </View>
           <VSpace space={5} />
