@@ -5,10 +5,12 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  ViewStyle,
 } from 'react-native';
 import { Dropdown, DropDownProps } from 'react-native-material-dropdown';
 import { st } from '@constant';
 import Modal from 'react-native-modal';
+import { FlatList } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +31,14 @@ const DropBox = ({
 }: DropDownProps): JSX.Element => {
   const [modal, setModal] = useState(false);
   const container = useRef(null);
+  const [dropMenuStyle, setMenuStyle] = useState({
+    height: 0,
+    width: 0,
+    py: 0,
+    px: 0,
+    fx: 0,
+    fy: 0,
+  });
   // const wrapperStyle = StyleSheet.flatten([styles.container, containerStyle]);
 
   const openModal = (): void => {
@@ -36,8 +46,26 @@ const DropBox = ({
       console.log(Dimensions.get('window').height);
       console.log(Dimensions.get('window').width);
       // debugger;
+      setMenuStyle({
+        width,
+        height,
+        px,
+        py,
+        fx,
+        fy,
+      });
     });
-    setModal(true);
+    setModal(!modal);
+  };
+
+  const getDropMenuStyle = (): ViewStyle => {
+    return {
+      position: 'absolute',
+      width: dropMenuStyle.width,
+      backgroundColor: st.Pallette.brightSkyBlue,
+      left: dropMenuStyle.fx,
+      top: dropMenuStyle.py,
+    };
   };
 
   // const handleLayout = ():void => {};
@@ -55,9 +83,22 @@ const DropBox = ({
       <View>
         <Text>{'dropdown'}</Text>
       </View>
-      <Modal isVisible={modal}>
-        <View>
-          <Text>asfasdf</Text>
+      <Modal
+        isVisible={modal}
+        style={{ justifyContent: 'flex-start', margin: 0 }}>
+        <View style={getDropMenuStyle()}>
+          <FlatList
+            data={[{ item: 123 }, { item: 456 }, { item: 789 }, { item: 10 }]}
+            renderItem={({ item: { item }, index }): JSX.Element => {
+              console.log(item);
+              return (
+                <TouchableOpacity>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={(): string => Math.random().toString()}
+          />
         </View>
       </Modal>
     </TouchableOpacity>

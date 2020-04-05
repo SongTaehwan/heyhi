@@ -11,6 +11,7 @@ interface ContainerProps extends SafeAreaViewProps {
   bottomless?: boolean;
   style?: StyleProp<ViewStyle>;
 }
+
 const Container = ({
   topless = false,
   bottomless = false,

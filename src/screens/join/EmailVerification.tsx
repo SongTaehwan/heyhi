@@ -3,12 +3,12 @@ import { StyleSheet, Text } from 'react-native';
 import isEmail from 'validator/lib/isEmail';
 import _debounce from 'lodash/debounce';
 import {
-  Layout,
   ContentLayer,
   Title,
   TextField,
   VSpace,
   BarButton,
+  Layout,
 } from '@components';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 import useText from '@hooks/useText';
@@ -70,8 +70,9 @@ const EmailVerification = ({
         </>
       )}
       <BarButton
+        title={'NEXT'}
         square={false}
-        disabled={verificationCode.length === 0}
+        // disabled={verificationCode.length === 0}
         onPress={(): void => {
           if (errorMessage.length === 0) {
             return setErrorMessage(

@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import {
-  Layout,
   ContentLayer,
   Title,
   BarButton,
@@ -9,7 +8,14 @@ import {
   VSpace,
   HSpace,
   DropBox,
+  Layout,
 } from '@components';
+import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+
+type AccountCreationProps = NavigationFlowProps<
+  SignUpStackParamList,
+  'AccountCreation'
+>;
 
 const styles = StyleSheet.create({
   nameFieldWrapper: {
@@ -22,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AccountCreation = (): JSX.Element => {
+const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
   return (
     <Layout>
       <ContentLayer>
@@ -48,7 +54,10 @@ const AccountCreation = (): JSX.Element => {
         <VSpace space={10} />
         <DropBox />
       </ContentLayer>
-      <BarButton title={'NEXT'} />
+      <BarButton
+        title={'NEXT'}
+        onPress={(): void => navigation.navigate('BestShotUpload')}
+      />
     </Layout>
   );
 };

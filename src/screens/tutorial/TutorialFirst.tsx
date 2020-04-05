@@ -3,18 +3,16 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { View, StyleSheet } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import { Text } from 'react-native-elements';
 import React from 'react';
 import { BarButton, Title, VSpace, ImageView, Layout } from '@components';
-import { TutorialStackParamList } from '@routes/types';
+import { TutorialStackParamList, NavigationFlowProps } from '@routes/types';
 import FirstGuidImage from '@images/tuto1.png';
 
-interface TutorialFirstProps {
-  navigation: StackNavigationProp<TutorialStackParamList, 'FirstTutorial'>;
-  route: RouteProp<TutorialStackParamList, 'FirstTutorial'>;
-}
+type TutorialFirstProps = NavigationFlowProps<
+  TutorialStackParamList,
+  'FirstTutorial'
+>;
 
 const styles = StyleSheet.create({
   title: {

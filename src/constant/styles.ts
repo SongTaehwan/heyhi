@@ -20,6 +20,7 @@ export const Pallette = {
   brightPurple: '#BC25FF',
   caramel: '#ffd19d',
   mauve: '#e19dff',
+  grapeFruit: '#ff5353',
   brightSkyBlue: '#00c7ff',
   vibrantBlue: '#0045ff',
   darkSlateBlue: '#172b4d',

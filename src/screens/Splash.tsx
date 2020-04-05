@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import st from '@styles';
+// import st from '@styles';
 
 const styles = StyleSheet.create({
   container: {

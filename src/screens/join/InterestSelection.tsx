@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import { Layout, ContentLayer, Title, VSpace, BarButton } from '@components';
+import { ContentLayer, Title, VSpace, BarButton, Layout } from '@components';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 
 type InterestSelectionProps = NavigationFlowProps<

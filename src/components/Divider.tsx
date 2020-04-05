@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 const Divider = ({ style }: DivierProps): JSX.Element => {
-  const dividerStyle = style || styles.default;
+  const dividerStyle = StyleSheet.flatten([styles.default, style]);
   return <View style={dividerStyle} />;
 };
 
