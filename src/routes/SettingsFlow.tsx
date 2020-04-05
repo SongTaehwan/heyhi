@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { Container } from '@components';
-import Settings from '@screens/settings/index';
+import Settings from '@screens/Settings';
 import ChangePassword from '@screens/settings/ChangePassword';
 import PaymentsMethods from '@screens/settings/PaymentsMethods';
 import Notification from '@screens/settings/Notification';

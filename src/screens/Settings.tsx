@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { SettingsStackParamList } from '@routes/types';
 
-import { Layout, Title } from '@components';
+import { Layout, Title, HeadDivider } from '@components';
 import { Pallette } from '@styles';
 
 interface SettingsProps {
@@ -16,6 +16,9 @@ interface SettingsProps {
 }
 
 const styles = StyleSheet.create({
+  wrap: {
+    paddingHorizontal: 20,
+  },
   titleFirst: {
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -71,6 +74,7 @@ const customers = [
 const Settings = ({ navigation }: SettingsProps): JSX.Element => {
   return (
     <Layout>
+      <HeadDivider />
       <View>
         <Title text={'General Settings'} h4={true} style={styles.titleFirst} />
         {settings.map((item, i) => (

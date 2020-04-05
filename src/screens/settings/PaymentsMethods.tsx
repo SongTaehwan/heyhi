@@ -5,9 +5,17 @@ import {
 } from 'react-native-responsive-screen';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Chip, Layout, ImageView, Title, VSpace, BarButton } from '@components';
+import {
+  Chip,
+  Layout,
+  ImageView,
+  Title,
+  VSpace,
+  BarButton,
+  HeadDivider,
+} from '@components';
 import PaymentImage from '@images/tuto3.png';
-import { Pallette } from '@styles';
+import { Grades } from '@constant';
 
 const styles = StyleSheet.create({
   rootWrap: {
@@ -72,27 +80,18 @@ const PaymentsMethods = (): JSX.Element => {
       term: '1 Day',
       subTerm: '24Hrs',
       description: 'One day for One trip',
-      backgroundColor: Pallette.lightCyan,
-      borderRightColor: Pallette.caribbeanGreen,
-      chipColor: Pallette.brightSkyBlue,
     },
     {
       priceText: '$5.99',
       price: 5.99,
       grade: 'premium',
       term: '7 Days',
-      backgroundColor: Pallette.aliceBlue,
-      borderRightColor: Pallette.columbiaBlue,
-      chipColor: Pallette.dodgerBlue,
     },
     {
       priceText: '$11.99',
       price: 11.99,
       grade: 'vip',
       term: '14 Days',
-      backgroundColor: Pallette.seashell,
-      borderRightColor: Pallette.caramel,
-      chipColor: Pallette.peachOrange,
     },
     {
       priceText: '$21.99',
@@ -100,13 +99,11 @@ const PaymentsMethods = (): JSX.Element => {
       grade: 'vvip',
       term: '30 Days',
       description: 'Best Value Pack!',
-      backgroundColor: Pallette.magnolia,
-      borderRightColor: Pallette.mauve,
-      chipColor: Pallette.electricPurple,
     },
   ];
   return (
     <Layout>
+      <HeadDivider />
       <View style={styles.rootWrap}>
         <View>
           <ImageView
@@ -132,19 +129,22 @@ const PaymentsMethods = (): JSX.Element => {
               <View
                 style={{
                   ...styles.priceWrap,
-                  borderColor: item.backgroundColor,
-                  backgroundColor: item.backgroundColor,
+                  borderColor: Grades[`${item.grade}`].backgroundColor,
+                  backgroundColor: Grades[`${item.grade}`].backgroundColor,
                 }}>
                 <View
                   style={{
                     ...styles.priceTextWrap,
-                    borderRightColor: item.borderRightColor,
+                    borderRightColor: Grades[`${item.grade}`].borderRightColor,
                   }}>
                   <Title style={styles.price}>{item.priceText}</Title>
                 </View>
 
                 <View style={styles.infoWrap}>
-                  <Chip text={item.grade} color={item.chipColor} />
+                  <Chip
+                    text={item.grade}
+                    color={Grades[`${item.grade}`].chipColor}
+                  />
 
                   <VSpace space={10} />
                   <Title h2={true}>

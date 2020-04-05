@@ -10,6 +10,7 @@ import {
   LoginFlow,
   SignUpFlow,
   MainFlow,
+  MyPageFlow,
   SettingsFlow,
 } from '@routes';
 import Splash from '@screens/Splash';
@@ -78,7 +79,7 @@ const App = (props): JSX.Element => {
               </>
             )}
             <RootStack.Screen name={'MainFlow'} component={MainFlow} />
-            <RootStack.Screen name={'SettingsFlow'} component={SettingsFlow} />
+            <RootStack.Screen name={'MyPageFlow'} component={MyPageFlow} />
           </RootStack.Navigator>
         </NavigationContainer>
       </RootErrorBoundary>
