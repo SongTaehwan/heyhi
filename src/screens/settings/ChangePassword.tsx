@@ -1,7 +1,14 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { Layout, BarButton, TextField, Divider, VSpace } from '@components';
+import {
+  Layout,
+  BarButton,
+  TextField,
+  Divider,
+  VSpace,
+  HeadDivider,
+} from '@components';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -15,6 +22,7 @@ const styles = StyleSheet.create({
 const ChnagePassword = (): JSX.Element => {
   return (
     <Layout>
+      <HeadDivider />
       <View style={styles.wrapper}>
         <VSpace space={40} />
         <TextField placeholder={'Current Password'} />
