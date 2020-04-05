@@ -1,6 +1,6 @@
-import VerticalLayout from '../layout/VerticalLayout';
+import HorizontalView from '../layout/HorizontalView';
 import CheckableListItem from './CheckableListItem';
 
-CheckableListItem.Container = VerticalLayout;
+CheckableListItem.Container = HorizontalView;
 
 export default CheckableListItem;

@@ -20,4 +20,5 @@ export { default as DropBox } from './DropBox';
 export { default as Chip } from './Chip';
 export { default as Checkbox } from './Checkbox';
 export { default as CheckableListItem } from './CheckableListItem';
-export { default as VerticalLayout } from './layout/VerticalLayout';
+export { default as HorizontalView } from './layout/HorizontalView';
+export { default as ListContent } from './layout/ListContent';
