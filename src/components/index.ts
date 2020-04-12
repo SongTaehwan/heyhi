@@ -1,6 +1,7 @@
 export { default as VSpace } from './spacer/VSpace';
 export { default as HSpace } from './spacer/HSpace';
 export { default as BarButton } from './button/BarButton';
+export { default as IconButton } from './button/IconButton';
 export { default as ConfirmButton } from './button/ConfirmButton';
 export { default as RoundButton } from './button/RoundButton';
 export { default as TextButton } from './button/TextButton';

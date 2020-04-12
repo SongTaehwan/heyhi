@@ -1,6 +1,7 @@
 import { StyleSheet, TextStyle } from 'react-native';
 
 export const Pallette = {
+  transparent: 'transparent',
   white: '#ffffff',
   veryLightPinkThree: '#f2f2f2',
   brownGrey: '#7B7B7B',

@@ -3,15 +3,17 @@ import { StyleSheet, Text } from 'react-native';
 import isEmail from 'validator/lib/isEmail';
 import _debounce from 'lodash/debounce';
 import {
+  Layout,
   ContentLayer,
   Title,
   TextField,
   VSpace,
   BarButton,
-  Layout,
 } from '@components';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 import useText from '@hooks/useText';
+import { useMutation } from '@apollo/react-hooks';
+import { AUTHENTICATION } from '@api/mutation';
 
 type EmailVerificationProps = NavigationFlowProps<
   SignUpStackParamList,
@@ -31,15 +33,38 @@ const styles = StyleSheet.create({
 
 const EmailVerification = ({
   navigation,
+  route,
 }: EmailVerificationProps): JSX.Element => {
   const [email, setEmail] = useText('', { isEmail: true });
   // TODO: Add blow code
-  const [showVerificationField, setShowField] = useState('');
+  const [emailDisabled, setEmailDisabled] = useState(true);
+  const [showVerificationField, setShowField] = useState(false);
   const [verificationCode, setCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const debouncedCodehandler = _debounce(setCode, 300);
-  console.log(email);
+
+  const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
+    fetchPolicy: 'no-cache',
+    onCompleted: data => {
+      console.log('data', data);
+    },
+    onError: error => {
+      setEmailDisabled(false);
+      console.log('error', error);
+    },
+  });
+
+  const [verifyCode] = useMutation(AUTHENTICATION.VERIFY_CODE, {
+    fetchPolicy: 'no-cache',
+    onCompleted: data => {
+      console.log('data', data);
+    },
+    onError: error => {
+      console.log('error', error);
+    },
+  });
+
   return (
     <Layout>
       <ContentLayer>
@@ -47,10 +72,25 @@ const EmailVerification = ({
         <VSpace space={30} />
         <TextField placeholder={'Type your email'} onChangeText={setEmail} />
         <VSpace />
-        <BarButton title={'Send mail'} round disabled={email.length === 0} />
+        <BarButton
+          title={'Send mail'}
+          round
+          disabled={email.length === 0 && emailDisabled}
+          onPress={(): void => {
+            setEmailDisabled(true);
+            setShowField(true);
+            sendEmail({
+              variables: {
+                data: {
+                  email,
+                },
+              },
+            });
+          }}
+        />
         <VSpace space={35} />
 
-        {email.length > 0 && (
+        {showVerificationField && (
           <>
             <Title style={styles.verficationTitle}>{'Verification code'}</Title>
             <VSpace />
@@ -70,10 +110,14 @@ const EmailVerification = ({
         </>
       )}
       <BarButton
-        title={'NEXT'}
         square={false}
-        // disabled={verificationCode.length === 0}
+        disabled={verificationCode.length === 0}
         onPress={(): void => {
+          verifyCode({
+            variables: {
+              data: { verifyCode: verificationCode, email },
+            },
+          });
           if (errorMessage.length === 0) {
             return setErrorMessage(
               'Invalid Verification Code Please try again',

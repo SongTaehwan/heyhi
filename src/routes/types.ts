@@ -28,7 +28,11 @@ export type LoginStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   PasswordRestoration: undefined;
-  PasswordCreation: undefined;
+  PasswordCreation: passwordCreation;
+};
+
+type passwordCreation = {
+  checkEmail: string;
 };
 
 export type SignUpStackParamList = {
@@ -57,4 +61,9 @@ export type SettingsStackParamList = {
   Notification: undefined;
   History: undefined;
   Location: undefined;
+};
+
+export type AuthenticationResponse = {
+  accessToken: string;
+  refreshToken: string;
 };
