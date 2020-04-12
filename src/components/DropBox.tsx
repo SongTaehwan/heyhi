@@ -42,19 +42,21 @@ const DropBox = ({
   // const wrapperStyle = StyleSheet.flatten([styles.container, containerStyle]);
 
   const openModal = (): void => {
-    container.current.measure((fx, fy, width, height, px, py): void => {
-      console.log(Dimensions.get('window').height);
-      console.log(Dimensions.get('window').width);
-      // debugger;
-      setMenuStyle({
-        width,
-        height,
-        px,
-        py,
-        fx,
-        fy,
-      });
-    });
+    container.current.measure(
+      (fx, fy, width, height, px, py): void => {
+        console.log(Dimensions.get('window').height);
+        console.log(Dimensions.get('window').width);
+        // debugger;
+        setMenuStyle({
+          width,
+          height,
+          px,
+          py,
+          fx,
+          fy,
+        });
+      },
+    );
     setModal(!modal);
   };
 

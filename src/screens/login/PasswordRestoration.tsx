@@ -10,6 +10,8 @@ import {
   TextField,
   ContentLayer,
 } from '@components';
+import { useMutation } from '@apollo/react-hooks';
+import { AUTHENTICATION } from '@api/mutation';
 
 type PasswordRestoration = NavigationFlowProps<
   LoginStackParamList,
@@ -28,6 +30,15 @@ const PasswordRestoration = ({
   navigation,
 }: PasswordRestoration): JSX.Element => {
   const [email, setEmail] = useText('', { isEmail: true });
+
+  const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
+    fetchPolicy: 'no-cache',
+    onCompleted: data => {
+      navigation.navigate('PasswordCreation', {
+        checkEmail: data.sendEmail.email,
+      });
+    },
+  });
 
   return (
     <Layout>
@@ -49,7 +60,15 @@ const PasswordRestoration = ({
       <BarButton
         title="SEND RESET LINK"
         disabled={email.length === 0}
-        onPress={(): void => navigation.navigate('PasswordCreation')}
+        onPress={(): void => {
+          sendEmail({
+            variables: {
+              data: {
+                email,
+              },
+            },
+          });
+        }}
       />
     </Layout>
   );

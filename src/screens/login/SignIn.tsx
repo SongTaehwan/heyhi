@@ -6,6 +6,7 @@ import {
   LoginStackParamList,
   NavigationFlowProps,
   RootStackParamList,
+  AuthenticationResponse,
 } from '@routes/types';
 import useText from '@hooks/useText';
 import Logo from '@images/logo.png';

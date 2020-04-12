@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 50,
   },
+  icon: {
+    fontSize: 30,
+  },
 });
 
 const IconButton = (props: IconButtonProps): JSX.Element => {
@@ -24,9 +27,16 @@ const IconButton = (props: IconButtonProps): JSX.Element => {
   return (
     <Button
       icon={
-        <Icon name={props.iconName} size={props.iconSize} color={iconColor} />
+        <Icon
+          style={props.style ? props.style : styles.icon}
+          name={props.iconName}
+          size={props.iconSize}
+          color={iconColor}
+        />
       }
-      buttonStyle={styles.button}
+      buttonStyle={
+        props.iconContainerStyle ? props.iconContainerStyle : styles.button
+      }
       disabled={props.disabled}
       onPress={props.onPress}
     />
