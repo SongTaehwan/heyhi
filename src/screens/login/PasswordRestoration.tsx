@@ -33,7 +33,7 @@ const PasswordRestoration = ({
 
   const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
     fetchPolicy: 'no-cache',
-    onCompleted: data => {
+    onCompleted: (data) => {
       navigation.navigate('PasswordCreation', {
         checkEmail: data.sendEmail.email,
       });

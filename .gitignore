@@ -63,3 +63,6 @@ buck-out/
 
 # apollo.config.js
 apollo.config.js
+
+# specific for windows script files
+*.bat text eol=crlf

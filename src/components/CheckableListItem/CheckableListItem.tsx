@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
-import {
-  Text,
-  HorizontalView,
-  TextButton,
-  ListContent,
-  Checkbox,
-} from '@components';
+import Text from '../Text';
+import HorizontalView from '../layout/HorizontalView';
+import Checkbox from '../Checkbox';
+import ListContent from '../layout/HorizontalView';
+import TextButton from '../button/TextButton';
 import { HorizontalViewType } from '../layout/HorizontalView';
 
 interface CheckableListItemProps {

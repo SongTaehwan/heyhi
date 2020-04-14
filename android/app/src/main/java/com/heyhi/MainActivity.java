@@ -23,7 +23,7 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    RNBootSplash.show(R.drawable.splashscreen, MainActivity.this); // <- display the "bootsplash" xml view over our MainActivity
+    RNBootSplash.init(R.drawable.bootsplash, MainActivity.this); // <- display the "bootsplash" xml view over our MainActivity
   }
 
   @Override
