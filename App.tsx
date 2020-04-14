@@ -11,7 +11,6 @@ import {
   SignUpFlow,
   MainFlow,
   MyPageFlow,
-  SettingsFlow,
 } from '@routes';
 import Splash from '@screens/Splash';
 import { ApolloProvider } from '@apollo/react-hooks';
