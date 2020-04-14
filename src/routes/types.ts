@@ -16,6 +16,7 @@ export type RootStackParamList = {
   MainFlow: undefined;
   MyPageFlow: undefined;
   SettingsFlow: undefined;
+  BottomTabFlow: undefined;
 };
 
 export type TutorialStackParamList = {
