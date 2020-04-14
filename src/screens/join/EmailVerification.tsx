@@ -46,10 +46,10 @@ const EmailVerification = ({
 
   const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
     fetchPolicy: 'no-cache',
-    onCompleted: data => {
+    onCompleted: (data) => {
       console.log('data', data);
     },
-    onError: error => {
+    onError: (error) => {
       setEmailDisabled(false);
       console.log('error', error);
     },
@@ -57,10 +57,10 @@ const EmailVerification = ({
 
   const [verifyCode] = useMutation(AUTHENTICATION.VERIFY_CODE, {
     fetchPolicy: 'no-cache',
-    onCompleted: data => {
+    onCompleted: (data) => {
       console.log('data', data);
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error', error);
     },
   });

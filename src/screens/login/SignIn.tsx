@@ -57,7 +57,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
 
   const [signIn] = useMutation(AUTHENTICATION.SIGN_IN, {
     fetchPolicy: 'no-cache',
-    onCompleted: async data => {
+    onCompleted: async (data) => {
       const { accessToken, refreshToken } = data.passwordAuthentication;
       console.log('data', data);
       try {
@@ -81,7 +81,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
       },
     });
   };
-
+  console.log('work!');
   return (
     <Layout>
       <View style={styles.formWrapper}>

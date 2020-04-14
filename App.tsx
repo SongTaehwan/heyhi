@@ -35,15 +35,15 @@ const App = (props): JSX.Element => {
     RNBootSplash.hide({ duration: 200 });
 
     setTimeout(() => {
-      setLoading(false);
-
       if (token !== null) {
         setToken(true);
       }
 
-      if (tutorial !== null) {
+      if (tutorial === null) {
         setTutorial(true);
       }
+
+      setLoading(false);
     }, 1500);
   };
 
@@ -64,7 +64,7 @@ const App = (props): JSX.Element => {
     // TODO: Build Error Fallback component for Production
     <ApolloProvider client={apolloClient}>
       <RootErrorBoundary onError={childErrorhandler}>
-        <NavigationContainer ref={navigator => setNavigator(navigator)}>
+        <NavigationContainer ref={(navigator) => setNavigator(navigator)}>
           <RootStack.Navigator headerMode={'none'}>
             {showTutorial && (
               <RootStack.Screen

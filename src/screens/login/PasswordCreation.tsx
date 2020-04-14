@@ -29,10 +29,10 @@ const PasswordCreation = ({
 
   const [verifyCode] = useMutation(AUTHENTICATION.VERIFY_CODE, {
     fetchPolicy: 'no-cache',
-    onCompleted: data => {
+    onCompleted: (data) => {
       console.log('data', data);
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error', error);
     },
   });

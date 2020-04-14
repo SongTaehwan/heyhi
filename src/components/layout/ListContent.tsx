@@ -6,7 +6,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import { Text } from '@components';
+import Text from '../Text';
 
 interface ListContent {
   containerStyle?: StyleProp<ViewStyle>;
