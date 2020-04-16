@@ -4,13 +4,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { Container } from '@components';
 
-import MyPage from '@screens/MyPage';
 import LanguageSettings from '@screens/mypage/LanguageSettings';
 import MyReviews from '@screens/mypage/MyReviews';
 import EditAlbums from '@screens/mypage/EditAlbums';
 import EditEmail from '@screens/mypage/EditEmail';
 import Settings from '@screens/Settings';
 
+import BottomTopFlow from './BottomTabFlow';
 import { RootStackParamList } from './types';
 
 interface MyPageFlowProps {
@@ -29,7 +29,7 @@ const MyPageFlow = (props: MyPageFlowProps): JSX.Element => {
           headerStyle: { shadowOffset: { height: 0, width: 0 } },
           title: '',
         }}>
-        <MyPageStack.Screen name={'MyPage'} component={MyPage} />
+        <MyPageStack.Screen name={'MyPage'} component={BottomTopFlow} />
         <MyPageStack.Screen name={'Settings'} component={Settings} />
         <MyPageStack.Screen
           name={'LanguageSettings'}
