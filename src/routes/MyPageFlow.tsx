@@ -6,6 +6,7 @@ import { Container } from '@components';
 
 import LanguageSettings from '@screens/mypage/LanguageSettings';
 import MyReviews from '@screens/mypage/MyReviews';
+import MyReviewDetail from '@screens/mypage/MyReviewDetail';
 import EditAlbums from '@screens/mypage/EditAlbums';
 import EditEmail from '@screens/mypage/EditEmail';
 import Settings from '@screens/Settings';
@@ -36,6 +37,10 @@ const MyPageFlow = (props: MyPageFlowProps): JSX.Element => {
           component={LanguageSettings}
         />
         <MyPageStack.Screen name={'MyReviews'} component={MyReviews} />
+        <MyPageStack.Screen
+          name={'MyReviewDetail'}
+          component={MyReviewDetail}
+        />
         <MyPageStack.Screen name={'EditAlbums'} component={EditAlbums} />
         <MyPageStack.Screen name={'EditEmail'} component={EditEmail} />
       </MyPageStack.Navigator>

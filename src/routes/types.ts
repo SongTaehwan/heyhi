@@ -50,6 +50,7 @@ export type MyPageStackParamList = {
   MyPage: undefined;
   LanguageSettings: undefined;
   MyReviews: undefined;
+  MyReviewDetail: { reviewId: number };
   EditAlbums: undefined;
   EditEmail: undefined;
   Settings: undefined;

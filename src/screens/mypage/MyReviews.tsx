@@ -1,7 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { Layout, HSpace, VSpace, ImageView, HeadDivider } from '@components';
 import { Pallette } from '@styles';
+import { MyPageStackParamList } from '@routes/types';
+
+export interface MyReviewProps {
+  navigation: StackNavigationProp<MyPageStackParamList, 'MyReviews'>;
+  route: RouteProp<MyPageStackParamList, 'MyReviewDetail'>;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -43,10 +51,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyReviews = (): JSX.Element => {
+const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
   // TODO: Get reviews from API
   const reviews = [
     {
+      reviewId: 1,
       reviewee: {
         profile: '',
         name: 'John Doe',
@@ -58,6 +67,7 @@ const MyReviews = (): JSX.Element => {
         'Excepteure sint occaecat cupidatat non proident, sunt in culpa qui officia.',
     },
     {
+      reviewId: 2,
       reviewee: {
         profile: '',
         name: 'John Doe',
@@ -76,7 +86,14 @@ const MyReviews = (): JSX.Element => {
       <View style={styles.container}>
         {reviews.map((review, i) => (
           <>
-            <View key={i} style={styles.reviewWrap}>
+            <TouchableOpacity
+              key={i}
+              style={styles.reviewWrap}
+              onPress={(): void =>
+                navigation.navigate('MyReviewDetail', {
+                  reviewId: review.reviewId,
+                })
+              }>
               <View style={styles.profileImageWrap}>
                 <ImageView
                   resizeMode={'contain'}
@@ -99,7 +116,7 @@ const MyReviews = (): JSX.Element => {
                 <VSpace space={4} />
                 <Text numberOfLines={2}>{review.content}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
             <VSpace space={20} />
           </>
         ))}

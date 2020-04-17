@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
 });
 
 const BottomTab = (props: BottomTabFlowProps): JSX.Element => {
-  console.log(props.route);
   const Tab = createMaterialBottomTabNavigator();
   const tabBarLabel = '';
   const mainOptions = {
