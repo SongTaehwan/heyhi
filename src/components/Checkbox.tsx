@@ -1,11 +1,8 @@
-import { CheckBox, CheckBoxProps } from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import { st } from '@constant';
-
-export interface CheckboxProps extends CheckBoxProps {
-  large?: boolean;
-}
+import { CheckboxProps, CheckboxType } from './types';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,14 +20,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const Checkbox = ({
+const Checkbox: CheckboxType = ({
+  value,
   checked = false,
   large,
   title,
   wrapperStyle,
   textStyle,
+  onPress,
   ...rest
 }: CheckboxProps): JSX.Element => {
+  const handler = (): void => {
+    if (onPress) {
+      onPress(value || '', checked);
+    }
+  };
+
   return (
     <CheckBox
       checked={checked}
@@ -43,6 +48,7 @@ const Checkbox = ({
       checkedColor={st.Pallette.brightSkyBlue}
       uncheckedColor="black"
       uncheckedIcon="square-o"
+      onPress={handler}
       {...rest}
     />
   );
