@@ -1,20 +1,6 @@
-import {
-  View,
-  StyleSheet,
-  StyleProp,
-  FlexAlignType,
-  ViewStyle,
-} from 'react-native';
-import React, { ReactNode, FC } from 'react';
-
-interface HorizontalViewProps {
-  children?: ReactNode;
-  style?: StyleProp<ViewStyle>;
-  horizontalAlign?: FlexAlignType;
-  verticalAlign?: FlexAlignType;
-}
-
-export type HorizontalViewType = FC<HorizontalViewProps>;
+import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { HorizontalViewProps, HorizontalViewType } from '../types';
 
 const styles = StyleSheet.create({
   defaultStyle: {

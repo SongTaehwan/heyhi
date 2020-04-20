@@ -1,11 +1,7 @@
-import { Input, InputProps } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import { StyleSheet, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import { st } from '@constant';
-
-interface TextFieldProps extends InputProps {
-  hasError?: boolean;
-}
 
 const styles = StyleSheet.create({
   container: {

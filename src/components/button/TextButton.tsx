@@ -1,18 +1,8 @@
 import React from 'react';
-import {
-  Text,
-  StyleSheet,
-  TouchableOpacityProps,
-  StyleProp,
-  TextStyle,
-} from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { st } from '@constant';
-
-interface TextButtonProps extends TouchableOpacityProps {
-  text: string;
-  textStyle?: StyleProp<TextStyle>;
-}
+import { TextButtonProps, TextButtonType } from '../types';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -21,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TextButton = ({
+const TextButton: TextButtonType = ({
   text = 'button',
   textStyle,
   ...props

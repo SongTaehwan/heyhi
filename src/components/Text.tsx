@@ -1,19 +1,7 @@
-import { StyleSheet, TextStyle } from 'react-native';
-import {
-  Text as RNText,
-  TextProps as RNTextProps,
-} from 'react-native-elements';
+import { StyleSheet } from 'react-native';
+import { Text as RNText } from 'react-native-elements';
 import React from 'react';
-
-interface TextProps extends RNTextProps {
-  text?: string;
-  h1?: boolean;
-  h2?: boolean;
-  h3?: boolean;
-  h4?: boolean;
-  style?: TextStyle;
-  children?: React.ReactNode;
-}
+import { TextProps } from './types';
 
 const styles = StyleSheet.create({
   defaultText: {
@@ -26,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 const Text = ({
-  text,
+  title,
   h1 = false,
   h2 = false,
   h3 = false,
@@ -40,13 +28,13 @@ const Text = ({
     style,
     h1 && StyleSheet.flatten([{ fontSize: 35 }, styles.bold]),
     h2 && StyleSheet.flatten([{ fontSize: 24 }, styles.bold]),
-    h3 && StyleSheet.flatten([{ fontSize: 18 }, styles.bold]),
+    h3 && StyleSheet.flatten([{ fontSize: 18, lineHeight: 30 }, styles.bold]),
     h4 && StyleSheet.flatten([{ fontSize: 15 }, styles.bold]),
   ]);
 
   return (
     <RNText style={textStyle} {...rest}>
-      {children || text}
+      {children || title}
     </RNText>
   );
 };

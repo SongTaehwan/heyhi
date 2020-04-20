@@ -1,10 +1,8 @@
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { DividerProps } from 'react-native-elements';
+import { View, StyleSheet } from 'react-native';
 import React from 'react';
 import { st } from '@constant';
 
-interface DivierProps {
-  style?: StyleProp<ViewStyle>;
-}
 const styles = StyleSheet.create({
   default: {
     borderColor: st.Pallette.veryLightPinkTwo,
@@ -13,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Divider = ({ style }: DivierProps): JSX.Element => {
+const Divider = ({ style }: DividerProps): JSX.Element => {
   const dividerStyle = StyleSheet.flatten([styles.default, style]);
   return <View style={dividerStyle} />;
 };
