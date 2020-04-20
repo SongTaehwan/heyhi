@@ -1,12 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-
-interface ChipProps {
-  text: string;
-  viewStyle?: ViewStyle;
-  textStyle?: TextStyle;
-  color?: string;
-}
+import { ChipProps } from './types';
 
 const styles = StyleSheet.create({
   viewStyle: {

@@ -1,11 +1,9 @@
-import { StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { DividerProps } from 'react-native-elements';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import { Pallette } from '@styles';
 import Divider from './Divider';
 
-interface DivierProps {
-  style?: StyleProp<ViewStyle>;
-}
 const styles = StyleSheet.create({
   default: {
     borderWidth: 5,
@@ -13,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeaderDivider = ({ style }: DivierProps): JSX.Element => {
+const HeaderDivider = ({ style }: DividerProps): JSX.Element => {
   const dividerStyle = style || styles.default;
   return <Divider style={dividerStyle} />;
 };

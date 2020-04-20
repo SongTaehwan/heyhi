@@ -1,33 +1,31 @@
-import React, { FC } from 'react';
-import Text from '../Text';
+import React from 'react';
+import CheckableListContent from './CheckableListContent';
 import HorizontalView from '../layout/HorizontalView';
 import Checkbox from '../Checkbox';
-import ListContent from '../layout/HorizontalView';
-import TextButton from '../button/TextButton';
-import { HorizontalViewType } from '../layout/HorizontalView';
-
-interface CheckableListItemProps {
-  checked: boolean;
-}
-
-interface CheckableListItemType extends FC<CheckableListItemProps> {
-  Container?: HorizontalViewType;
-}
+import { CheckableListItemType, CheckableListItemProps } from '../types';
 
 const CheckableListItem: CheckableListItemType = ({
+  children,
   checked = true,
+  title,
+  showCheckbox = true,
+  onPressCheckbox,
+  onPressTextButton,
+  ...rest
 }: CheckableListItemProps): JSX.Element => {
   return (
     <HorizontalView>
-      <Checkbox large checked={checked} />
-      <ListContent>
-        <HorizontalView>
-          <Text>asdfasdf</Text>
-          <TextButton text={'asfasd'} />
-        </HorizontalView>
-      </ListContent>
+      {showCheckbox && (
+        <Checkbox checked={checked} onPress={onPressCheckbox} {...rest} />
+      )}
+      {children || (
+        <CheckableListContent title={title} onPress={onPressTextButton} />
+      )}
     </HorizontalView>
   );
 };
+
+CheckableListItem.Checkbox = Checkbox;
+CheckableListItem.ListItem = CheckableListContent;
 
 export default CheckableListItem;

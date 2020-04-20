@@ -14,7 +14,7 @@ import {
 } from '@routes';
 import Splash from '@screens/Splash';
 import { ApolloProvider } from '@apollo/react-hooks';
-import apolloClient from './client';
+import apolloClient from '../client';
 
 const RootStack = createStackNavigator();
 
@@ -63,7 +63,7 @@ const App = (props): JSX.Element => {
     // TODO: Build Error Fallback component for Production
     <ApolloProvider client={apolloClient}>
       <RootErrorBoundary onError={childErrorhandler}>
-        <NavigationContainer ref={(navigator) => setNavigator(navigator)}>
+        <NavigationContainer ref={(navigator): void => setNavigator(navigator)}>
           <RootStack.Navigator headerMode={'none'}>
             {showTutorial && (
               <RootStack.Screen

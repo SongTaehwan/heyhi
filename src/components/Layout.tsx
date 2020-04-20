@@ -1,12 +1,7 @@
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import React from 'react';
-
-interface Layout {
-  children: React.ReactNode;
-  containerStyle?: StyleProp<ViewStyle>;
-  contentContainerStyle?: StyleProp<ViewStyle>;
-}
+import { LayoutProps } from './types';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +17,7 @@ const Layout = ({
   containerStyle,
   contentContainerStyle,
   children,
-}: Layout): JSX.Element => {
+}: LayoutProps): JSX.Element => {
   const layoutContainerStyle = StyleSheet.flatten([
     containerStyle,
     styles.container,

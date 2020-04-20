@@ -1,16 +1,7 @@
 import React from 'react';
-import { StyleSheet, TextStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
-
-interface TitleProps {
-  text: string;
-  h1: boolean;
-  h2: boolean;
-  h3: boolean;
-  h4: boolean;
-  style: TextStyle;
-  children: React.ReactNode | string;
-}
+import { TitleProps } from './types';
 
 const styles = StyleSheet.create({
   defaultText: {

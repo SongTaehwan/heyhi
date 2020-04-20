@@ -7,8 +7,8 @@ import {
   TextField,
   VSpace,
   HSpace,
-  DropBox,
   Layout,
+  Picker,
 } from '@components';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 
@@ -52,7 +52,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
           />
         </View>
         <VSpace space={10} />
-        <DropBox />
+        <Picker />
       </ContentLayer>
       <BarButton
         title={'NEXT'}

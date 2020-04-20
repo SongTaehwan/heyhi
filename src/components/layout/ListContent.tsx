@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Text from '../Text';
 
-interface ListContent {
+export interface ListContent {
   containerStyle?: StyleProp<ViewStyle>;
   contentTextStyle?: StyleProp<TextStyle>;
   children?: ReactNode;
