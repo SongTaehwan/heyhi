@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import isEmail from 'validator/lib/isEmail';
 import _debounce from 'lodash/debounce';
 import {
   Layout,
@@ -35,7 +34,7 @@ const EmailVerification = ({
   navigation,
   route,
 }: EmailVerificationProps): JSX.Element => {
-  const [email, setEmail] = useText('', { isEmail: true });
+  const [email, setEmail] = useText(route.params?.email, { isEmail: true });
   // TODO: Add blow code
   const [emailDisabled, setEmailDisabled] = useState(true);
   const [showVerificationField, setShowField] = useState(false);
@@ -70,7 +69,11 @@ const EmailVerification = ({
       <ContentLayer>
         <Title h2>{'Verify your email'}</Title>
         <VSpace space={30} />
-        <TextField placeholder={'Type your email'} onChangeText={setEmail} />
+        <TextField
+          value={email}
+          placeholder={'Type your email'}
+          onChangeText={setEmail}
+        />
         <VSpace />
         <BarButton
           title={'Send mail'}
@@ -113,17 +116,17 @@ const EmailVerification = ({
         square={false}
         disabled={verificationCode.length === 0}
         onPress={(): void => {
-          verifyCode({
-            variables: {
-              data: { verifyCode: verificationCode, email },
-            },
-          });
-          if (errorMessage.length === 0) {
-            return setErrorMessage(
-              'Invalid Verification Code Please try again',
-            );
-          }
-          navigation.navigate('InterestSelection');
+          // verifyCode({
+          //   variables: {
+          //     data: { verifyCode: verificationCode, email },
+          //   },
+          // });
+          // if (errorMessage.length === 0) {
+          //   return setErrorMessage(
+          //     'Invalid Verification Code Please try again',
+          //   );
+          // }
+          navigation.navigate('ServicePolicy');
         }}
       />
     </Layout>

@@ -18,7 +18,7 @@ const SignUpFlow = (props: SignUpFlowProps): JSX.Element => {
   return (
     <Container topless>
       <SignUpStack.Navigator
-        initialRouteName="InterestSelection"
+        initialRouteName="AccountCreation"
         screenOptions={{
           headerStyle: { shadowOffset: { height: 0, width: 0 } },
           title: '',
