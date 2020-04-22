@@ -87,6 +87,15 @@ target 'heyhi' do
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
 
+  # For react-native-permissions
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+
   use_native_modules!
 
   # Enables Flipper.

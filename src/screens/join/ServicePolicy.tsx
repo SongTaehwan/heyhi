@@ -136,7 +136,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           !checkList.personalInfo ||
           !checkList.servicePolicy
         }
-        onPress={(): void => navigation.navigate('EmailVerification')}
+        onPress={(): void => navigation.navigate('BestShotUpload')}
       />
     </Layout>
   );

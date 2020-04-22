@@ -42,8 +42,12 @@ export type SignUpStackParamList = {
   SelfieUpload: undefined;
   ServicePolicy: undefined;
   ServicePolicyDetail: undefined;
-  EmailVerification: undefined;
+  EmailVerification: emailVerification;
   InterestSelection: undefined;
+};
+
+type emailVerification = {
+  email?: string;
 };
 
 export type MyPageStackParamList = {

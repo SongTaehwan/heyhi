@@ -159,7 +159,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
       <BarButton
         title={'NEXT'}
         disabled={isPictureVisible ? false : true}
-        onPress={(): void => navigation.navigate('ServicePolicy')}
+        onPress={(): void => navigation.navigate('InterestSelection')}
       />
     </Layout>
   );
