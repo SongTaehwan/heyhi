@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 });
 
 const TextField = ({
+  value,
   onChangeText,
   inputContainerStyle,
   inputStyle,
@@ -61,6 +62,7 @@ const TextField = ({
 
   return (
     <Input
+      value={value}
       containerStyle={styles.container}
       inputContainerStyle={inputContainer}
       inputStyle={inputComponentStyle}

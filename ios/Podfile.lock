@@ -93,6 +93,14 @@ PODS:
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
+  - Permission-Camera (2.1.2):
+    - RNPermissions
+  - Permission-LocationAlways (2.1.2):
+    - RNPermissions
+  - Permission-LocationWhenInUse (2.1.2):
+    - RNPermissions
+  - Permission-PhotoLibrary (2.1.2):
+    - RNPermissions
   - RCTRequired (0.62.2)
   - RCTTypeSafety (0.62.2):
     - FBLazyVector (= 0.62.2)
@@ -327,7 +335,7 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/callinvoker (= 0.62.2)
-  - RNBootSplash (2.2.2):
+  - RNBootSplash (2.2.3):
     - React
   - RNCAsyncStorage (1.9.0):
     - React
@@ -335,14 +343,26 @@ PODS:
     - React
   - RNGestureHandler (1.6.1):
     - React
+  - RNImageCropPicker (0.28.0):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.28.0)
+    - RSKImageCropper
+  - RNImageCropPicker/QBImagePickerController (0.28.0):
+    - React-Core
+    - React-RCTImage
+    - RSKImageCropper
   - RNLocalize (1.4.0):
+    - React
+  - RNPermissions (2.1.2):
     - React
   - RNReanimated (1.8.0):
     - React
-  - RNScreens (2.4.0):
+  - RNScreens (2.5.0):
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - RSKImageCropper (2.2.3)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -375,6 +395,10 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
   - GoogleMaps
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
+  - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways.podspec`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -406,7 +430,9 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -427,6 +453,7 @@ SPEC REPOS:
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - OpenSSL-Universal
+    - RSKImageCropper
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -442,6 +469,14 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
+  Permission-LocationAlways:
+    :path: "../node_modules/react-native-permissions/ios/LocationAlways.podspec"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
+  Permission-PhotoLibrary:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -498,8 +533,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -529,6 +568,10 @@ SPEC CHECKSUMS:
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
+  Permission-Camera: ebdba00e6926aface672cc547b19fa317c3d956e
+  Permission-LocationAlways: 5f8a9ffe42bc2df8962cd955354cf57cb0663411
+  Permission-LocationWhenInUse: cfd0d39a1c8ab2e9aeb0a1460800f85f74705404
+  Permission-PhotoLibrary: e29736d903e867d278747eb30951528303425f64
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce
   React: 29a8b1a02bd764fb7644ef04019270849b9a7ac3
@@ -553,17 +596,20 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
-  RNBootSplash: 634aa1cd7fe9cd3b0205fb4989b67da0d9aadb12
+  RNBootSplash: bbf3c78bd12e3e990eeb8c52db2025ab717b6385
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCMaskedView: 71fc32d971f03b7f03d6ab6b86b730c4ee64f5b6
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNImageCropPicker: cf129d17e042ce3e96fb9ada967c28f21f977c82
   RNLocalize: b6df30cc25ae736d37874f9bce13351db2f56796
+  RNPermissions: a96580116f7894146552e92b000ac30bf1661947
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
-  RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
+  RNScreens: ac02d0e4529f08ced69f5580d416f968a6ec3a1d
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: c833be9d0d4200c3038c5862c99e11f07df4351d
+PODFILE CHECKSUM: 8bec24681a1392dd317c91be1a2aa1b7901336e0
 
 COCOAPODS: 1.9.1
