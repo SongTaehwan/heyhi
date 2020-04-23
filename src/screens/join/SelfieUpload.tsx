@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import {
   Layout,
   ContentLayer,
@@ -8,8 +8,8 @@ import {
   ImageView,
   VSpace,
   IconButton,
-  Paragraph,
 } from '@components';
+import ImagePicker from 'react-native-image-crop-picker';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 import Modal from 'react-native-modal';
 
@@ -17,13 +17,18 @@ import imgNotice from '@images/imgNotice.png';
 import iconExitActive from '@images/iconExitActive.png';
 
 import st from '@styles';
-import { getCircleRadiusSize } from '@util/Dimensions';
-import { CardStyleInterpolators } from '@react-navigation/stack';
+import {
+  getCircleRadiusSize,
+  getScreenWidth,
+  getScreenHeight,
+} from '@util/Dimensions';
 
 type SelfieUploadProps = NavigationFlowProps<
   SignUpStackParamList,
   'SelfieUpload'
 >;
+
+const imageViewSize = getScreenWidth() - 60;
 
 const styles = StyleSheet.create({
   modalStyle: {
@@ -88,24 +93,49 @@ const styles = StyleSheet.create({
     borderRadius: getCircleRadiusSize(),
     backgroundColor: st.Pallette.transparent,
   },
+  image: {
+    display: 'flex',
+    flex: 1,
+    width: imageViewSize,
+    height: imageViewSize,
+    borderRadius: 35,
+    backgroundColor: '#000',
+  },
 });
 
 const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isPictureVisible, setIsPictureVisivle] = useState<boolean>(false);
+  const [image, setImage] = useState();
 
-  const picturePickHandler = (): void => {
-    //add picture pick logic
-    setIsPictureVisivle(true);
+  const getImageFromGallery = async (): Promise<void> => {
+    try {
+      const image = await ImagePicker.openPicker({
+        multiple: false,
+        writeTempFile: true,
+      });
+
+      console.log('image', image);
+      setImage(image.path);
+
+      setIsPictureVisivle(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <Layout>
       <ContentLayer>
         <Title h2>{'Now, Let’s take a selfie!'}</Title>
         <VSpace space={80} />
         {isPictureVisible ? (
-          <View>
-            <ImageView source={imgNotice} />
+          <View style={{ width: '100%' }}>
+            <Image
+              resizeMode={'cover'}
+              source={{ uri: image }}
+              style={styles.image}
+            />
           </View>
         ) : (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -113,7 +143,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
               iconSize={30}
               iconName={'plus'}
               iconContainerStyle={styles.imageAddIcon}
-              onPress={picturePickHandler}
+              onPress={getImageFromGallery}
             />
             <VSpace space={30} />
             <Text style={styles.modalTextStyle}>This picture is for the</Text>

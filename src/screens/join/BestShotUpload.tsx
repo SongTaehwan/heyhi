@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageSourcePropType } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import {
   ContentLayer,
   Title,
@@ -7,13 +7,13 @@ import {
   VSpace,
   HSpace,
   Layout,
-  ImageView,
   IconButton,
 } from '@components';
+import ImagePicker from 'react-native-image-crop-picker';
 import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
 import { st } from '@constant';
 import { getScreenWidth, getScreenHeight } from '@util/Dimensions';
-
+import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
 type BestShotUploadProps = NavigationFlowProps<
   SignUpStackParamList,
   'BestShotUpload'
@@ -71,13 +71,55 @@ const styles = StyleSheet.create({
 
 const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [imageOne, setImageOne] = useState<ImageSourcePropType>();
-  const [imageTwo, setImageTwo] = useState<ImageSourcePropType>();
-  const [imageTree, setImageTree] = useState<ImageSourcePropType>();
-  const [imageFour, setImageFour] = useState<ImageSourcePropType>();
+  const [imageOne, setImageOne] = useState();
+  const [imageTwo, setImageTwo] = useState();
+  const [imageThree, setImageThree] = useState();
+  const [imageFour, setImageFour] = useState();
 
-  const addButtonHandler = (): void => {
-    setIsVisible(false);
+  check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+    .then((result) => {
+      switch (result) {
+        case RESULTS.UNAVAILABLE:
+          console.log(
+            'This feature is not available (on this device / in this context)',
+          );
+          break;
+        case RESULTS.DENIED:
+          console.log(
+            'The permission has not been requested / is denied but requestable',
+          );
+          break;
+        case RESULTS.GRANTED:
+          console.log('The permission is granted');
+          break;
+        case RESULTS.BLOCKED:
+          console.log('The permission is denied and not requestable anymore');
+          break;
+      }
+    })
+    .catch((error) => {
+      // …
+    });
+
+  const getImageFromGallery = async (): Promise<void> => {
+    try {
+      console.log('Button Clicked!!');
+      const images = await ImagePicker.openPicker({
+        multiple: true,
+        writeTempFile: true,
+        maxFiles: 4,
+      });
+
+      console.log('images', images);
+      setImageOne(images[0]?.path);
+      setImageTwo(images[1]?.path);
+      setImageThree(images[2]?.path);
+      setImageFour(images[3]?.path);
+
+      setIsVisible(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -98,22 +140,39 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
                 iconSize={30}
                 iconName={'plus'}
                 iconContainerStyle={styles.imageAddIcon}
-                onPress={addButtonHandler}
+                onPress={getImageFromGallery}
               />
               <Text style={styles.textStyle}>Click to add photo</Text>
             </View>
           ) : null}
 
           <View style={styles.imageLayer}>
-            <ImageView style={styles.imageViewStyle} source={imageOne} />
+            <Image
+              resizeMode={'cover'}
+              source={{ uri: imageOne }}
+              style={styles.imageViewStyle}
+            />
+            {/* <ImageView style={styles.imageViewStyle} source={imageOne} /> */}
             <HSpace space={20} />
-            <ImageView style={styles.imageViewStyle} source={imageTwo} />
+            <Image
+              resizeMode={'cover'}
+              source={{ uri: imageTwo }}
+              style={styles.imageViewStyle}
+            />
           </View>
           <VSpace space={20} />
           <View style={styles.imageLayer}>
-            <ImageView style={styles.imageViewStyle} source={imageTree} />
+            <Image
+              resizeMode={'cover'}
+              source={{ uri: imageThree }}
+              style={styles.imageViewStyle}
+            />
             <HSpace space={20} />
-            <ImageView style={styles.imageViewStyle} source={imageFour} />
+            <Image
+              resizeMode={'cover'}
+              source={{ uri: imageFour }}
+              style={styles.imageViewStyle}
+            />
           </View>
         </View>
       </ContentLayer>
