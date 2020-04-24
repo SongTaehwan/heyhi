@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     paddingLeft: 80,
   },
+  contentsWrap: {
+    flex: 2,
+  },
+  contents: {
+    fontSize: 15,
+    lineHeight: 24,
+  },
 });
 
 const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
@@ -66,16 +73,15 @@ const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
             <Title h2={true}>{review.reviewer.name}</Title>
             <VSpace space={5} />
             <Text>
-              {review.reviewer.age} {review.reviewer.gender}{' '}
-              {review.reviewer.nationality}
+              {review.reviewer.age} {review.reviewer.gender.toUpperCase()}{' '}
+              {review.reviewer.nationality.toUpperCase()}
             </Text>
           </View>
-
-          <Divider />
-
-          <View>
-            <Text>{review.content}</Text>
-          </View>
+        </View>
+        <Divider />
+        <VSpace space={10} />
+        <View style={styles.contentsWrap}>
+          <Text style={styles.contents}>{review.content}</Text>
         </View>
       </View>
     </Layout>
