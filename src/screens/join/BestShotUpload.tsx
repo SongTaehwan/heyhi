@@ -18,6 +18,11 @@ type BestShotUploadProps = NavigationFlowProps<
   SignUpStackParamList,
   'BestShotUpload'
 >;
+import ImageResizer from 'react-native-image-resizer';
+import uuidv4 from 'uuid/v4';
+
+import AWS from '../../../aws.config';
+import Config from 'react-native-config';
 
 const imageViewSize = (getScreenWidth() - 60) / 2;
 const circleRadiusSize = (getScreenWidth() + getScreenHeight()) / 2;
@@ -71,10 +76,10 @@ const styles = StyleSheet.create({
 
 const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [imageOne, setImageOne] = useState();
-  const [imageTwo, setImageTwo] = useState();
-  const [imageThree, setImageThree] = useState();
-  const [imageFour, setImageFour] = useState();
+  const [imageOne, setImageOne] = useState<Image | null>(null);
+  const [imageTwo, setImageTwo] = useState<Image | null>(null);
+  const [imageThree, setImageThree] = useState<Image | null>(null);
+  const [imageFour, setImageFour] = useState<Image | null>(null);
 
   check(PERMISSIONS.IOS.PHOTO_LIBRARY)
     .then((result) => {
@@ -104,22 +109,146 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   const getImageFromGallery = async (): Promise<void> => {
     try {
       console.log('Button Clicked!!');
-      const images = await ImagePicker.openPicker({
+      const images: any = await ImagePicker.openPicker({
         multiple: true,
         writeTempFile: true,
         maxFiles: 4,
       });
 
-      console.log('images', images);
-      setImageOne(images[0]?.path);
-      setImageTwo(images[1]?.path);
-      setImageThree(images[2]?.path);
-      setImageFour(images[3]?.path);
+      setImageOne(images[0] ?? null);
+      setImageTwo(images[1] ?? null);
+      setImageThree(images[2] ?? null);
+      setImageFour(images[3] ?? null);
 
       setIsVisible(false);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const uploadImage = async (): Promise<void> => {
+    const bucketPath = Config.BUCKET_PATH + '/BACKGROUND';
+
+    const imageKeyArray = [];
+    if (imageOne !== null) {
+      const resizedImage = await ImageResizer.createResizedImage(
+        imageOne.path,
+        1000,
+        1000,
+        'JPEG',
+        90,
+      );
+      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
+
+      const params = {
+        Bucket: bucketPath,
+        Key: uuidv4(),
+        Body: imageBlob,
+      };
+
+      const request = new AWS.S3.ManagedUpload({ params });
+      const result = await new Promise((resolve, reject) => {
+        return request.send((error, data) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve(data);
+        });
+      });
+
+      imageKeyArray.push(result.Key);
+    }
+    if (imageTwo !== null) {
+      const resizedImage = await ImageResizer.createResizedImage(
+        imageTwo.path,
+        1000,
+        1000,
+        'JPEG',
+        90,
+      );
+      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
+
+      const params = {
+        Bucket: bucketPath,
+        Key: uuidv4(),
+        Body: imageBlob,
+      };
+
+      const request = new AWS.S3.ManagedUpload({ params });
+      const result = await new Promise((resolve, reject) => {
+        return request.send((error, data) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve(data);
+        });
+      });
+
+      imageKeyArray.push(result.Key);
+    }
+    if (imageThree !== null) {
+      const resizedImage = await ImageResizer.createResizedImage(
+        imageThree.path,
+        1000,
+        1000,
+        'JPEG',
+        90,
+      );
+      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
+
+      const params = {
+        Bucket: bucketPath,
+        Key: uuidv4(),
+        Body: imageBlob,
+      };
+
+      const request = new AWS.S3.ManagedUpload({ params });
+      const result = await new Promise((resolve, reject) => {
+        return request.send((error, data) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve(data);
+        });
+      });
+
+      imageKeyArray.push(result.Key);
+    }
+    if (imageFour !== null) {
+      const resizedImage = await ImageResizer.createResizedImage(
+        imageFour.path,
+        1000,
+        1000,
+        'JPEG',
+        90,
+      );
+      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
+
+      const params = {
+        Bucket: bucketPath,
+        Key: uuidv4(),
+        Body: imageBlob,
+      };
+
+      const request = new AWS.S3.ManagedUpload({ params });
+      const result = await new Promise((resolve, reject) => {
+        return request.send((error, data) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve(data);
+        });
+      });
+
+      imageKeyArray.push(result.Key);
+    }
+
+    console.log('imageKeyArray', imageKeyArray);
+    navigation.navigate('SelfieUpload');
   };
 
   return (
@@ -147,39 +276,51 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
           ) : null}
 
           <View style={styles.imageLayer}>
-            <Image
-              resizeMode={'cover'}
-              source={{ uri: imageOne }}
-              style={styles.imageViewStyle}
-            />
-            {/* <ImageView style={styles.imageViewStyle} source={imageOne} /> */}
+            {imageOne === null ? (
+              <View style={styles.imageViewStyle} />
+            ) : (
+              <Image
+                resizeMode={'cover'}
+                source={{ uri: imageOne?.path }}
+                style={styles.imageViewStyle}
+              />
+            )}
             <HSpace space={20} />
-            <Image
-              resizeMode={'cover'}
-              source={{ uri: imageTwo }}
-              style={styles.imageViewStyle}
-            />
+            {imageTwo === null ? (
+              <View style={styles.imageViewStyle} />
+            ) : (
+              <Image
+                resizeMode={'cover'}
+                source={{ uri: imageTwo?.path }}
+                style={styles.imageViewStyle}
+              />
+            )}
           </View>
           <VSpace space={20} />
           <View style={styles.imageLayer}>
-            <Image
-              resizeMode={'cover'}
-              source={{ uri: imageThree }}
-              style={styles.imageViewStyle}
-            />
+            {imageThree === null ? (
+              <View style={styles.imageViewStyle} />
+            ) : (
+              <Image
+                resizeMode={'cover'}
+                source={{ uri: imageThree?.path }}
+                style={styles.imageViewStyle}
+              />
+            )}
             <HSpace space={20} />
-            <Image
-              resizeMode={'cover'}
-              source={{ uri: imageFour }}
-              style={styles.imageViewStyle}
-            />
+            {imageFour === null ? (
+              <View style={styles.imageViewStyle} />
+            ) : (
+              <Image
+                resizeMode={'cover'}
+                source={{ uri: imageFour?.path }}
+                style={styles.imageViewStyle}
+              />
+            )}
           </View>
         </View>
       </ContentLayer>
-      <BarButton
-        title={'NEXT'}
-        onPress={(): void => navigation.navigate('SelfieUpload')}
-      />
+      <BarButton title={'NEXT'} onPress={uploadImage} />
     </Layout>
   );
 };
