@@ -36,7 +36,7 @@ const EmailVerification = ({
 }: EmailVerificationProps): JSX.Element => {
   const [email, setEmail] = useText(route.params?.email, { isEmail: true });
   // TODO: Add blow code
-  const [emailDisabled, setEmailDisabled] = useState(true);
+  const [emailDisabled, setEmailDisabled] = useState(false);
   const [showVerificationField, setShowField] = useState(false);
   const [verificationCode, setCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
