@@ -83,7 +83,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
                   style={styles.reviewWrap}
                   onPress={(): void =>
                     navigation.navigate('MyReviewDetail', {
-                      reviewId: review.id,
+                      id: review.id,
                     })
                   }>
                   <View style={styles.profileImageWrap}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import { View, StyleSheet, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
@@ -8,8 +9,11 @@ import {
   ImageView,
   Title,
   VSpace,
+  Loading,
 } from '@components';
 import { Pallette } from '@styles';
+import { REVIEW } from '@api/query';
+import { getAge } from '@util/age';
 import { MyReviewProps } from './MyReviews';
 
 const styles = StyleSheet.create({
@@ -43,47 +47,49 @@ const styles = StyleSheet.create({
 });
 
 const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
-  const { reviewId } = route.params;
-  // TODO get review by id
-  const review = {
-    reviewer: {
-      name: 'Jay Lim',
-      age: 30,
-      gender: 'male',
-      nationality: 'usa',
-      profile: '',
-    },
-    content:
-      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia',
-  };
+  const { id } = route.params;
+  const { loading, data } = useQuery(REVIEW.GET_REVIEW, {
+    variables: { id },
+  });
+
+  const { review } = data;
 
   return (
     <Layout>
-      <HeadDivider />
-      <View style={styles.container}>
-        <View style={styles.reviewerWrap}>
-          <View style={styles.profileImageWrap}>
-            <ImageView
-              resizeMode={'contain'}
-              source={{ uri: review.reviewer.profile }}
-              style={styles.profile}
-            />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <HeadDivider />
+          <View style={styles.container}>
+            <View style={styles.reviewerWrap}>
+              <View style={styles.profileImageWrap}>
+                <ImageView
+                  resizeMode={'contain'}
+                  source={{ uri: review.reviewer.profile }}
+                  style={styles.profile}
+                />
+              </View>
+              <View style={styles.infoWrap}>
+                <Title h2={true}>
+                  {review.reviewer.firstName} {review.reviewer.lastName}
+                </Title>
+                <VSpace space={5} />
+                <Text>
+                  {getAge(review.reviewer.birthday)}{' '}
+                  {review.reviewer.gender.toUpperCase()}{' '}
+                  {review.reviewer.nationality.code.toUpperCase()}
+                </Text>
+              </View>
+            </View>
+            <Divider />
+            <VSpace space={10} />
+            <View style={styles.contentsWrap}>
+              <Text style={styles.contents}>{review.contents}</Text>
+            </View>
           </View>
-          <View style={styles.infoWrap}>
-            <Title h2={true}>{review.reviewer.name}</Title>
-            <VSpace space={5} />
-            <Text>
-              {review.reviewer.age} {review.reviewer.gender.toUpperCase()}{' '}
-              {review.reviewer.nationality.toUpperCase()}
-            </Text>
-          </View>
-        </View>
-        <Divider />
-        <VSpace space={10} />
-        <View style={styles.contentsWrap}>
-          <Text style={styles.contents}>{review.content}</Text>
-        </View>
-      </View>
+        </>
+      )}
     </Layout>
   );
 };
