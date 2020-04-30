@@ -16,6 +16,7 @@ const request = async operation => {
   operation.setContext({
     headers: {
       authorization: `Bearer ${token}`,
+      'HEYHI-Authorization': Config.HEYHI_AUTHENTICATION,
     },
   });
 };
