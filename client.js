@@ -13,12 +13,13 @@ const httpLink = createHttpLink({ uri: Config.API_HOST });
 const request = async operation => {
   const token = await AsyncStorage.getItem('ACCESS_TOKEN');
   console.log(token);
-  operation.setContext({
+  operation.setContext(({ headers = {} }) => ({
     headers: {
+      ...headers,
       authorization: `Bearer ${token}`,
       'HEYHI-Authorization': Config.HEYHI_AUTHENTICATION,
     },
-  });
+  }));
 };
 
 const requestLink = new ApolloLink(
@@ -61,7 +62,7 @@ const errorLink = onError(
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  link: ApolloLink.from([httpLink, requestLink, errorLink]),
+  link: ApolloLink.from([requestLink, httpLink, errorLink]),
   cache,
   connectToDevTools: true,
 });
