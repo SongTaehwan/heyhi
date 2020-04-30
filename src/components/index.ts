@@ -25,3 +25,4 @@ export { default as Checkbox } from './Checkbox';
 export { default as CheckableListItem } from './CheckableListItem';
 export { default as HorizontalView } from './layout/HorizontalView';
 export { default as ListContent } from './layout/ListContent';
+export { default as Loading } from './Loading';
