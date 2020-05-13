@@ -76,7 +76,9 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
     <Layout>
       <HeadDivider />
       <View>
-        <Title text={'General Settings'} h4={true} style={styles.titleFirst} />
+        <Title h4={true} style={styles.titleFirst}>
+          General Settings
+        </Title>
         {settings.map((item, i) => (
           <ListItem
             key={i}
@@ -89,7 +91,9 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
           />
         ))}
 
-        <Title text={'Customer'} h4={true} style={styles.titleSecond} />
+        <Title h4={true} style={styles.titleSecond}>
+          Customer
+        </Title>
         {customers.map((item, i) => (
           <ListItem
             key={i}

@@ -1,7 +1,25 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Layout, HSpace, VSpace, ImageView, HeadDivider } from '@components';
+import { useQuery } from '@apollo/react-hooks';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import {
+  Layout,
+  HSpace,
+  VSpace,
+  ImageView,
+  HeadDivider,
+  Loading,
+} from '@components';
 import { Pallette } from '@styles';
+import { MyPageStackParamList } from '@routes/types';
+import { REVIEW } from '@api/query';
+import { getAge } from '@util/age';
+
+export interface MyReviewProps {
+  navigation: StackNavigationProp<MyPageStackParamList, 'MyReviews'>;
+  route: RouteProp<MyPageStackParamList, 'MyReviewDetail'>;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -38,72 +56,67 @@ const styles = StyleSheet.create({
   textWrap: {
     flex: 4,
   },
-  revieweeWrap: {
+  reviewerWrap: {
     flexDirection: 'row',
+  },
+  name: {
+    fontWeight: 'bold',
   },
 });
 
-const MyReviews = (): JSX.Element => {
-  // TODO: Get reviews from API
-  const reviews = [
-    {
-      reviewee: {
-        profile: '',
-        name: 'John Doe',
-        age: '30',
-        gender: 'male',
-        nationality: 'usa',
-      },
-      content:
-        'Excepteure sint occaecat cupidatat non proident, sunt in culpa qui officia.',
-    },
-    {
-      reviewee: {
-        profile: '',
-        name: 'John Doe',
-        age: '30',
-        gender: 'male',
-        nationality: 'usa',
-      },
-      content:
-        'Excepteure sint occaecat cupidatat non proident, sunt in culpa qui officia. asdfasdfasdfasdfasdfasdfasdfasdfasdf',
-    },
-  ];
+const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
+  const { loading, data } = useQuery(REVIEW.GET_REVIEWS);
+  const { reviews } = data;
 
   return (
     <Layout>
-      <HeadDivider />
-      <View style={styles.container}>
-        {reviews.map((review, i) => (
-          <>
-            <View key={i} style={styles.reviewWrap}>
-              <View style={styles.profileImageWrap}>
-                <ImageView
-                  resizeMode={'contain'}
-                  source={{ uri: review.reviewee.profile }}
-                  style={styles.profileImage}
-                />
-              </View>
-              <View style={styles.textWrap}>
-                <View style={styles.revieweeWrap}>
-                  <Text style={{ fontWeight: 'bold' }}>
-                    {review.reviewee.name}
-                  </Text>
-                  <HSpace space={10} />
-                  <Text>{review.reviewee.age}</Text>
-                  <HSpace space={10} />
-                  <Text>{review.reviewee.gender.toUpperCase()}</Text>
-                  <HSpace space={10} />
-                  <Text>{review.reviewee.nationality.toUpperCase()}</Text>
-                </View>
-                <VSpace space={4} />
-                <Text numberOfLines={2}>{review.content}</Text>
-              </View>
-            </View>
-            <VSpace space={20} />
-          </>
-        ))}
-      </View>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <HeadDivider />
+          <View style={styles.container}>
+            {reviews.map((review, i) => (
+              <>
+                <TouchableOpacity
+                  key={i}
+                  style={styles.reviewWrap}
+                  onPress={(): void =>
+                    navigation.navigate('MyReviewDetail', {
+                      id: review.id,
+                    })
+                  }>
+                  <View style={styles.profileImageWrap}>
+                    <ImageView
+                      resizeMode={'contain'}
+                      source={{ uri: review.reviewer.thumbnail }}
+                      style={styles.profileImage}
+                    />
+                  </View>
+                  <View style={styles.textWrap}>
+                    <View style={styles.reviewerWrap}>
+                      <Text style={styles.name}>
+                        {review.reviewer.firstName} {review.reviewer.lastName}
+                      </Text>
+                      <HSpace space={10} />
+                      <Text>{getAge(review.reviewer.birthday)}</Text>
+                      <HSpace space={10} />
+                      <Text>{review.reviewer.gender.toUpperCase()}</Text>
+                      <HSpace space={10} />
+                      <Text>
+                        {review.reviewer.nationality.code.toUpperCase()}
+                      </Text>
+                    </View>
+                    <VSpace space={4} />
+                    <Text numberOfLines={2}>{review.contents}</Text>
+                  </View>
+                </TouchableOpacity>
+                <VSpace space={20} />
+              </>
+            ))}
+          </View>
+        </>
+      )}
     </Layout>
   );
 };

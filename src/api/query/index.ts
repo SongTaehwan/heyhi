@@ -1,3 +1,2 @@
-import USER from './user';
-
-export default { USER };
+export { default as USER } from './user';
+export { default as REVIEW } from './review';

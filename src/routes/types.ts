@@ -15,7 +15,6 @@ export type RootStackParamList = {
   SignUpFlow: undefined;
   MainFlow: undefined;
   MyPageFlow: undefined;
-  SettingsFlow: undefined;
   BottomTabFlow: undefined;
 };
 
@@ -54,9 +53,15 @@ export type MyPageStackParamList = {
   MyPage: undefined;
   LanguageSettings: undefined;
   MyReviews: undefined;
+  MyReviewDetail: { id: number };
   EditAlbums: undefined;
   EditEmail: undefined;
   Settings: undefined;
+  ChangePassword: undefined;
+  PaymentsMethods: undefined;
+  Notification: undefined;
+  History: undefined;
+  Location: undefined;
 };
 
 export type SettingsStackParamList = {

@@ -6,9 +6,15 @@ import { Container } from '@components';
 
 import LanguageSettings from '@screens/mypage/LanguageSettings';
 import MyReviews from '@screens/mypage/MyReviews';
+import MyReviewDetail from '@screens/mypage/MyReviewDetail';
 import EditAlbums from '@screens/mypage/EditAlbums';
 import EditEmail from '@screens/mypage/EditEmail';
 import Settings from '@screens/Settings';
+import ChangePassword from '@screens/settings/ChangePassword';
+import PaymentsMethods from '@screens/settings/PaymentsMethods';
+import Notification from '@screens/settings/Notification';
+import History from '@screens/settings/History';
+import Location from '@screens/settings/Location';
 
 import BottomTopFlow from './BottomTabFlow';
 import { RootStackParamList } from './types';
@@ -36,8 +42,23 @@ const MyPageFlow = (props: MyPageFlowProps): JSX.Element => {
           component={LanguageSettings}
         />
         <MyPageStack.Screen name={'MyReviews'} component={MyReviews} />
+        <MyPageStack.Screen
+          name={'MyReviewDetail'}
+          component={MyReviewDetail}
+        />
         <MyPageStack.Screen name={'EditAlbums'} component={EditAlbums} />
         <MyPageStack.Screen name={'EditEmail'} component={EditEmail} />
+        <MyPageStack.Screen
+          name={'ChangePassword'}
+          component={ChangePassword}
+        />
+        <MyPageStack.Screen
+          name={'PaymentsMethods'}
+          component={PaymentsMethods}
+        />
+        <MyPageStack.Screen name={'Notification'} component={Notification} />
+        <MyPageStack.Screen name={'History'} component={History} />
+        <MyPageStack.Screen name={'Location'} component={Location} />
       </MyPageStack.Navigator>
     </Container>
   );
