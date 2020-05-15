@@ -3,7 +3,7 @@ import CodeInput, {
 } from 'react-native-confirmation-code-input';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { st } from '@constant';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   defaultContainerStyle: {
@@ -22,8 +22,8 @@ const PinCode = (props: CodeInputProps): JSX.Element => {
 };
 
 PinCode.defaultProps = {
-  inactiveColor: st.Pallette.veryLightPinkTwo,
-  activeColor: st.Pallette.brightSkyBlue,
+  inactiveColor: Colors.veryLightPinkTwo,
+  activeColor: Colors.brightSkyBlue,
   cellBorderWidth: 1,
   codeLength: 5,
   size: 48,

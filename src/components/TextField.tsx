@@ -1,7 +1,7 @@
 import { Input } from 'react-native-elements';
 import { StyleSheet, Keyboard } from 'react-native';
 import React, { useState } from 'react';
-import { st } from '@constant';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   active: {
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
   inactive: {
-    borderColor: st.Pallette.veryLightPink,
+    borderColor: Colors.veryLightPink,
   },
   error: {
     borderColor: 'red',
@@ -67,7 +67,7 @@ const TextField = ({
       inputContainerStyle={inputContainer}
       inputStyle={inputComponentStyle}
       placeholder={placeholder}
-      placeholderTextColor={st.Pallette.veryLightPink}
+      placeholderTextColor={Colors.veryLightPink}
       onFocus={onFocus}
       onBlur={onBlur}
       onChangeText={onChangeText}

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Slider } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import { Layout, Divider, VSpace, HSpace, HeadDivider } from '@components';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -27,11 +27,7 @@ const Location = (): JSX.Element => {
         <Text>My Current Location</Text>
         <VSpace space={32} />
         <View style={styles.currentLocationWrap}>
-          <Icon
-            size={18}
-            name={'location-pin'}
-            color={Pallette.brightSkyBlue}
-          />
+          <Icon size={18} name={'location-pin'} color={Colors.brightSkyBlue} />
           <HSpace space={10} />
           <Text>Gangnam-Gu, Seoul</Text>
         </View>

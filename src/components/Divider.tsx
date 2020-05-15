@@ -1,11 +1,11 @@
 import { DividerProps } from 'react-native-elements';
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import { st } from '@constant';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   default: {
-    borderColor: st.Pallette.veryLightPinkTwo,
+    borderColor: Colors.veryLightPinkTwo,
     borderBottomWidth: 1,
     width: '100%',
   },

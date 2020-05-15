@@ -10,7 +10,7 @@ import Config from 'react-native-config';
 // TODO: dig into request Link logic
 const httpLink = createHttpLink({ uri: Config.API_HOST });
 
-const request = async operation => {
+const request = async (operation) => {
   const token = await AsyncStorage.getItem('ACCESS_TOKEN');
   console.log(token);
   operation.setContext(({ headers = {} }) => ({
@@ -24,10 +24,10 @@ const request = async operation => {
 
 const requestLink = new ApolloLink(
   (operation, forward) =>
-    new Observable(observer => {
+    new Observable((observer) => {
       let handle;
       Promise.resolve(operation)
-        .then(oper => request(oper))
+        .then((oper) => request(oper))
         .then(() => {
           handle = forward(operation).subscribe({
             next: observer.next.bind(observer),
@@ -44,7 +44,7 @@ const requestLink = new ApolloLink(
 );
 
 const errorLink = onError(
-  ({ response, operation, forward, graphQLErrors, networkError }) => {
+  ({ response, operation, graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, locations, path }) => {
         console.log(

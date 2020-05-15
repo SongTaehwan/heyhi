@@ -14,6 +14,7 @@ import {
   NavigationFlowProps,
   SignUpStackParamList,
   RootStackParamList,
+  AppFlow,
 } from '@routes/types';
 
 type InterestSelectionProps = NavigationFlowProps<
@@ -95,7 +96,7 @@ const InterestSelection = ({
       <BarButton
         title={`DONE (${intersetCount}/${totalInterests})`}
         disabled={intersetCount === 0}
-        onPress={(): void => navigation.navigate('MainFlow')}
+        onPress={(): void => navigation.navigate(AppFlow.MainFlow)}
       />
     </Layout>
   );

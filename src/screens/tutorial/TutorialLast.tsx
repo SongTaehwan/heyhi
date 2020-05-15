@@ -9,14 +9,15 @@ import { BarButton, Title, VSpace, ImageView, Layout } from '@components';
 import {
   TutorialStackParamList,
   NavigationFlowProps,
-  RootStackParamList,
+  AppStackParamList,
+  Screens,
+  AppFlow,
 } from '@routes/types';
 import LastGuidImage from '@images/tuto3.png';
-import AsyncStorage from '@react-native-community/async-storage';
 
 type TutorialLastProps = NavigationFlowProps<
-  TutorialStackParamList & RootStackParamList,
-  'LastTutorial'
+  TutorialStackParamList & AppStackParamList,
+  Screens.TutorialLast
 >;
 
 const styles = StyleSheet.create({
@@ -46,10 +47,8 @@ const styles = StyleSheet.create({
 });
 
 const TutorialLast = ({ navigation }: TutorialLastProps): JSX.Element => {
-  const goToSecondStep = async (): Promise<any> => {
-    // TODO: store token in context
-    await AsyncStorage.setItem('tutorial', 'done');
-    navigation.navigate('LoginFlow');
+  const goToSecondStep = (): void => {
+    navigation.navigate(AppFlow.LoginFlow);
   };
 
   return (

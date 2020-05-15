@@ -8,7 +8,7 @@ import { RouteProp } from '@react-navigation/native';
 import { SettingsStackParamList } from '@routes/types';
 
 import { Layout, Title, HeadDivider } from '@components';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 interface SettingsProps {
   navigation: StackNavigationProp<SettingsStackParamList, 'Settings'>;
@@ -84,7 +84,7 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
             key={i}
             title={item.title}
             leftIcon={
-              <Icon name={item.icon} size={20} color={Pallette.brightSkyBlue} />
+              <Icon name={item.icon} size={20} color={Colors.brightSkyBlue} />
             }
             bottomDivider
             onPress={(): void => navigation.navigate(item.routeName)}

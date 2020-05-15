@@ -1,6 +1,6 @@
 import { Text, StyleSheet } from 'react-native';
 import React from 'react';
-import { LoginStackParamList, NavigationFlowProps } from '@routes/types';
+import { LoginFlowProps, Screens } from '@routes/types';
 import useText from '@hooks/useText';
 import {
   Layout,
@@ -13,10 +13,7 @@ import {
 import { useMutation } from '@apollo/react-hooks';
 import { AUTHENTICATION } from '@api/mutation';
 
-type PasswordRestoration = NavigationFlowProps<
-  LoginStackParamList,
-  'PasswordRestoration'
->;
+type PasswordRestoration = LoginFlowProps<Screens.PasswordRestoration>;
 
 const styles = StyleSheet.create({
   guidText: {
@@ -33,8 +30,8 @@ const PasswordRestoration = ({
 
   const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
     fetchPolicy: 'no-cache',
-    onCompleted: data => {
-      navigation.navigate('PasswordCreation', {
+    onCompleted: (data) => {
+      navigation.navigate(Screens.PasswordCreation, {
         checkEmail: data.sendEmail.email,
       });
     },
@@ -43,7 +40,7 @@ const PasswordRestoration = ({
   return (
     <Layout>
       <ContentLayer>
-        <Title h2 text="Create a new Password" />
+        <Title h2 title="Create a new Password" />
         <VSpace space={30} />
         <Text style={styles.guidText}>
           {

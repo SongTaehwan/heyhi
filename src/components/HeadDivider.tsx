@@ -1,13 +1,13 @@
 import { DividerProps } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import React from 'react';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 import Divider from './Divider';
 
 const styles = StyleSheet.create({
   default: {
     borderWidth: 5,
-    borderColor: Pallette.veryLightPinkThree,
+    borderColor: Colors.veryLightPinkThree,
   },
 });
 

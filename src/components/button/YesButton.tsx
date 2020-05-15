@@ -3,17 +3,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 import { CheckableButton } from './types';
 
 const styles = StyleSheet.create({
   outline: {
-    borderColor: Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
   solid: {
-    backgroundColor: Pallette.brightSkyBlue,
-    borderColor: Pallette.brightSkyBlue,
+    backgroundColor: Colors.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
 });
 
@@ -36,7 +36,7 @@ const YesButton = (props: CheckableButton): JSX.Element => {
       ? { ...styles.outline, ...commonBtnStyle }
       : { ...styles.solid, ...commonBtnStyle };
 
-  const iconStyle = { color: props.outline ? Pallette.brightSkyBlue : '#fff' };
+  const iconStyle = { color: props.outline ? Colors.brightSkyBlue : '#fff' };
 
   return (
     <Button

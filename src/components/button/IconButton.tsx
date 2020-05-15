@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 import { IconButtonProps } from './types';
 
@@ -20,9 +20,7 @@ const styles = StyleSheet.create({
 });
 
 const IconButton = (props: IconButtonProps): JSX.Element => {
-  const iconColor = props.disabled
-    ? Pallette.blueyGrey
-    : Pallette.brightSkyBlue;
+  const iconColor = props.disabled ? Colors.blueyGrey : Colors.brightSkyBlue;
 
   return (
     <Button

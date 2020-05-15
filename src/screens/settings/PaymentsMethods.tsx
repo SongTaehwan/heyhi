@@ -15,7 +15,7 @@ import {
   HeadDivider,
 } from '@components';
 import PaymentImage from '@images/tuto3.png';
-import { Grades } from '@constant';
+import { Grades } from '@constants';
 
 const styles = StyleSheet.create({
   rootWrap: {

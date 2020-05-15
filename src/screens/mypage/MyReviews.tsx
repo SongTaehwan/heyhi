@@ -11,8 +11,8 @@ import {
   HeadDivider,
   Loading,
 } from '@components';
-import { Pallette } from '@styles';
-import { MyPageStackParamList } from '@routes/types';
+import { Colors } from '@constants';
+import { MyPageStackParamList, Screens } from '@routes/types';
 import { REVIEW } from '@api/query';
 import { getAge } from '@util/age';
 
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 50,
     height: 50,
-    backgroundColor: Pallette.veryLightPinkThree,
+    backgroundColor: Colors.veryLightPinkThree,
     borderRadius: 50,
   },
   textWrap: {
@@ -82,7 +82,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
                   key={i}
                   style={styles.reviewWrap}
                   onPress={(): void =>
-                    navigation.navigate('MyReviewDetail', {
+                    navigation.navigate(Screens.MyReviewDetail, {
                       id: review.id,
                     })
                   }>

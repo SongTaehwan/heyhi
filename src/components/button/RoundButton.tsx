@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { Button, ButtonProps } from 'react-native-elements';
 import React from 'react';
-import st from '@styles';
+import { Colors } from '@constants';
 import Tooltip from './Tooltip';
 
 const styles = StyleSheet.create({
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   button: {
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
 });
 

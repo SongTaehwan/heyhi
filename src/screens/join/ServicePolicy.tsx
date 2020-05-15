@@ -10,7 +10,11 @@ import {
   CheckableListItem,
   Text,
 } from '@components';
-import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+import {
+  NavigationFlowProps,
+  SignUpStackParamList,
+  Screens,
+} from '@routes/types';
 
 type ServicePolicyProps = NavigationFlowProps<
   SignUpStackParamList,
@@ -75,7 +79,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
   };
 
   const goToConditionDetail = (): void => {
-    navigation.navigate('ServicePolicyDetail');
+    navigation.navigate(Screens.ServicePolicyDetail);
   };
 
   return (
@@ -136,7 +140,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           !checkList.personalInfo ||
           !checkList.servicePolicy
         }
-        onPress={(): void => navigation.navigate('BestShotUpload')}
+        onPress={(): void => navigation.navigate(Screens.BestShotUpload)}
       />
     </Layout>
   );

@@ -2,27 +2,27 @@ import React from 'react';
 import { Button } from 'react-native-elements';
 import { ClickableButton } from './types';
 import { StyleSheet } from 'react-native';
-import st from '@styles';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   square: {
     height: 60,
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
   round: {
     height: 48,
     borderRadius: 25,
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
   largeFont: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: st.Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
   },
   smallFont: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: st.Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
   },
 });
 

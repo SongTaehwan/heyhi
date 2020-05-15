@@ -9,16 +9,11 @@ import {
   Divider,
   TextButton,
 } from '@components';
-import { LoginStackParamList } from '@routes/types';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { LoginFlowProps, Screens } from '@routes/types';
 import { useMutation } from '@apollo/react-hooks';
 import { AUTHENTICATION } from '@api/mutation';
 
-interface PasswordCreationProps {
-  navigation: StackNavigationProp<LoginStackParamList, 'PasswordCreation'>;
-  route: RouteProp<LoginStackParamList, 'PasswordCreation'>;
-}
+type PasswordCreationProps = LoginFlowProps<Screens.PasswordCreation>;
 
 const PasswordCreation = ({
   navigation,
@@ -29,10 +24,10 @@ const PasswordCreation = ({
 
   const [verifyCode] = useMutation(AUTHENTICATION.VERIFY_CODE, {
     fetchPolicy: 'no-cache',
-    onCompleted: data => {
+    onCompleted: (data) => {
       console.log('data', data);
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error', error);
     },
   });

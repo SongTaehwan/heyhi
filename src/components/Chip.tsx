@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { ChipProps } from './types';
 
 const styles = StyleSheet.create({

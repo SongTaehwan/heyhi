@@ -11,7 +11,7 @@ import {
   VSpace,
   Loading,
 } from '@components';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 import { REVIEW } from '@api/query';
 import { getAge } from '@util/age';
 import { MyReviewProps } from './MyReviews';
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   profile: {
     width: 60,
     height: 60,
-    backgroundColor: Pallette.veryLightPinkThree,
+    backgroundColor: Colors.veryLightPinkThree,
     borderRadius: 50,
   },
   infoWrap: {

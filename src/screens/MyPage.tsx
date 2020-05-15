@@ -6,10 +6,9 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { MyPageStackParamList } from '@routes/types';
+import { MyPageStackParamList, Screens } from '@routes/types';
 import { Layout, ImageView, Divider, Chip, Title, VSpace } from '@components';
-import { Pallette } from '@styles';
-import { Grades } from '@constant';
+import { Grades, Colors } from '@constants';
 import Logo from '@images/logoSmallWhiteHalf.png';
 
 interface MyPageProps {
@@ -28,13 +27,13 @@ const styles = StyleSheet.create({
   noticeWrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Pallette.brightSkyBlue,
+    backgroundColor: Colors.brightSkyBlue,
     height: 70,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 20,
     borderWidth: 1,
-    borderColor: Pallette.cornflowerBlue,
+    borderColor: Colors.cornflowerBlue,
   },
   notice: {
     paddingLeft: 10,
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
-    backgroundColor: Pallette.veryLightPinkThree,
+    backgroundColor: Colors.veryLightPinkThree,
     borderRadius: 50,
   },
   profileImageEditBtnWrap: {
@@ -63,17 +62,17 @@ const styles = StyleSheet.create({
     width: 42,
     height: 14,
     borderRadius: 7,
-    backgroundColor: Pallette.veryLightPinkFour,
-    borderColor: Pallette.veryLightPinkFour,
+    backgroundColor: Colors.veryLightPinkFour,
+    borderColor: Colors.veryLightPinkFour,
   },
-  profileImageEditBtnText: { fontSize: 10, color: Pallette.brownGrey },
+  profileImageEditBtnText: { fontSize: 10, color: Colors.brownGrey },
   infoWrap: {
     width: wp('100%'),
     paddingHorizontal: 20,
   },
   iconWrap: {
     paddingRight: 10,
-    borderRightColor: Pallette.veryLightPink,
+    borderRightColor: Colors.veryLightPink,
     borderRightWidth: 1,
   },
   itemWrap: {},
@@ -84,10 +83,10 @@ const styles = StyleSheet.create({
     width: 95,
     height: 30,
     borderWidth: 1,
-    borderColor: Pallette.veryLightPink,
+    borderColor: Colors.veryLightPink,
   },
   logoutText: {
-    color: Pallette.brownishGrey,
+    color: Colors.brownishGrey,
     fontSize: 14,
     fontWeight: '400',
   },
@@ -103,7 +102,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
   };
 
   const defaultChevron = {
-    color: Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
     size: 20,
   };
 
@@ -111,7 +110,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
     {
       title: user.location,
       subtitle: 'My Current Location',
-      subtitleStyle: { fontSize: 12, color: Pallette.taupeGray },
+      subtitleStyle: { fontSize: 12, color: Colors.taupeGray },
       icon: 'location-pin',
       chevron: { name: 'md-sync' },
       onpress: (): void => {
@@ -185,8 +184,8 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
               <Icon
                 name={'cog'}
                 size={25}
-                color={Pallette.veryLightPink}
-                onPress={(): void => navigation.navigate('Settings')}
+                color={Colors.veryLightPink}
+                onPress={(): void => navigation.navigate(Screens.Settings)}
               />
             </View>
           </View>
@@ -206,11 +205,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
             subtitleStyle={item?.subtitleStyle}
             leftElement={
               <View style={styles.iconWrap}>
-                <Icon
-                  name={item.icon}
-                  size={20}
-                  color={Pallette.brightSkyBlue}
-                />
+                <Icon name={item.icon} size={20} color={Colors.brightSkyBlue} />
               </View>
             }
             bottomDivider

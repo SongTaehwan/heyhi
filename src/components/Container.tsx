@@ -1,7 +1,7 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
 import React from 'react';
-import { st } from '@constant';
+import { StyleSheets } from '@constants';
 import { ContainerProps } from './types';
 
 const Container = ({
@@ -11,9 +11,9 @@ const Container = ({
   ...props
 }: ContainerProps): JSX.Element => {
   const viewStyle = StyleSheet.flatten([
-    st.Container.default,
-    topless && st.Container.topless,
-    bottomless && st.Container.bottomless,
+    StyleSheets.ContainerStyles.default,
+    topless && StyleSheets.ContainerStyles.topless,
+    bottomless && StyleSheets.ContainerStyles.bottomless,
     style,
   ]);
 

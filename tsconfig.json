@@ -23,8 +23,7 @@
       "@routes": ["src/Routes/index.ts"],
       "@routes/types": ["src/Routes/types.ts"],
       "@images": ["src/assets/images/*"],
-      "@styles": ["src/constant/styles.ts"],
-      "@constant": ["src/constant/index.ts"],
+      "@constants": ["src/constants/index.ts"],
       "@components": ["src/components/index.ts"]
     }
   },

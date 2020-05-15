@@ -10,19 +10,23 @@ import {
   IconButton,
 } from '@components';
 import ImagePicker from 'react-native-image-crop-picker';
-import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
-import { st } from '@constant';
+import {
+  NavigationFlowProps,
+  SignUpStackParamList,
+  SignUpFlowProps,
+  Screens,
+} from '@routes/types';
+import { Colors } from '@constants';
 import { getScreenWidth, getScreenHeight } from '@util/Dimensions';
 import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
-type BestShotUploadProps = NavigationFlowProps<
-  SignUpStackParamList,
-  'BestShotUpload'
->;
+
 import ImageResizer from 'react-native-image-resizer';
 import uuidv4 from 'uuid/v4';
 
 import AWS from '../../../aws.config';
 import Config from 'react-native-config';
+
+type BestShotUploadProps = SignUpFlowProps<Screens.BestShotUpload>;
 
 const imageViewSize = (getScreenWidth() - 60) / 2;
 const circleRadiusSize = (getScreenWidth() + getScreenHeight()) / 2;
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: 15,
-    color: st.Pallette.grapeFruit,
+    color: Colors.grapeFruit,
     fontWeight: 'bold',
   },
   imageContainer: {
@@ -45,9 +49,9 @@ const styles = StyleSheet.create({
     height: 100,
     position: 'absolute',
     borderWidth: 1,
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
     borderRadius: circleRadiusSize,
-    backgroundColor: st.Pallette.transparent,
+    backgroundColor: Colors.transparent,
     top: imageViewSize - 30,
     left: imageViewSize - 40,
     zIndex: 1000,
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     height: imageViewSize,
     borderWidth: 1,
     borderRadius: 24,
-    borderColor: st.Pallette.veryLightPink,
+    borderColor: Colors.veryLightPink,
   },
   textStyle: {
     position: 'absolute',
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: st.Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
     top: imageViewSize + 80,
   },
 });
@@ -248,7 +252,7 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
     }
 
     console.log('imageKeyArray', imageKeyArray);
-    navigation.navigate('SelfieUpload');
+    navigation.navigate(Screens.SelfieUpload);
   };
 
   return (

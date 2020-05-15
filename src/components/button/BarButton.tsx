@@ -2,15 +2,15 @@ import React from 'react';
 import { Button } from 'react-native-elements';
 import { ClickableButton } from './types';
 import { StyleSheet } from 'react-native';
-import st from '@styles';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   square: {
-    backgroundColor: st.Pallette.brightSkyBlue,
+    backgroundColor: Colors.brightSkyBlue,
     height: 60,
   },
   round: {
-    backgroundColor: st.Pallette.brightSkyBlue,
+    backgroundColor: Colors.brightSkyBlue,
     height: 48,
     borderRadius: 25,
   },
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   disabledStyle: {
-    backgroundColor: st.Pallette.veryLightPink,
+    backgroundColor: Colors.veryLightPink,
   },
   disabledTitle: {
     color: 'white',

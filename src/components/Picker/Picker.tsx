@@ -1,104 +1,85 @@
-import React, { useState, useRef, ReactNode } from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
-import { st } from '@constant';
-import { WheelPicker } from 'react-native-wheel-picker-android';
+import { Text, StyleSheet, ViewStyle, StyleProp } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Octicons';
+import React, { useState, ReactNode } from 'react';
+import { Colors } from '@constants';
+import PickerModal from './PickerModal';
+import { WheelPicker, DatePicker } from 'react-native-wheel-picker-android';
 
 interface PickerProps {
+  value: string;
+  onChangeValue: (index: number) => void;
   children: ReactNode;
-  label: string;
+  placeholder: string;
   containerStyle: StyleProp<ViewStyle>;
+  data: string[];
 }
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
-  pickerWrapper: {
-    borderBottomWidth: 0,
-    borderRadius: 20,
-    backgroundColor: 'red',
+  contentStyle: {
+    borderWidth: 1,
+    borderRadius: 24,
+    height: 50,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  activeBorder: {
+    borderColor: Colors.brightSkyBlue,
+  },
+  inactiveBorder: {
+    borderColor: Colors.veryLightPink,
+  },
+  title: {
+    fontSize: 15,
+    lineHeight: 30,
+  },
+  arrowIcon: {
+    position: 'absolute',
+    right: 10,
+    color: Colors.brightSkyBlue,
   },
 });
 
-// TODO: Implement Dropdown
 const Picker = ({
-  label,
+  value,
+  placeholder = 'placeholder',
   containerStyle,
   children,
   ...props
-}: PickerProps): JSX.Element => {
-  const [modal, setModal] = useState(false);
-  const container = useRef(null);
-  const [dropMenuStyle, setMenuStyle] = useState({
-    height: 0,
-    width: 0,
-    py: 0,
-    px: 0,
-    fx: 0,
-    fy: 0,
-  });
+}: Partial<PickerProps>): JSX.Element => {
+  const [modalState, setModal] = useState(false);
 
-  const openModal = (): void => {
-    container.current.measure(
-      (
-        fx: number,
-        fy: number,
-        width: number,
-        height: number,
-        px: number,
-        py: number,
-      ): void => {
-        console.log(Dimensions.get('window').height);
-        console.log(Dimensions.get('window').width);
-
-        setMenuStyle({
-          width,
-          height,
-          px,
-          py,
-          fx,
-          fy,
-        });
-      },
-    );
-    setModal(!modal);
+  const toggleModal = (): void => {
+    setModal(!modalState);
   };
 
-  const getDropMenuStyle = (): ViewStyle => {
-    return {
-      position: 'absolute',
-      width: dropMenuStyle.width,
-      backgroundColor: st.Pallette.brightSkyBlue,
-      left: dropMenuStyle.fx,
-      top: dropMenuStyle.py,
-    };
-  };
-
-  // const handleLayout = ():void => {};
-
-  const wheelPickerData = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-  ];
   return (
-    <View style={styles.container}>
-      <WheelPicker data={wheelPickerData} onItemSelected={0} />
-    </View>
+    <TouchableOpacity
+      containerStyle={styles.container}
+      style={[
+        styles.contentStyle,
+        containerStyle,
+        modalState ? styles.activeBorder : styles.inactiveBorder,
+      ]}
+      onPress={toggleModal}>
+      <Text style={styles.title}>{value || placeholder}</Text>
+      <Icon size={28} name={'triangle-down'} style={styles.arrowIcon} />
+      <PickerModal
+        isVisible={modalState}
+        onBackdropPress={toggleModal}
+        {...props}>
+        {children}
+      </PickerModal>
+    </TouchableOpacity>
   );
 };
 
-Picker.defaultProps = {
-  label: 'Dropdown',
-};
+Picker.WheelItem = WheelPicker;
+Picker.DateItem = DatePicker;
 
 export default Picker;
