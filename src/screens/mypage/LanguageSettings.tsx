@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import { Layout, HeadDivider } from '@components';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   list: {
@@ -23,7 +23,7 @@ const LanguageSettings = (): JSX.Element => {
             key={i}
             title={language}
             chevron={
-              <Icon name={'check'} size={20} color={Pallette.brightSkyBlue} />
+              <Icon name={'check'} size={20} color={Colors.brightSkyBlue} />
             }
             bottomDivider
             containerStyle={styles.list}

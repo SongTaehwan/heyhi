@@ -1,16 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import {
   LoginStackParamList,
   NavigationFlowProps,
-  RootStackParamList,
-  AuthenticationResponse,
+  AppStackParamList,
+  Screens,
+  AppFlow,
 } from '@routes/types';
 import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
-import { st } from '@constant';
+import { Colors } from '@constants';
 import {
   TextField,
   BarButton,
@@ -24,8 +24,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { AUTHENTICATION } from '@api/mutation';
 
 type SignInProps = NavigationFlowProps<
-  LoginStackParamList & RootStackParamList,
-  'SignIn'
+  LoginStackParamList & AppStackParamList,
+  Screens.SignIn
 >;
 
 const styles = StyleSheet.create({
@@ -64,7 +64,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         await AsyncStorage.setItem('ACCESS_TOKEN', accessToken);
         await AsyncStorage.setItem('REFRESH_TOKEN', refreshToken);
 
-        navigation.dispatch(StackActions.replace('MainFlow'));
+        navigation.replace(AppFlow.MainFlow);
       } catch (error) {
         console.log('error', error);
       }
@@ -81,7 +81,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
       },
     });
   };
-  console.log('work!');
+
   return (
     <Layout>
       <View style={styles.formWrapper}>
@@ -106,16 +106,18 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <TextButton
             text="Forget Password?"
-            onPress={(): void => navigation.navigate('PasswordRestoration')}
+            onPress={(): void =>
+              navigation.navigate(Screens.PasswordRestoration)
+            }
           />
           <VSpace />
-          <Text style={{ color: st.Pallette.veryLightPink, fontSize: 15 }}>
+          <Text style={{ color: Colors.veryLightPink, fontSize: 15 }}>
             {'or'}
           </Text>
           <VSpace />
           <TextButton
             text="Join us"
-            onPress={(): void => navigation.navigate('SignUpFlow')}
+            onPress={(): void => navigation.navigate(AppFlow.SignUpFlow)}
           />
         </View>
 

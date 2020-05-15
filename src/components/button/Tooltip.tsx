@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 import React from 'react';
-import st from '@styles';
+import { Colors } from '@constants';
 
 interface TooltipProps {
   tipText: string;
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: st.Pallette.brightSkyBlue,
+    backgroundColor: Colors.brightSkyBlue,
   },
   pointer: {
     width: 0,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 6,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderBottomColor: st.Pallette.brightSkyBlue,
+    borderBottomColor: Colors.brightSkyBlue,
     transform: [{ rotate: '180deg' }],
     marginBottom: 10,
   },

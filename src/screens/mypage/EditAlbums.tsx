@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { Layout, Title, VSpace, BarButton } from '@components';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     paddingTop: 36,
   },
   warnText: {
-    color: Pallette.grapefruit,
+    color: Colors.grapefruit,
   },
   uploadWrap: {
     flexDirection: 'row',
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 24,
-    borderColor: Pallette.veryLightPink,
+    borderColor: Colors.veryLightPink,
     marginBottom: 15,
   },
 });
@@ -48,22 +48,22 @@ const EditAlbums = (): JSX.Element => {
         <VSpace space={54} />
         <View style={styles.uploadWrap}>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Pallette.brightSkyBlue }}>
+            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Pallette.brightSkyBlue }}>
+            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Pallette.brightSkyBlue }}>
+            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Pallette.brightSkyBlue }}>
+            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>

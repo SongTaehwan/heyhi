@@ -9,7 +9,11 @@ import {
   VSpace,
   BarButton,
 } from '@components';
-import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+import {
+  NavigationFlowProps,
+  SignUpStackParamList,
+  Screens,
+} from '@routes/types';
 import useText from '@hooks/useText';
 import { useMutation } from '@apollo/react-hooks';
 import { AUTHENTICATION } from '@api/mutation';
@@ -34,7 +38,10 @@ const EmailVerification = ({
   navigation,
   route,
 }: EmailVerificationProps): JSX.Element => {
-  const [email, setEmail] = useText(route.params?.email, { isEmail: true });
+  const [email, setEmail] = useText(route.params.email, {
+    isEmail: true,
+    delayTime: 0,
+  });
   // TODO: Add blow code
   const [emailDisabled, setEmailDisabled] = useState(false);
   const [showVerificationField, setShowField] = useState(false);
@@ -126,7 +133,7 @@ const EmailVerification = ({
           //     'Invalid Verification Code Please try again',
           //   );
           // }
-          navigation.navigate('ServicePolicy');
+          navigation.navigate(Screens.ServicePolicy);
         }}
       />
     </Layout>

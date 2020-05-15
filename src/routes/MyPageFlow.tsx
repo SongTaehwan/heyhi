@@ -1,7 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import { Container } from '@components';
 
 import LanguageSettings from '@screens/mypage/LanguageSettings';
@@ -15,14 +13,18 @@ import PaymentsMethods from '@screens/settings/PaymentsMethods';
 import Notification from '@screens/settings/Notification';
 import History from '@screens/settings/History';
 import Location from '@screens/settings/Location';
-
 import BottomTopFlow from './BottomTabFlow';
-import { RootStackParamList } from './types';
+import {
+  AppStackParamList,
+  NavigationFlowProps,
+  AppFlow,
+  Screens,
+} from '@routes/types';
 
-interface MyPageFlowProps {
-  navigation: StackNavigationProp<RootStackParamList, 'MyPageFlow'>;
-  route: RouteProp<RootStackParamList, 'MyPageFlow'>;
-}
+type MyPageFlowProps = NavigationFlowProps<
+  AppStackParamList,
+  AppFlow.MyPageFlow
+>;
 
 const MyPageStack = createStackNavigator();
 
@@ -30,35 +32,38 @@ const MyPageFlow = (props: MyPageFlowProps): JSX.Element => {
   return (
     <Container topless>
       <MyPageStack.Navigator
-        initialRouteName="Mypage"
+        initialRouteName={Screens.MyPage}
         screenOptions={{
           headerStyle: { shadowOffset: { height: 0, width: 0 } },
           title: '',
         }}>
-        <MyPageStack.Screen name={'MyPage'} component={BottomTopFlow} />
-        <MyPageStack.Screen name={'Settings'} component={Settings} />
+        <MyPageStack.Screen name={Screens.MyPage} component={BottomTopFlow} />
+        <MyPageStack.Screen name={Screens.Settings} component={Settings} />
         <MyPageStack.Screen
-          name={'LanguageSettings'}
+          name={Screens.LanguageSettings}
           component={LanguageSettings}
         />
-        <MyPageStack.Screen name={'MyReviews'} component={MyReviews} />
+        <MyPageStack.Screen name={Screens.MyReviews} component={MyReviews} />
         <MyPageStack.Screen
-          name={'MyReviewDetail'}
+          name={Screens.MyReviewDetail}
           component={MyReviewDetail}
         />
-        <MyPageStack.Screen name={'EditAlbums'} component={EditAlbums} />
-        <MyPageStack.Screen name={'EditEmail'} component={EditEmail} />
+        <MyPageStack.Screen name={Screens.EditAlbums} component={EditAlbums} />
+        <MyPageStack.Screen name={Screens.EditEmail} component={EditEmail} />
         <MyPageStack.Screen
-          name={'ChangePassword'}
+          name={Screens.ChangePassword}
           component={ChangePassword}
         />
         <MyPageStack.Screen
-          name={'PaymentsMethods'}
+          name={Screens.PaymentsMethods}
           component={PaymentsMethods}
         />
-        <MyPageStack.Screen name={'Notification'} component={Notification} />
-        <MyPageStack.Screen name={'History'} component={History} />
-        <MyPageStack.Screen name={'Location'} component={Location} />
+        <MyPageStack.Screen
+          name={Screens.Notification}
+          component={Notification}
+        />
+        <MyPageStack.Screen name={Screens.History} component={History} />
+        <MyPageStack.Screen name={Screens.Location} component={Location} />
       </MyPageStack.Navigator>
     </Container>
   );

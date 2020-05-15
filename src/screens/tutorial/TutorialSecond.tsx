@@ -6,13 +6,10 @@ import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import React from 'react';
 import { BarButton, Title, VSpace, ImageView, Layout } from '@components';
-import { TutorialStackParamList, NavigationFlowProps } from '@routes/types';
+import { TutorialFlowProps, Screens } from '@routes/types';
 import SecondGuidImage from '@images/tuto2.png';
 
-type TutorialSecondProps = NavigationFlowProps<
-  TutorialStackParamList,
-  'SecondTutorial'
->;
+type TutorialSecondProps = TutorialFlowProps<Screens.TutorialSecond>;
 
 const styles = StyleSheet.create({
   title: {
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
 
 const TutorialSecond = ({ navigation }: TutorialSecondProps): JSX.Element => {
   const goToSecondStep = (): void => {
-    navigation.navigate('LastTutorial');
+    navigation.navigate(Screens.TutorialLast);
   };
 
   return (

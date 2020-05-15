@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { st } from '@constant';
+import { Colors } from '@constants';
 import { TextButtonProps, TextButtonType } from '../types';
 
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 15,
-    color: st.Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
   },
 });
 

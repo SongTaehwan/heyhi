@@ -1,17 +1,20 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
 import TutorialSecond from '@screens/tutorial/TutorialSecond';
 import TutorialFirst from '@screens/tutorial/TutorialFirst';
 import TutorialLast from '@screens/tutorial/TutorialLast';
 import { Container } from '@components';
-import { RootStackParamList } from './types';
+import {
+  AppStackParamList,
+  NavigationFlowProps,
+  AppFlow,
+  Screens,
+} from '@routes/types';
 
-interface TutorialFlowProps {
-  navigation: StackNavigationProp<RootStackParamList, 'TutorialFlow'>;
-  route: RouteProp<RootStackParamList, 'TutorialFlow'>;
-}
+type TutorialFlowProps = NavigationFlowProps<
+  AppStackParamList,
+  AppFlow.TutorialFlow
+>;
 
 const TutorialStack = createStackNavigator();
 
@@ -20,27 +23,30 @@ const TutorialFlow = ({
   route,
 }: TutorialFlowProps): JSX.Element => {
   useLayoutEffect(() => {
-    console.log('called!');
+    // TODO: 헤더 옵션 추가
     console.log(navigation, route);
   }, [navigation, route]);
 
   return (
     <Container topless>
       <TutorialStack.Navigator
-        initialRouteName={'FirstTutorial'}
+        initialRouteName={Screens.TutorialFirst}
         screenOptions={{
           headerStyle: { shadowOffset: { height: 0, width: 0 } },
           title: '',
         }}>
         <TutorialStack.Screen
-          name={'FirstTutorial'}
+          name={Screens.TutorialFirst}
           component={TutorialFirst}
         />
         <TutorialStack.Screen
-          name={'SecondTutorial'}
+          name={Screens.TutorialSecond}
           component={TutorialSecond}
         />
-        <TutorialStack.Screen name={'LastTutorial'} component={TutorialLast} />
+        <TutorialStack.Screen
+          name={Screens.TutorialLast}
+          component={TutorialLast}
+        />
       </TutorialStack.Navigator>
     </Container>
   );

@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { Layout, HeadDivider } from '@components';
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -97,8 +97,8 @@ const Notification = (): JSX.Element => {
             switch={{
               value: item.value,
               trackColor: {
-                false: Pallette.matterhorn,
-                true: Pallette.brightSkyBlue,
+                false: Colors.matterhorn,
+                true: Colors.brightSkyBlue,
               },
               onValueChange: item.onValueChange,
             }}

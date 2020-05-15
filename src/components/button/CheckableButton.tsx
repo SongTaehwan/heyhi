@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Button, ButtonProps } from 'react-native-elements';
 import React from 'react';
-import { st } from '@constant';
+import { Colors } from '@constants';
 
 interface CheckableButtonProps extends Omit<ButtonProps, 'onPress'> {
   value: string;
@@ -21,19 +21,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   activeBorder: {
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
   },
   inactiveBorder: {
-    borderColor: st.Pallette.veryLightPink,
+    borderColor: Colors.veryLightPink,
   },
   ttile: {
     fontSize: 15,
   },
   activeTitle: {
-    color: st.Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
   },
   inactiveTitle: {
-    color: st.Pallette.veryLightPink,
+    color: Colors.veryLightPink,
   },
 });
 

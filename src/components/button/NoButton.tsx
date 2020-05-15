@@ -3,17 +3,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 
-import { Pallette } from '@styles';
+import { Colors } from '@constants';
 
 import { CheckableButton } from './types';
 
 const styles = StyleSheet.create({
   outline: {
-    borderColor: Pallette.brightRed,
+    borderColor: Colors.brightRed,
   },
   solid: {
-    backgroundColor: Pallette.brightRed,
-    borderColor: Pallette.brightRed,
+    backgroundColor: Colors.brightRed,
+    borderColor: Colors.brightRed,
   },
 });
 
@@ -36,7 +36,7 @@ const NoButton = (props: CheckableButton): JSX.Element => {
       ? { ...styles.outline, ...commonBtnStyle }
       : { ...styles.solid, ...commonBtnStyle };
 
-  const iconStyle = { color: props.outline ? Pallette.brightRed : '#fff' };
+  const iconStyle = { color: props.outline ? Colors.brightRed : '#fff' };
 
   return (
     <Button

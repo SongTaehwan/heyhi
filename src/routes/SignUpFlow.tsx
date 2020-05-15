@@ -1,16 +1,24 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import {
+  NavigationFlowProps,
+  AppStackParamList,
+  AppFlow,
+  Screens,
+} from './types';
+import { Container } from '@components';
+import ServicePolicyDetail from '@screens/join/ServicePolicyDetail';
 import EmailVerification from '@screens/join/EmailVerification';
 import InterestSelection from '@screens/join/InterestSelection';
-import { RootStackParamList, NavigationFlowProps } from './types';
-import { Container } from '@components';
 import AccountCreation from '@screens/join/AccountCreation';
 import BestShotUpload from '@screens/join/BestShotUpload';
-import SelfieUpload from '@screens/join/SelfieUpload';
 import ServicePolicy from '@screens/join/ServicePolicy';
-import ServicePolicyDetail from '@screens/join/ServicePolicyDetail';
+import SelfieUpload from '@screens/join/SelfieUpload';
 
-type SignUpFlowProps = NavigationFlowProps<RootStackParamList, 'SignUpFlow'>;
+type SignUpFlowProps = NavigationFlowProps<
+  AppStackParamList,
+  AppFlow.SignUpFlow
+>;
 
 const SignUpStack = createStackNavigator();
 
@@ -18,31 +26,37 @@ const SignUpFlow = (props: SignUpFlowProps): JSX.Element => {
   return (
     <Container topless>
       <SignUpStack.Navigator
-        initialRouteName="AccountCreation"
+        initialRouteName={Screens.AccountCreation}
         screenOptions={{
           headerStyle: { shadowOffset: { height: 0, width: 0 } },
           title: '',
         }}>
         <SignUpStack.Screen
-          name={'AccountCreation'}
+          name={Screens.AccountCreation}
           component={AccountCreation}
         />
         <SignUpStack.Screen
-          name={'BestShotUpload'}
-          component={BestShotUpload}
-        />
-        <SignUpStack.Screen name={'SelfieUpload'} component={SelfieUpload} />
-        <SignUpStack.Screen name={'ServicePolicy'} component={ServicePolicy} />
-        <SignUpStack.Screen
-          name={'ServicePolicyDetail'}
-          component={ServicePolicyDetail}
-        />
-        <SignUpStack.Screen
-          name={'EmailVerification'}
+          name={Screens.EmailVerification}
           component={EmailVerification}
         />
         <SignUpStack.Screen
-          name={'InterestSelection'}
+          name={Screens.ServicePolicy}
+          component={ServicePolicy}
+        />
+        <SignUpStack.Screen
+          name={Screens.ServicePolicyDetail}
+          component={ServicePolicyDetail}
+        />
+        <SignUpStack.Screen
+          name={Screens.BestShotUpload}
+          component={BestShotUpload}
+        />
+        <SignUpStack.Screen
+          name={Screens.SelfieUpload}
+          component={SelfieUpload}
+        />
+        <SignUpStack.Screen
+          name={Screens.InterestSelection}
           component={InterestSelection}
         />
       </SignUpStack.Navigator>

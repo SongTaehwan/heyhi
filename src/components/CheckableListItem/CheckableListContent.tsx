@@ -5,18 +5,18 @@ import TextButton from '../button/TextButton';
 import Text from '../Text';
 import { CheckableListContentProps, CheckableListContentType } from '../types';
 import HorizontalView from '../layout/HorizontalView';
-import { st } from '@constant';
+import { Colors } from '@constants';
 import HSpace from '../spacer/HSpace';
 
 const styles = StyleSheet.create({
   labelText: {
     fontSize: 13,
-    color: st.Pallette.veryLightPink,
+    color: Colors.veryLightPink,
     lineHeight: 30,
   },
   buttonText: {
     fontSize: 13,
-    color: st.Pallette.brightSkyBlue,
+    color: Colors.brightSkyBlue,
     lineHeight: 30,
     textDecorationLine: 'underline',
   },

@@ -1,16 +1,11 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import React from 'react';
 import ChatRoom from '@screens/ChatRoom';
 import Account from '@screens/Account';
 import Main from '@screens/Main';
-import { RootStackParamList } from './types';
+import { NavigationFlowProps, AppStackParamList, AppFlow } from '@routes/types';
 
-interface MainFlowProps {
-  navigation: StackNavigationProp<RootStackParamList, 'LoginFlow'>;
-  route: RouteProp<RootStackParamList, 'LoginFlow'>;
-}
+type MainFlowProps = NavigationFlowProps<AppStackParamList, AppFlow.MainFlow>;
 
 const BottomTab = createMaterialBottomTabNavigator();
 

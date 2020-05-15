@@ -1,7 +1,7 @@
 import { CheckBox } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import React from 'react';
-import { st } from '@constant';
+import { Colors } from '@constants';
 import { CheckboxProps, CheckboxType } from './types';
 
 const styles = StyleSheet.create({
@@ -44,10 +44,8 @@ const Checkbox: CheckboxType = ({
       wrapperStyle={wrapperStyle}
       containerStyle={styles.container}
       textStyle={StyleSheet.flatten([styles.text, textStyle])}
-      checkedIcon="check-square-o"
-      checkedColor={st.Pallette.brightSkyBlue}
-      uncheckedColor="black"
-      uncheckedIcon="square-o"
+      checkedIcon="check-square"
+      checkedColor={Colors.brightSkyBlue}
       onPress={handler}
       {...rest}
     />

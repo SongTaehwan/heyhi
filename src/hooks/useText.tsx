@@ -47,7 +47,7 @@ const useText = (
       return setText(textInput);
     }
 
-    return setText(initialState);
+    return setText(textInput);
   };
 
   const debounedTextHandler = _debounce(handleTextChange, delayTime);

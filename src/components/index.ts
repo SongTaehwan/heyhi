@@ -9,7 +9,6 @@ export { default as YesButton } from './button/YesButton';
 export { default as NoButton } from './button/NoButton';
 export { default as CheckableButton } from './button/CheckableButton';
 export { default as Layout } from './Layout';
-export { default as Paragraph } from './layout/Paragraph';
 export { default as Title } from './Text';
 export { default as Text } from './Text';
 export { default as TextField } from './TextField';

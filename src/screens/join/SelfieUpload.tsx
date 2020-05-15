@@ -10,13 +10,17 @@ import {
   IconButton,
 } from '@components';
 import ImagePicker from 'react-native-image-crop-picker';
-import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+import {
+  NavigationFlowProps,
+  SignUpStackParamList,
+  Screens,
+} from '@routes/types';
 import Modal from 'react-native-modal';
 
 import imgNotice from '@images/imgNotice.png';
 import iconExitActive from '@images/iconExitActive.png';
 
-import st from '@styles';
+import { Colors } from '@constants';
 import {
   getCircleRadiusSize,
   getScreenWidth,
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: st.Pallette.veryLightPinkTwo,
+    borderBottomColor: Colors.veryLightPinkTwo,
     flexDirection: 'row',
   },
   modalImageContainer: {
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 25,
     fontWeight: 'bold',
-    color: st.Pallette.grapeFruit,
+    color: Colors.grapeFruit,
   },
   iconContainerStyle: {
     width: 30,
@@ -89,9 +93,9 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderWidth: 1,
-    borderColor: st.Pallette.brightSkyBlue,
+    borderColor: Colors.brightSkyBlue,
     borderRadius: getCircleRadiusSize(),
-    backgroundColor: st.Pallette.transparent,
+    backgroundColor: Colors.transparent,
   },
   image: {
     display: 'flex',
@@ -189,7 +193,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
       <BarButton
         title={'NEXT'}
         disabled={isPictureVisible ? false : true}
-        onPress={(): void => navigation.navigate('InterestSelection')}
+        onPress={(): void => navigation.navigate(Screens.InterestSelection)}
       />
     </Layout>
   );

@@ -13,8 +13,8 @@ import Main from '@screens/Main';
 import ChatRoom from '@screens/ChatRoom';
 import MyPage from '@screens/MyPage';
 
-import { Pallette } from '@styles';
-import { RootStackParamList } from './types';
+import { Colors } from '@constants';
+import { AppStackParamList } from './types';
 
 interface Props {
   focused: boolean;
@@ -23,16 +23,16 @@ interface Props {
 
 interface BottomTabFlowProps {
   navigation: MaterialBottomTabNavigationProp<
-    RootStackParamList,
+    AppStackParamList,
     'BottomTabFlow'
   >;
-  route: RouteProp<RootStackParamList, 'MainFlow'>;
+  route: RouteProp<AppStackParamList, 'MainFlow'>;
 }
 
 const styles = StyleSheet.create({
-  navigatorStyle: { backgroundColor: Pallette.white },
+  navigatorStyle: { backgroundColor: Colors.white },
   barStyle: {
-    backgroundColor: Pallette.white,
+    backgroundColor: Colors.white,
     paddingTop: 15,
     marginBottom: -30,
     marginHorizontal: 20,
@@ -71,7 +71,7 @@ const BottomTab = (props: BottomTabFlowProps): JSX.Element => {
   return (
     <Tab.Navigator
       initialRouteName="Main"
-      activeColor={Pallette.brightSkyBlue}
+      activeColor={Colors.brightSkyBlue}
       style={styles.navigatorStyle}
       barStyle={styles.barStyle}>
       <Tab.Screen name={'Main'} component={Main} options={mainOptions} />
