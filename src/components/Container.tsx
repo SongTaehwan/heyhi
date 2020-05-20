@@ -11,9 +11,9 @@ const Container = ({
   ...props
 }: ContainerProps): JSX.Element => {
   const viewStyle = StyleSheet.flatten([
-    StyleSheets.ContainerStyles.default,
-    topless && StyleSheets.ContainerStyles.topless,
-    bottomless && StyleSheets.ContainerStyles.bottomless,
+    StyleSheets.container.default,
+    topless && StyleSheets.container.topless,
+    bottomless && StyleSheets.container.bottomless,
     style,
   ]);
 

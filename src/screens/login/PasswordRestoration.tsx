@@ -3,12 +3,12 @@ import React from 'react';
 import { LoginFlowProps, Screens } from '@routes/types';
 import useText from '@hooks/useText';
 import {
-  Layout,
+  ContentContainer,
   Title,
   BarButton,
   VSpace,
   TextField,
-  ContentLayer,
+  Content,
 } from '@components';
 import { useMutation } from '@apollo/react-hooks';
 import { AUTHENTICATION } from '@api/mutation';
@@ -38,9 +38,9 @@ const PasswordRestoration = ({
   });
 
   return (
-    <Layout>
-      <ContentLayer>
-        <Title h2 title="Create a new Password" />
+    <ContentContainer>
+      <Content>
+        <Title title text="Create a new Password" />
         <VSpace space={30} />
         <Text style={styles.guidText}>
           {
@@ -53,7 +53,7 @@ const PasswordRestoration = ({
           onChangeText={setEmail}
           inputContainerStyle={{ width: '90%' }}
         />
-      </ContentLayer>
+      </Content>
       <BarButton
         title="SEND RESET LINK"
         disabled={email.length === 0}
@@ -67,7 +67,7 @@ const PasswordRestoration = ({
           });
         }}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { SettingsStackParamList } from '@routes/types';
 
-import { Layout, Title, HeadDivider } from '@components';
+import { Title, HeadDivider, ContentContainer } from '@components';
 import { Colors } from '@constants';
 
 interface SettingsProps {
@@ -73,7 +73,7 @@ const customers = [
 
 const Settings = ({ navigation }: SettingsProps): JSX.Element => {
   return (
-    <Layout>
+    <ContentContainer>
       <HeadDivider />
       <View>
         <Title h4={true} style={styles.titleFirst}>
@@ -103,7 +103,7 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
           />
         ))}
       </View>
-    </Layout>
+    </ContentContainer>
   );
 };
 

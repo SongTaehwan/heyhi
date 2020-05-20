@@ -13,18 +13,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const ArrowButton = (props: IconButtonProps): JSX.Element => {
+const ArrowButton = ({
+  iconName = 'angle-left',
+  iconSize = 30,
+  onPress,
+  icon,
+}: IconButtonProps): JSX.Element => {
   return (
     <Button
-      icon={<Icon name={props.iconName} size={props.iconSize} />}
+      icon={icon || <Icon name={iconName} size={iconSize} />}
       buttonStyle={styles.button}
-      onPress={props.onPress}
+      onPress={onPress}
     />
   );
-};
-
-ArrowButton.defaultProps = {
-  iconSize: 12,
 };
 
 export default ArrowButton;

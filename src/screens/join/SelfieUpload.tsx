@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import {
-  Layout,
-  ContentLayer,
+  ContentContainer,
+  Content,
   Title,
   BarButton,
   ImageView,
@@ -21,11 +21,7 @@ import imgNotice from '@images/imgNotice.png';
 import iconExitActive from '@images/iconExitActive.png';
 
 import { Colors } from '@constants';
-import {
-  getCircleRadiusSize,
-  getScreenWidth,
-  getScreenHeight,
-} from '@util/Dimensions';
+import { getCircleRadiusSize, getScreenWidth } from '@util/Dimensions';
 
 type SelfieUploadProps = NavigationFlowProps<
   SignUpStackParamList,
@@ -129,8 +125,8 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
   };
 
   return (
-    <Layout>
-      <ContentLayer>
+    <ContentContainer>
+      <Content>
         <Title h2>{'Now, Let’s take a selfie!'}</Title>
         <VSpace space={80} />
         {isPictureVisible ? (
@@ -189,13 +185,13 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
             </View>
           </View>
         </Modal>
-      </ContentLayer>
+      </Content>
       <BarButton
         title={'NEXT'}
         disabled={isPictureVisible ? false : true}
         onPress={(): void => navigation.navigate(Screens.InterestSelection)}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

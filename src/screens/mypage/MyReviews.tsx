@@ -4,7 +4,7 @@ import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import {
-  Layout,
+  ContentContainer,
   HSpace,
   VSpace,
   ImageView,
@@ -69,7 +69,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
   const { reviews } = data;
 
   return (
-    <Layout>
+    <ContentContainer>
       {loading ? (
         <Loading />
       ) : (
@@ -117,7 +117,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
           </View>
         </>
       )}
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -41,29 +41,15 @@ export type CheckableListContentType = FC<CheckableListContentProps>;
 
 // NOTE: Text
 export interface TextProps extends RNTextProps {
-  title?: string;
-  h1?: boolean;
-  h2?: boolean;
-  h3?: boolean;
-  h4?: boolean;
+  text?: string;
+  title?: boolean;
+  subTitle?: boolean;
+  smallText?: boolean;
   style?: TextStyle;
   children?: React.ReactNode;
 }
 
 export type TextType = FC<TextProps>;
-
-// NOTE: Title
-export interface TitleProps {
-  text: string;
-  h1: boolean;
-  h2: boolean;
-  h3: boolean;
-  h4: boolean;
-  style: TextStyle;
-  children: React.ReactNode | string;
-}
-
-export type TitleType = FC<TitleProps>;
 
 // NOTE: TextField
 export interface TextFieldProps extends InputProps {
@@ -72,22 +58,22 @@ export interface TextFieldProps extends InputProps {
 
 export type TextFieldType = FC<TextFieldProps>;
 
-// NOTE: Layout
-export interface LayoutProps {
+// NOTE: ContentContainer
+export interface ContentContainerProps {
   children: React.ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
-export type LayoutType = FC<LayoutProps>;
+export type ContentContainerType = FC<ContentContainerProps>;
 
-// NOTE: ContentLayer
-export interface ContentLayerProps {
+// NOTE: Content
+export interface ContentProps {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }
 
-export type ContentLayerType = FC<ContentLayerProps>;
+export type ContentType = FC<ContentProps>;
 
 // NOTE: Container
 export interface ContainerProps extends SafeAreaViewProps {

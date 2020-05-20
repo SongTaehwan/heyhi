@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import { ContentLayerProps } from './types';
+import { ContentProps } from './types';
 
 const styles = StyleSheet.create({
   content: {
@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const ContentLayer = ({ children, style }: ContentLayerProps): JSX.Element => {
+const Content = ({ children, style }: ContentProps): JSX.Element => {
   return <View style={[styles.content, style]}>{children}</View>;
 };
 
-export default ContentLayer;
+export default Content;

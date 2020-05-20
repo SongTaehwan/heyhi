@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Layout, Divider, VSpace, HeadDivider } from '@components';
+import { ContentContainer, Divider, VSpace, HeadDivider } from '@components';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -17,7 +17,7 @@ const Hisgtory = (): JSX.Element => {
   ];
 
   return (
-    <Layout>
+    <ContentContainer>
       <HeadDivider />
       {historyList.map((item, i) => (
         <>
@@ -28,7 +28,7 @@ const Hisgtory = (): JSX.Element => {
           <Divider />
         </>
       ))}
-    </Layout>
+    </ContentContainer>
   );
 };
 

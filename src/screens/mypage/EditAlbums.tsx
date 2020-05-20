@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { Layout, Title, VSpace, BarButton } from '@components';
+import { ContentContainer, Title, VSpace, BarButton } from '@components';
 import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
 const EditAlbums = (): JSX.Element => {
   return (
-    <Layout>
+    <ContentContainer>
       <View style={styles.container}>
         <View style={styles.noticeWrap}>
           <Title h2={true}>Click to upload images</Title>
@@ -48,29 +48,29 @@ const EditAlbums = (): JSX.Element => {
         <VSpace space={54} />
         <View style={styles.uploadWrap}>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
+            <Title title style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
+            <Title title style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
+            <Title title style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
           <View style={styles.upload}>
-            <Title h1={true} style={{ color: Colors.brightSkyBlue }}>
+            <Title title style={{ color: Colors.brightSkyBlue }}>
               +
             </Title>
           </View>
         </View>
       </View>
       <BarButton title="DONE" />
-    </Layout>
+    </ContentContainer>
   );
 };
 

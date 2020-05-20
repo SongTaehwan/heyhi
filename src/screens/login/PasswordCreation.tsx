@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
   PinCode,
-  Layout,
+  ContentContainer,
   Title,
-  ContentLayer,
+  Content,
   BarButton,
   VSpace,
   Divider,
@@ -38,8 +38,8 @@ const PasswordCreation = ({
   };
 
   return (
-    <Layout>
-      <ContentLayer>
+    <ContentContainer>
+      <Content>
         <Title text="Log in to Hey, Hi!" />
         <VSpace space={30} />
         <PinCode codeLength={6} onFulfill={getUserPassword} />
@@ -47,7 +47,7 @@ const PasswordCreation = ({
         <Divider />
         <VSpace space={30} />
         <TextButton text="Haven’t you get received a code?" />
-      </ContentLayer>
+      </Content>
       <BarButton
         title="NEXT"
         disabled={password.length === 0}
@@ -62,7 +62,7 @@ const PasswordCreation = ({
           });
         }}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

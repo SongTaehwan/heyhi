@@ -16,7 +16,7 @@ import {
   BarButton,
   VSpace,
   ImageView,
-  Layout,
+  ContentContainer,
   Divider,
   TextButton,
 } from '@components';
@@ -83,7 +83,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
   };
 
   return (
-    <Layout>
+    <ContentContainer>
       <View style={styles.formWrapper}>
         <ImageView source={Logo} />
         <VSpace space={40} />
@@ -129,7 +129,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
         disabled={email.length === 0}
         onPress={onButtonSubmit}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

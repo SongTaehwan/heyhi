@@ -1,8 +1,8 @@
 import React from 'react';
-import { Layout } from '@components';
+import { ContentContainer } from '@components';
 
 const EditEmail = (): JSX.Element => {
-  return <Layout>editEmail</Layout>;
+  return <ContentContainer>editEmail</ContentContainer>;
 };
 
 export default EditEmail;

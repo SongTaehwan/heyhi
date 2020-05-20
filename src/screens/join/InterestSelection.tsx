@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import {
-  Layout,
-  ContentLayer,
+  ContentContainer,
+  Content,
   Title,
   VSpace,
   BarButton,
@@ -13,12 +13,12 @@ import {
 import {
   NavigationFlowProps,
   SignUpStackParamList,
-  RootStackParamList,
   AppFlow,
+  AppStackParamList,
 } from '@routes/types';
 
 type InterestSelectionProps = NavigationFlowProps<
-  SignUpStackParamList & RootStackParamList,
+  SignUpStackParamList & AppStackParamList,
   'InterestSelection'
 >;
 
@@ -60,8 +60,8 @@ const InterestSelection = ({
   };
 
   return (
-    <Layout>
-      <ContentLayer>
+    <ContentContainer>
+      <Content>
         <Title h2>{'My Interests'}</Title>
         <VSpace />
         <Text style={styles.labelStyle}>
@@ -92,13 +92,13 @@ const InterestSelection = ({
           title={'REALLY LOING'}
           onPress={handleOnCheckInterest}
         />
-      </ContentLayer>
+      </Content>
       <BarButton
         title={`DONE (${intersetCount}/${totalInterests})`}
         disabled={intersetCount === 0}
         onPress={(): void => navigation.navigate(AppFlow.MainFlow)}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

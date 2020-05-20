@@ -10,6 +10,7 @@ import {
   AppFlow,
   Screens,
 } from '@routes/types';
+import { StyleSheets } from '@constants';
 
 type TutorialFlowProps = NavigationFlowProps<
   AppStackParamList,
@@ -24,17 +25,13 @@ const TutorialFlow = ({
 }: TutorialFlowProps): JSX.Element => {
   useLayoutEffect(() => {
     // TODO: 헤더 옵션 추가
-    console.log(navigation, route);
   }, [navigation, route]);
 
   return (
     <Container topless>
       <TutorialStack.Navigator
         initialRouteName={Screens.TutorialFirst}
-        screenOptions={{
-          headerStyle: { shadowOffset: { height: 0, width: 0 } },
-          title: '',
-        }}>
+        screenOptions={StyleSheets.header.tutorialHeader}>
         <TutorialStack.Screen
           name={Screens.TutorialFirst}
           component={TutorialFirst}

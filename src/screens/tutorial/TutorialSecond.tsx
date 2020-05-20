@@ -1,40 +1,27 @@
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import React from 'react';
-import { BarButton, Title, VSpace, ImageView, Layout } from '@components';
+import {
+  BarButton,
+  Title,
+  VSpace,
+  ImageView,
+  ContentContainer,
+} from '@components';
 import { TutorialFlowProps, Screens } from '@routes/types';
 import SecondGuidImage from '@images/tuto2.png';
+import { StyleSheets } from '@constants';
 
 type TutorialSecondProps = TutorialFlowProps<Screens.TutorialSecond>;
 
 const styles = StyleSheet.create({
-  title: {
-    fontWeight: 'bold',
-    fontSize: 24,
-  },
   content: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
   },
-  image: {
-    width: wp('100%'),
-    height: hp('50%'),
-  },
-  contentText: {
-    fontSize: 18,
-    textAlign: 'center',
-    lineHeight: 30,
-  },
-  bold: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+  image: StyleSheets.setDimension('100%', '50%'),
+  contentText: StyleSheets.text.subTitle(false, 'center'),
+  boldText: StyleSheets.text.subTitle(true),
 });
 
 const TutorialSecond = ({ navigation }: TutorialSecondProps): JSX.Element => {
@@ -43,26 +30,24 @@ const TutorialSecond = ({ navigation }: TutorialSecondProps): JSX.Element => {
   };
 
   return (
-    <Layout>
+    <ContentContainer>
       <View style={styles.content}>
         <VSpace space={35} />
-        <Title h2>{'Find your mate'}</Title>
+        <Title title>{'Find your mate'}</Title>
         <ImageView
           resizeMode={'contain'}
           source={SecondGuidImage}
           style={styles.image}
         />
-        <View>
-          <Text style={styles.contentText}>
-            {'Before matching,\n'}
-            <Text style={styles.bold}>
-              {'your friend’s location\nis not provided😎'}
-            </Text>
+        <Text style={styles.contentText}>
+          {'Before matching,\n'}
+          <Text style={styles.boldText}>
+            {'your friend’s location\nis not provided😎'}
           </Text>
-        </View>
+        </Text>
       </View>
       <BarButton title={'Next'} square onPress={goToSecondStep} />
-    </Layout>
+    </ContentContainer>
   );
 };
 
