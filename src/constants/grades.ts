@@ -1,6 +1,6 @@
 import Colors from './colors';
 
-export const Grades = {
+const Grades = {
   basic: {
     backgroundColor: Colors.lightCyan,
     borderRightColor: Colors.caribbeanGreen,
@@ -22,3 +22,5 @@ export const Grades = {
     chipColor: Colors.brightPurple,
   },
 };
+
+export default Grades;

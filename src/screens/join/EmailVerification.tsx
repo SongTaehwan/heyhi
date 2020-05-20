@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import _debounce from 'lodash/debounce';
 import {
-  Layout,
-  ContentLayer,
+  ContentContainer,
+  Content,
   Title,
   TextField,
   VSpace,
@@ -72,8 +72,8 @@ const EmailVerification = ({
   });
 
   return (
-    <Layout>
-      <ContentLayer>
+    <ContentContainer>
+      <Content>
         <Title h2>{'Verify your email'}</Title>
         <VSpace space={30} />
         <TextField
@@ -111,7 +111,7 @@ const EmailVerification = ({
             />
           </>
         )}
-      </ContentLayer>
+      </Content>
 
       {errorMessage.length !== 0 && (
         <>
@@ -136,7 +136,7 @@ const EmailVerification = ({
           navigation.navigate(Screens.ServicePolicy);
         }}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

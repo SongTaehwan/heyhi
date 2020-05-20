@@ -2,23 +2,20 @@ import { StyleSheet } from 'react-native';
 import { Text as RNText } from 'react-native-elements';
 import React from 'react';
 import { TextProps } from './types';
+import { StyleSheets } from '@constants';
 
 const styles = StyleSheet.create({
-  defaultText: {
-    fontSize: 24,
-    color: 'black',
-  },
+  defaultText: StyleSheets.text.baseText(),
   bold: {
     fontWeight: 'bold',
   },
 });
 
 const Text = ({
-  title,
-  h1 = false,
-  h2 = false,
-  h3 = false,
-  h4 = false,
+  text,
+  title = false,
+  subTitle = false,
+  smallText = false,
   style,
   children,
   ...rest
@@ -26,15 +23,14 @@ const Text = ({
   const textStyle = StyleSheet.flatten([
     styles.defaultText,
     style,
-    h1 && StyleSheet.flatten([{ fontSize: 35 }, styles.bold]),
-    h2 && StyleSheet.flatten([{ fontSize: 24 }, styles.bold]),
-    h3 && StyleSheet.flatten([{ fontSize: 18, lineHeight: 30 }, styles.bold]),
-    h4 && StyleSheet.flatten([{ fontSize: 15 }, styles.bold]),
+    title && StyleSheets.text.title(),
+    subTitle && StyleSheets.text.subTitle(),
+    smallText && StyleSheets.text.smallText(),
   ]);
 
   return (
     <RNText style={textStyle} {...rest}>
-      {children || title}
+      {children || text}
     </RNText>
   );
 };

@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import {
-  ContentLayer,
+  Content,
   Title,
   BarButton,
   VSpace,
   HSpace,
-  Layout,
+  ContentContainer,
   IconButton,
 } from '@components';
 import ImagePicker from 'react-native-image-crop-picker';
-import {
-  NavigationFlowProps,
-  SignUpStackParamList,
-  SignUpFlowProps,
-  Screens,
-} from '@routes/types';
+import { SignUpFlowProps, Screens } from '@routes/types';
 import { Colors } from '@constants';
 import { getScreenWidth, getScreenHeight } from '@util/Dimensions';
 import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -256,8 +251,8 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   };
 
   return (
-    <Layout>
-      <ContentLayer style={{ paddingHorizontal: 20 }}>
+    <ContentContainer>
+      <Content style={{ paddingHorizontal: 20 }}>
         <Title h2 style={styles.title}>
           {'Please Upload your\nBest Shots!'}
         </Title>
@@ -323,9 +318,9 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
             )}
           </View>
         </View>
-      </ContentLayer>
+      </Content>
       <BarButton title={'NEXT'} onPress={uploadImage} />
-    </Layout>
+    </ContentContainer>
   );
 };
 

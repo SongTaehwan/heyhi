@@ -1,39 +1,27 @@
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import React from 'react';
-import { BarButton, Title, VSpace, ImageView, Layout } from '@components';
+import {
+  BarButton,
+  Title,
+  VSpace,
+  ImageView,
+  ContentContainer,
+} from '@components';
 import { TutorialFlowProps, Screens } from '@routes/types';
 import FirstGuidImage from '@images/tuto1.png';
+import { StyleSheets } from '@constants';
 
 type TutorialFirstProps = TutorialFlowProps<Screens.TutorialFirst>;
 
 const styles = StyleSheet.create({
-  title: {
-    fontWeight: 'bold',
-    fontSize: 24,
-  },
   content: {
     flex: 1,
     alignItems: 'center',
   },
-  image: {
-    width: wp('100%'),
-    height: hp('50%'),
-  },
-  contentText: {
-    fontSize: 18,
-    textAlign: 'center',
-    lineHeight: 30,
-  },
-  bold: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+  image: StyleSheets.setDimension('100%', '50%'),
+  contentText: StyleSheets.text.subTitle(false, 'center'),
+  boldText: StyleSheets.text.subTitle(true),
 });
 
 const TutorialFirst = ({ navigation }: TutorialFirstProps): JSX.Element => {
@@ -42,26 +30,24 @@ const TutorialFirst = ({ navigation }: TutorialFirstProps): JSX.Element => {
   };
 
   return (
-    <Layout>
+    <ContentContainer>
       <View style={styles.content}>
         <VSpace space={35} />
-        <Title h2>{'How to use'}</Title>
+        <Title title>{'How to use'}</Title>
         <ImageView
           resizeMode={'contain'}
           source={FirstGuidImage}
           style={styles.image}
         />
-        <View>
-          <Text style={styles.contentText}>
-            {
-              'You will see your friend’s exact\nlocation after matching with you :)\n'
-            }
-            <Text style={styles.bold}>{'THIS IS FAKE LOCATION! 😝'}</Text>
-          </Text>
-        </View>
+        <Text style={styles.contentText}>
+          {
+            'You will see your friend’s exact\nlocation after matching with you :)\n'
+          }
+          <Text style={styles.boldText}>{'THIS IS FAKE LOCATION! 😝'}</Text>
+        </Text>
       </View>
       <BarButton title={'Next'} square onPress={goToSecondStep} />
-    </Layout>
+    </ContentContainer>
   );
 };
 

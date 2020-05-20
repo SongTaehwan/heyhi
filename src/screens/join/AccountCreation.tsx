@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
-  ContentLayer,
+  Content,
   Title,
   BarButton,
   TextField,
   VSpace,
   HSpace,
-  Layout,
   Picker,
+  ContentContainer,
 } from '@components';
 import useText from '@hooks/useText';
 import { SignUpFlowProps, Screens } from '@routes/types';
@@ -51,9 +51,9 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
   const [email, setEmail] = useText('', { isEmail: true });
 
   return (
-    <Layout>
-      <ContentLayer>
-        <Title h2>{'Making Account'}</Title>
+    <ContentContainer>
+      <Content>
+        <Title title>{'Making Account'}</Title>
         <VSpace space={30} />
         <TextField placeholder={'Email'} onChangeText={setEmail} />
         <VSpace space={10} />
@@ -104,7 +104,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
             style={styles.pickerContainer}
           />
         </Picker>
-      </ContentLayer>
+      </Content>
       <BarButton
         title={'NEXT'}
         onPress={(): void =>
@@ -113,7 +113,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
           })
         }
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

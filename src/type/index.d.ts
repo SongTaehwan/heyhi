@@ -1,5 +1,15 @@
-import { StackNavigationProp } from '@react-navigation/stack';
-
-export interface NavigationProp<Params, RouteName> {
-  navigation: StackNavigationProp<Params, RouteName>;
-}
+export type {
+  TextAlign,
+  FlexDirections,
+  FlexWraps,
+  Direction,
+  FlexAxis,
+  PaddingProperties,
+  MarginProperties,
+  StyleSheetsType,
+  SheetHelpers,
+  TextSheetType,
+  ContainerSheetType,
+  Header,
+  HeaderSheetType,
+} from './stylesheets';

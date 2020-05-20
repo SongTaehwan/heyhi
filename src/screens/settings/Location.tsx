@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Slider } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { Layout, Divider, VSpace, HSpace, HeadDivider } from '@components';
+import {
+  ContentContainer,
+  Divider,
+  VSpace,
+  HSpace,
+  HeadDivider,
+} from '@components';
 import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
@@ -21,7 +27,7 @@ const Location = (): JSX.Element => {
   const [distance, setDistance] = useState(1);
 
   return (
-    <Layout>
+    <ContentContainer>
       <HeadDivider />
       <View style={styles.wrap}>
         <Text>My Current Location</Text>
@@ -44,7 +50,7 @@ const Location = (): JSX.Element => {
           onValueChange={setDistance}
         />
       </View>
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -7,7 +7,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import {
   Chip,
-  Layout,
+  ContentContainer,
   ImageView,
   Title,
   VSpace,
@@ -102,7 +102,7 @@ const PaymentsMethods = (): JSX.Element => {
     },
   ];
   return (
-    <Layout>
+    <ContentContainer>
       <HeadDivider />
       <View style={styles.rootWrap}>
         <View>
@@ -184,7 +184,7 @@ const PaymentsMethods = (): JSX.Element => {
       </View>
       <VSpace space={40} />
       <BarButton title="CONTINUE" />
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { Layout, HeadDivider } from '@components';
+import { ContentContainer, HeadDivider } from '@components';
 import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 const LanguageSettings = (): JSX.Element => {
   const languages = ['English'];
   return (
-    <Layout>
+    <ContentContainer>
       <HeadDivider />
       <View>
         {languages.map((language, i) => (
@@ -30,7 +30,7 @@ const LanguageSettings = (): JSX.Element => {
           />
         ))}
       </View>
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {
-  ContentLayer,
+  Content,
   Title,
   BarButton,
-  Layout,
+  ContentContainer,
   VSpace,
   Divider,
   CheckableListItem,
@@ -83,9 +83,9 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
   };
 
   return (
-    <Layout>
-      <ContentLayer style={styles.contentLayer}>
-        <Title h2 style={styles.title}>
+    <ContentContainer>
+      <Content style={styles.contentLayer}>
+        <Title title style={styles.title}>
           {'Terms & Conditions'}
         </Title>
         <VSpace space={30} />
@@ -98,7 +98,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
             checked={checkList.all}
             onPress={handleOnCheckAll}
           />
-          <Text h3 title={'I consent to all of the below'} />
+          <Text text={'I consent to all of the below'} />
         </CheckableListItem>
         <Divider style={styles.divider} />
         <CheckableListItem
@@ -132,7 +132,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
             onPress={goToConditionDetail}
           />
         </CheckableListItem>
-      </ContentLayer>
+      </Content>
       <BarButton
         title={'NEXT'}
         disabled={
@@ -142,7 +142,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
         }
         onPress={(): void => navigation.navigate(Screens.BestShotUpload)}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 
