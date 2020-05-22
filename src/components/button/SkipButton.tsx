@@ -8,9 +8,9 @@ import {
   StyleProp,
   TouchableWithoutFeedbackProps,
 } from 'react-native';
-import { StyleSheets } from '@constants';
 import skipButton from '@images/skipButton.png';
 import { AppFlow, Screens } from '@routes/types';
+import { StyleSheets } from '@constants';
 
 interface SkipButtonProps extends TouchableWithoutFeedbackProps {
   containerStyle?: StyleProp<ViewStyle>;

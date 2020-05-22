@@ -22,10 +22,12 @@ const SEND_EMAIL = gql`
 
 const VERIFY_CODE = gql`
   mutation VERIFY_CODE($data: VerifyEmailInput!) {
-    id
-    email
-    lastName
-    firstName
+    verifyCode(data: $data) {
+      id
+      email
+      lastName
+      firstName
+    }
   }
 `;
 

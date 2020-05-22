@@ -1,10 +1,10 @@
+import { WheelPicker, DatePicker } from 'react-native-wheel-picker-android';
 import { Text, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Octicons';
 import React, { useState, ReactNode } from 'react';
 import { Colors } from '@constants';
 import PickerModal from './PickerModal';
-import { WheelPicker, DatePicker } from 'react-native-wheel-picker-android';
 
 interface PickerProps {
   value: string;

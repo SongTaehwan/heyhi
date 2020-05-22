@@ -1,11 +1,9 @@
-import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
-
-import { Colors } from '@constants';
-
+import React from 'react';
 import { CheckableButton } from './types';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   outline: {

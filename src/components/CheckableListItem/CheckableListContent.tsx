@@ -1,12 +1,12 @@
-import { StyleProp, ViewStyle, StyleSheet, Picker } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
-import ListContent from '../layout/ListContent';
-import TextButton from '../button/TextButton';
-import Text from '../Text';
 import { CheckableListContentProps, CheckableListContentType } from '../types';
 import HorizontalView from '../layout/HorizontalView';
-import { Colors } from '@constants';
+import ListContent from '../layout/ListContent';
+import TextButton from '../button/TextButton';
 import HSpace from '../spacer/HSpace';
+import Text from '../Text';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   labelText: {

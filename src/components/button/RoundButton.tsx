@@ -1,5 +1,5 @@
-import { StyleSheet, View } from 'react-native';
 import { Button, ButtonProps } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { Colors } from '@constants';
 import Tooltip from './Tooltip';

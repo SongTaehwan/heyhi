@@ -1,4 +1,5 @@
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   TouchableOpacity,
@@ -7,7 +8,6 @@ import {
   ViewStyle,
   StyleSheet,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 interface BackButton extends TouchableWithoutFeedbackProps {
   containerStyle?: StyleProp<ViewStyle>;

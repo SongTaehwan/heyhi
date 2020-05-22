@@ -95,4 +95,5 @@ export interface Header extends StackHeaderOptions {
 export type HeaderSheetType = {
   headerless: Header;
   tutorialHeader: Header;
+  withBackButton: Header;
 };

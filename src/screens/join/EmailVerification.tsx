@@ -74,7 +74,7 @@ const EmailVerification = ({
   return (
     <ContentContainer>
       <Content>
-        <Title h2>{'Verify your email'}</Title>
+        <Title title>{'Verify your email'}</Title>
         <VSpace space={30} />
         <TextField
           value={email}

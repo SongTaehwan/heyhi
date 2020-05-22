@@ -1,13 +1,15 @@
 import CodeInput, {
   CodeInputProps,
 } from 'react-native-confirmation-code-input';
-import React from 'react';
 import { StyleSheet } from 'react-native';
+import React from 'react';
 import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   defaultContainerStyle: {
+    justifyContent: 'space-between',
     flexGrow: 0,
+    paddingTop: 0,
   },
   cellStyle: {
     borderRadius: 16,
@@ -17,19 +19,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const PinCode = (props: CodeInputProps): JSX.Element => {
-  return <CodeInput {...props} onFulfill={props.onFulfill} />;
+const PinCode = ({ onFulfill, ...rest }: CodeInputProps): JSX.Element => {
+  return (
+    <CodeInput
+      size={48}
+      space={5}
+      codeLength={5}
+      cellBorderWidth={1}
+      codeInputStyle={styles.cellStyle}
+      inactiveColor={Colors.veryLightPinkTwo}
+      activeColor={Colors.brightSkyBlue}
+      containerStyle={styles.defaultContainerStyle}
+      keyboardType={'numeric'}
+      onFulfill={onFulfill}
+      {...rest}
+    />
+  );
 };
 
-PinCode.defaultProps = {
-  inactiveColor: Colors.veryLightPinkTwo,
-  activeColor: Colors.brightSkyBlue,
-  cellBorderWidth: 1,
-  codeLength: 5,
-  size: 48,
-  space: 10,
-  codeInputStyle: styles.cellStyle,
-  keyboardType: 'numeric',
-  containerStyle: styles.defaultContainerStyle,
-};
 export default PinCode;

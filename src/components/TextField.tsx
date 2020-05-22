@@ -1,5 +1,5 @@
-import { Input } from 'react-native-elements';
 import { StyleSheet, Keyboard } from 'react-native';
+import { Input } from 'react-native-elements';
 import React, { useState } from 'react';
 import { Colors, StyleSheets } from '@constants';
 import { TextFieldProps } from './types';

@@ -19,7 +19,8 @@ export enum Screens {
   SignIn = 'SignIn',
   SignUp = 'SignUp',
   PasswordRestoration = 'PasswordRestoration',
-  PasswordCreation = 'PasswordCreation',
+  NewPassword = 'NewPassword',
+  EmailAuth = 'EmailAuth',
   // NOTE: Sign up
   AccountCreation = 'AccountCreation',
   BestShotUpload = 'BestShotUpload',
@@ -88,8 +89,11 @@ export type LoginStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   PasswordRestoration: undefined;
-  PasswordCreation: {
-    checkEmail: string;
+  EmailAuth: {
+    email: string;
+  };
+  NewPassword: {
+    userId: number;
   };
 };
 

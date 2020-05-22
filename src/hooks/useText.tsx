@@ -20,17 +20,24 @@ const defaultOption: TextHookOption = {
 const useText = (
   initialState = '',
   options: TextHookOption = defaultOption,
-): [string, (text: string) => void] => {
+): [string, (text: string) => void, boolean] => {
   const { isEmail = false, isMobilePhone = false, delayTime = 300 } = options;
   const [text, setText] = useState<string>(initialState);
+  const [isValid, setValidation] = useState(false);
 
   const handleTextChange = (textInput: string): void => {
     if (isEmail && validator.isEmail(textInput)) {
+      setValidation(true);
       return setText(textInput);
     }
 
     if (isMobilePhone && validator.isMobilePhone(textInput, 'ko-KR')) {
+      setValidation(true);
       return setText(textInput);
+    }
+
+    if (isValid) {
+      setValidation(false);
     }
 
     return setText(textInput);
@@ -38,7 +45,7 @@ const useText = (
 
   const debounedTextHandler = _debounce(handleTextChange, delayTime);
 
-  return [text, debounedTextHandler];
+  return [text, debounedTextHandler, isValid];
 };
 
 export default useText;
