@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import TutorialSecond from '@screens/tutorial/TutorialSecond';
 import TutorialFirst from '@screens/tutorial/TutorialFirst';
 import TutorialLast from '@screens/tutorial/TutorialLast';
@@ -19,14 +19,7 @@ type TutorialFlowProps = NavigationFlowProps<
 
 const TutorialStack = createStackNavigator();
 
-const TutorialFlow = ({
-  navigation,
-  route,
-}: TutorialFlowProps): JSX.Element => {
-  useLayoutEffect(() => {
-    // TODO: 헤더 옵션 추가
-  }, [navigation, route]);
-
+const TutorialFlow = ({ navigation }: TutorialFlowProps): JSX.Element => {
   return (
     <Container topless>
       <TutorialStack.Navigator

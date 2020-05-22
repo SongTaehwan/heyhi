@@ -16,34 +16,20 @@ const defaultOption: TextHookOption = {
   delayTime: 300,
 };
 
-// NOTE: Only check if correct form of JWT or Email
+// NOTE: Only check if correct form of Email
 const useText = (
   initialState = '',
   options: TextHookOption = defaultOption,
 ): [string, (text: string) => void] => {
-  const {
-    isEmail = false,
-    isJWT = false,
-    isMobilePhone = false,
-    delayTime = 300,
-  } = options;
+  const { isEmail = false, isMobilePhone = false, delayTime = 300 } = options;
   const [text, setText] = useState<string>(initialState);
 
-  // TODO: Refactor
   const handleTextChange = (textInput: string): void => {
     if (isEmail && validator.isEmail(textInput)) {
       return setText(textInput);
     }
 
-    if (isJWT && validator.isJWT(textInput)) {
-      return setText(textInput);
-    }
-
     if (isMobilePhone && validator.isMobilePhone(textInput, 'ko-KR')) {
-      return setText(textInput);
-    }
-
-    if (!isEmail && !isJWT && !isMobilePhone) {
       return setText(textInput);
     }
 

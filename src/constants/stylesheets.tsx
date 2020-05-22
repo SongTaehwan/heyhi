@@ -51,7 +51,7 @@ const textSheets = textSheetCreator({
     lineHeight: 21,
     fontWeight: 'bold',
   },
-  baseText(color = Colors.black, bold = false, lineHeight = 30) {
+  baseText(color = Colors.black, bold = false, lineHeight) {
     return {
       fontSize: 15,
       lineHeight,
@@ -59,7 +59,7 @@ const textSheets = textSheetCreator({
       fontWeight: bold ? 'bold' : 'normal',
     };
   },
-  smallText(color = Colors.veryLightPink, lineHeight = 30) {
+  smallText(color = Colors.veryLightPink, lineHeight) {
     return {
       fontSize: 13,
       lineHeight,
@@ -98,12 +98,11 @@ const headerSheets: HeaderSheetType = {
     },
     headerLeft(props: StackHeaderLeftButtonProps): React.ReactNode {
       const canGoBack = props.canGoBack ?? true;
-      console.log(props);
 
       if (props.canGoBack === undefined) {
         console.log('Origin canGoBack: ', props.canGoBack);
       }
-      console.log('Can Go Back: ', props.canGoBack);
+      // console.log('Can Go Back: ', props.canGoBack);
       if (canGoBack) {
         return <BackButton canGoBack={canGoBack} />;
       }

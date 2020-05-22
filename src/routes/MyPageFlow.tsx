@@ -3,16 +3,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Container } from '@components';
 
 import LanguageSettings from '@screens/mypage/LanguageSettings';
-import MyReviews from '@screens/mypage/MyReviews';
-import MyReviewDetail from '@screens/mypage/MyReviewDetail';
-import EditAlbums from '@screens/mypage/EditAlbums';
-import EditEmail from '@screens/mypage/EditEmail';
-import Settings from '@screens/Settings';
-import ChangePassword from '@screens/settings/ChangePassword';
 import PaymentsMethods from '@screens/settings/PaymentsMethods';
+import ChangePassword from '@screens/settings/ChangePassword';
+import MyReviewDetail from '@screens/mypage/MyReviewDetail';
 import Notification from '@screens/settings/Notification';
-import History from '@screens/settings/History';
+import EditAlbums from '@screens/mypage/EditAlbums';
 import Location from '@screens/settings/Location';
+import MyReviews from '@screens/mypage/MyReviews';
+import EditEmail from '@screens/mypage/EditEmail';
+import History from '@screens/settings/History';
+import Settings from '@screens/Settings';
 import BottomTopFlow from './BottomTabFlow';
 import {
   AppStackParamList,
@@ -20,6 +20,7 @@ import {
   AppFlow,
   Screens,
 } from '@routes/types';
+import { StyleSheets } from '@constants';
 
 type MyPageFlowProps = NavigationFlowProps<
   AppStackParamList,
@@ -33,10 +34,7 @@ const MyPageFlow = (props: MyPageFlowProps): JSX.Element => {
     <Container topless>
       <MyPageStack.Navigator
         initialRouteName={Screens.MyPage}
-        screenOptions={{
-          headerStyle: { shadowOffset: { height: 0, width: 0 } },
-          title: '',
-        }}>
+        screenOptions={StyleSheets.header.headerless}>
         <MyPageStack.Screen name={Screens.MyPage} component={BottomTopFlow} />
         <MyPageStack.Screen name={Screens.Settings} component={Settings} />
         <MyPageStack.Screen

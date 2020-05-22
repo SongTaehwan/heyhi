@@ -1,4 +1,4 @@
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   TouchableOpacity,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { StyleSheets } from '@constants';
 import skipButton from '@images/skipButton.png';
-import { AppFlow } from '@routes/types';
+import { AppFlow, Screens } from '@routes/types';
 
 interface SkipButtonProps extends TouchableWithoutFeedbackProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -27,9 +27,7 @@ const SkipButton = ({
   const navigation = useNavigation();
 
   const skipTutorial = (): void => {
-    navigation.dispatch(
-      CommonActions.reset({ index: 0, routes: [{ name: AppFlow.LoginFlow }] }),
-    );
+    navigation.navigate(AppFlow.LoginFlow, { screen: Screens.SignIn });
   };
 
   return (

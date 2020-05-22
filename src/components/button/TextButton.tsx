@@ -1,14 +1,12 @@
-import React from 'react';
-import { Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Colors } from '@constants';
+import { StyleSheet } from 'react-native';
+import React from 'react';
+import { Colors, StyleSheets } from '@constants';
 import { TextButtonProps, TextButtonType } from '../types';
+import { Text } from '../';
 
 const styles = StyleSheet.create({
-  textStyle: {
-    fontSize: 15,
-    color: Colors.brightSkyBlue,
-  },
+  textStyle: StyleSheets.text.baseText(Colors.brightSkyBlue),
 });
 
 const TextButton: TextButtonType = ({
@@ -16,11 +14,9 @@ const TextButton: TextButtonType = ({
   textStyle,
   ...props
 }: TextButtonProps): JSX.Element => {
-  const buttonTextStyle = textStyle || styles.textStyle;
-
   return (
     <TouchableOpacity {...props}>
-      <Text style={buttonTextStyle}>{text}</Text>
+      <Text style={[styles.textStyle, textStyle]} text={text} />
     </TouchableOpacity>
   );
 };

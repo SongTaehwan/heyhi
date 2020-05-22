@@ -38,7 +38,13 @@ const Splash = ({ navigation }: SplashProps): JSX.Element => {
         );
       }
 
-      navigation.replace(AppFlow.TutorialFlow);
+      // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: AppFlow.LoginFlow }, { name: AppFlow.TutorialFlow }],
+        }),
+      );
     }
 
     RNBootSplash.hide({ duration: 200 });

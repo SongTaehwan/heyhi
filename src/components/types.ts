@@ -10,6 +10,7 @@ import {
 import {
   InputProps,
   CheckBoxProps as RNECheckBoxProps,
+  Input,
 } from 'react-native-elements';
 import { SafeAreaViewProps } from 'react-native-safe-area-context';
 
@@ -41,11 +42,13 @@ export type CheckableListContentType = FC<CheckableListContentProps>;
 
 // NOTE: Text
 export interface TextProps extends RNTextProps {
+  align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
+  color?: string;
   text?: string;
   title?: boolean;
   subTitle?: boolean;
   smallText?: boolean;
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
   children?: React.ReactNode;
 }
 
@@ -53,6 +56,8 @@ export type TextType = FC<TextProps>;
 
 // NOTE: TextField
 export interface TextFieldProps extends InputProps {
+  renderErrorMessage?: boolean;
+  inputRef?(node: Input): void;
   hasError?: boolean;
 }
 
