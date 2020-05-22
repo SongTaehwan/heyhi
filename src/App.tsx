@@ -42,7 +42,14 @@ const App = (): JSX.Element => {
               }}
             />
             <AppStack.Screen name={AppFlow.SignUpFlow} component={SignUpFlow} />
-            <AppStack.Screen name={AppFlow.MainFlow} component={MainFlow} />
+            <AppStack.Screen
+              name={AppFlow.MainFlow}
+              component={MainFlow}
+              options={{
+                cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+            />
             <AppStack.Screen name={AppFlow.MyPageFlow} component={MyPageFlow} />
           </AppStack.Navigator>
         </NavigationContainer>

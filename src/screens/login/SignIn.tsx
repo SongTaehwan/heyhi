@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import { useMutation } from '@apollo/react-hooks';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Input } from 'react-native-elements';
-import { StyleSheet } from 'react-native';
 import _isEqual from 'lodash/isEqual';
 import validator from 'validator';
 import {
@@ -13,9 +12,6 @@ import {
   Screens,
   AppFlow,
 } from '@routes/types';
-import useText from '@hooks/useText';
-import Logo from '@images/logo.png';
-import { Colors } from '@constants';
 import {
   TextField,
   BarButton,
@@ -31,6 +27,9 @@ import {
 } from '@components';
 import { AUTHENTICATION } from '@api/mutation';
 import useValue from '@hooks/useValue';
+import useText from '@hooks/useText';
+import Logo from '@images/logo.png';
+import { Colors } from '@constants';
 
 type SignInProps = NavigationFlowProps<
   LoginStackParamList & AppStackParamList,
@@ -50,12 +49,6 @@ interface AuthTokens {
     refreshToken: string;
   };
 }
-
-const styles = StyleSheet.create({
-  formWrapper: {
-    paddingHorizontal: 47,
-  },
-});
 
 const initialFormError = {
   message: '',
@@ -186,7 +179,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
 
   return (
     <ContentContainer>
-      <Content style={styles.formWrapper}>
+      <Content style={{ paddingHorizontal: 47 }}>
         <Hero />
 
         <TextField
@@ -198,6 +191,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
           placeholder="Email"
           onChangeText={setEmail}
           onSubmitEditing={focusPasswordInput}
+          enablesReturnKeyAutomatically
         />
         <VSpace />
         <TextField
@@ -210,6 +204,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
           secureTextEntry
           onChangeText={setPassword}
           onSubmitEditing={isValidForm() ? onSubmitAuth : undefined}
+          enablesReturnKeyAutomatically
         />
         <VSpace space={40} />
 

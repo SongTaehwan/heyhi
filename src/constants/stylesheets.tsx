@@ -4,13 +4,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { BackButton, SkipButton } from '@components';
 import {
   TextSheetType,
   ContainerSheetType,
   HeaderSheetType,
   StyleSheetsType,
 } from '@type';
+import { BackButton, SkipButton } from '@components';
 import Colors from './colors';
 
 const textSheetCreator = <P extends TextSheetType<keyof P>>(sheets: P): P =>
@@ -81,35 +81,47 @@ const containerSheet: ContainerSheetType = {
   },
 };
 
-const headerSheets: HeaderSheetType = {
-  headerless: {
-    headerStyle: { shadowOffset: { height: 0, width: 0 } },
-    title: '',
+const headerless = {
+  headerStyle: { shadowOffset: { height: 0, width: 0 } },
+  title: '',
+};
+
+const headerLeftBackButton = {
+  headerLeftContainerStyle: {
+    paddingLeft: 14,
   },
+  headerLeft(props: StackHeaderLeftButtonProps): React.ReactNode {
+    const canGoBack = props.canGoBack ?? true;
+
+    if (props.canGoBack === undefined) {
+      console.log('Origin canGoBack: ', props.canGoBack);
+    }
+    // console.log('Can Go Back: ', props.canGoBack);
+    if (canGoBack) {
+      return <BackButton canGoBack={canGoBack} />;
+    }
+  },
+};
+
+const headerSheets: HeaderSheetType = {
+  headerless: headerless,
   tutorialHeader: {
-    headerStyle: { shadowOffset: { height: 0, width: 0 } },
-    title: '',
+    ...headerless,
+    ...headerLeftBackButton,
     headerRightContainerStyle: {
       paddingVertical: 10,
       paddingRight: 20,
     },
-    headerLeftContainerStyle: {
-      paddingLeft: 14,
-    },
-    headerLeft(props: StackHeaderLeftButtonProps): React.ReactNode {
-      const canGoBack = props.canGoBack ?? true;
-
-      if (props.canGoBack === undefined) {
-        console.log('Origin canGoBack: ', props.canGoBack);
-      }
-      // console.log('Can Go Back: ', props.canGoBack);
-      if (canGoBack) {
-        return <BackButton canGoBack={canGoBack} />;
-      }
-    },
     headerRight(props: StackHeaderLeftButtonProps): React.ReactNode {
       return <SkipButton />;
     },
+  },
+  withBackButton: {
+    ...headerless,
+    headerLeftContainerStyle: {
+      paddingLeft: 14,
+    },
+    ...headerLeftBackButton,
   },
 };
 

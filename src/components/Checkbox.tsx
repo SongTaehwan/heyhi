@@ -1,8 +1,8 @@
 import { CheckBox } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import React from 'react';
-import { Colors } from '@constants';
 import { CheckboxProps, CheckboxType } from './types';
+import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
   container: {

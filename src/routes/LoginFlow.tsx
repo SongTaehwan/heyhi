@@ -7,11 +7,12 @@ import {
   Screens,
   NavigationFlowProps,
 } from './types';
-import SignUpFlow from './SignUpFlow';
 import PasswordRestoration from '@screens/login/PasswordRestoration';
-import PasswordCreation from '@screens/login/PasswordCreation';
+import NewPassword from '@screens/login/NewPassword';
+import EmailAuth from '@screens/login/EmailAuth';
 import SignIn from '@screens/login/SignIn';
 import { StyleSheets } from '@constants';
+import SignUpFlow from './SignUpFlow';
 
 type LoginFlowProps = NavigationFlowProps<AppStackParamList, AppFlow.LoginFlow>;
 
@@ -22,16 +23,14 @@ const LoginFlow = (props: LoginFlowProps): JSX.Element => {
     <Container topless>
       <LoginStack.Navigator
         initialRouteName={Screens.SignIn}
-        screenOptions={StyleSheets.header.headerless}>
+        screenOptions={StyleSheets.header.withBackButton}>
         <LoginStack.Screen name={Screens.SignIn} component={SignIn} />
         <LoginStack.Screen
           name={Screens.PasswordRestoration}
           component={PasswordRestoration}
         />
-        <LoginStack.Screen
-          name={Screens.PasswordCreation}
-          component={PasswordCreation}
-        />
+        <LoginStack.Screen name={Screens.EmailAuth} component={EmailAuth} />
+        <LoginStack.Screen name={Screens.NewPassword} component={NewPassword} />
         <LoginStack.Screen name={AppFlow.SignUpFlow} component={SignUpFlow} />
       </LoginStack.Navigator>
     </Container>

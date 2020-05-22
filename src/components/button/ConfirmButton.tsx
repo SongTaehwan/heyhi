@@ -1,7 +1,7 @@
-import React from 'react';
 import { Button } from 'react-native-elements';
-import { ClickableButton } from './types';
 import { StyleSheet } from 'react-native';
+import React from 'react';
+import { ClickableButton } from './types';
 import { Colors } from '@constants';
 
 const styles = StyleSheet.create({
