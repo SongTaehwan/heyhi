@@ -1,7 +1,8 @@
 import { Input } from 'react-native-elements';
 import { StyleSheet, Keyboard } from 'react-native';
 import React, { useState } from 'react';
-import { Colors } from '@constants';
+import { Colors, StyleSheets } from '@constants';
+import { TextFieldProps } from './types';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,12 +30,14 @@ const styles = StyleSheet.create({
 });
 
 const TextField = ({
+  inputRef,
   value,
   onChangeText,
   inputContainerStyle,
   inputStyle,
   placeholder,
-  hasError,
+  renderErrorMessage = false,
+  hasError = false,
   ...props
 }: TextFieldProps): JSX.Element => {
   const [focused, setFocus] = useState(false);
@@ -56,12 +59,13 @@ const TextField = ({
   ]);
 
   const inputComponentStyle = StyleSheet.flatten([
-    styles.defaultInput,
+    StyleSheets.text.baseText(),
     inputStyle,
   ]);
 
   return (
     <Input
+      ref={inputRef}
       value={value}
       containerStyle={styles.container}
       inputContainerStyle={inputContainer}
@@ -72,6 +76,7 @@ const TextField = ({
       onBlur={onBlur}
       onChangeText={onChangeText}
       onSubmitEditing={Keyboard.dismiss}
+      renderErrorMessage={renderErrorMessage}
       {...props}
     />
   );

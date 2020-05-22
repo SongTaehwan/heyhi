@@ -11,7 +11,7 @@ import SignUpFlow from './SignUpFlow';
 import PasswordRestoration from '@screens/login/PasswordRestoration';
 import PasswordCreation from '@screens/login/PasswordCreation';
 import SignIn from '@screens/login/SignIn';
-import Language from '@screens/Language';
+import { StyleSheets } from '@constants';
 
 type LoginFlowProps = NavigationFlowProps<AppStackParamList, AppFlow.LoginFlow>;
 
@@ -22,12 +22,8 @@ const LoginFlow = (props: LoginFlowProps): JSX.Element => {
     <Container topless>
       <LoginStack.Navigator
         initialRouteName={Screens.SignIn}
-        screenOptions={{
-          headerStyle: { shadowOffset: { height: 0, width: 0 } },
-          title: '',
-        }}>
+        screenOptions={StyleSheets.header.headerless}>
         <LoginStack.Screen name={Screens.SignIn} component={SignIn} />
-        {/* <LoginStack.Screen name={'Language'} component={Language} /> */}
         <LoginStack.Screen
           name={Screens.PasswordRestoration}
           component={PasswordRestoration}

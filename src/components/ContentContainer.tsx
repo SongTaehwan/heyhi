@@ -21,7 +21,7 @@ const ContentContainer = ({
   return (
     <View style={[styles.container, containerStyle]}>
       <ScrollView
-        // bounces={false}
+        bounces={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[styles.contentStyle, contentContainerStyle]}>
         {children}

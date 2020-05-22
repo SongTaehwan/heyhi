@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import React from 'react';
 import {
   NavigationFlowProps,
@@ -6,7 +9,6 @@ import {
   AppFlow,
   Screens,
 } from './types';
-import { Container } from '@components';
 import ServicePolicyDetail from '@screens/join/ServicePolicyDetail';
 import EmailVerification from '@screens/join/EmailVerification';
 import InterestSelection from '@screens/join/InterestSelection';
@@ -14,6 +16,8 @@ import AccountCreation from '@screens/join/AccountCreation';
 import BestShotUpload from '@screens/join/BestShotUpload';
 import ServicePolicy from '@screens/join/ServicePolicy';
 import SelfieUpload from '@screens/join/SelfieUpload';
+import { StyleSheets } from '@constants';
+import { Container } from '@components';
 
 type SignUpFlowProps = NavigationFlowProps<
   AppStackParamList,
@@ -27,10 +31,7 @@ const SignUpFlow = (props: SignUpFlowProps): JSX.Element => {
     <Container topless>
       <SignUpStack.Navigator
         initialRouteName={Screens.AccountCreation}
-        screenOptions={{
-          headerStyle: { shadowOffset: { height: 0, width: 0 } },
-          title: '',
-        }}>
+        screenOptions={StyleSheets.header.headerless}>
         <SignUpStack.Screen
           name={Screens.AccountCreation}
           component={AccountCreation}
@@ -46,6 +47,9 @@ const SignUpFlow = (props: SignUpFlowProps): JSX.Element => {
         <SignUpStack.Screen
           name={Screens.ServicePolicyDetail}
           component={ServicePolicyDetail}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
         />
         <SignUpStack.Screen
           name={Screens.BestShotUpload}

@@ -1,4 +1,3 @@
-import { CommonActions } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import React from 'react';
@@ -34,18 +33,14 @@ const styles = StyleSheet.create({
   boldText: StyleSheets.text.subTitle(true, 'center'),
 });
 
-const TutorialLast = ({ navigation }: TutorialLastProps): JSX.Element => {
+const TutorialLast = ({
+  navigation,
+  route,
+}: TutorialLastProps): JSX.Element => {
+  console.log(route);
   const goToSecondStep = (): void => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: AppFlow.LoginFlow,
-          },
-        ],
-      }),
-    );
+    // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
+    navigation.navigate(AppFlow.LoginFlow, { screen: Screens.SignIn });
   };
 
   return (

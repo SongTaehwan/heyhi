@@ -24,6 +24,7 @@ enum Colors {
   magnolia = '#F7E5FF',
   matterhorn = '#4b4b4b',
   mediumSpringGreen = '#09ECAF',
+  red = '#ff0000',
   robinSEgg = '#5adbff',
   seashell = '#FFF3E5',
   taupeGray = '#888888',

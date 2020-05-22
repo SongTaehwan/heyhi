@@ -18,10 +18,13 @@ const Text = ({
   smallText = false,
   style,
   children,
+  color,
+  align = 'auto',
   ...rest
 }: TextProps): JSX.Element => {
   const textStyle = StyleSheet.flatten([
     styles.defaultText,
+    { color, textAlign: align },
     style,
     title && StyleSheets.text.title(),
     subTitle && StyleSheets.text.subTitle(),
