@@ -32,7 +32,7 @@ const CheckableListContent: CheckableListContentType = ({
   return (
     <ListContent containerStyle={containerStyle} contentText={title}>
       <HorizontalView>
-        <Text title={textButtonLabelText} style={styles.labelText} />
+        <Text text={textButtonLabelText} style={styles.labelText} />
         <HSpace />
         <TextButton
           text={textButtonTitle}

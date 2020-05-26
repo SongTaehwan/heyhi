@@ -1,5 +1,4 @@
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Colors, StyleSheets } from '@constants';
 import { TextButtonProps, TextButtonType } from '../types';

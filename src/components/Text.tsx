@@ -16,6 +16,7 @@ const Text = ({
   title = false,
   subTitle = false,
   smallText = false,
+  bold = false,
   style,
   children,
   color,
@@ -29,6 +30,7 @@ const Text = ({
     title && StyleSheets.text.title(),
     subTitle && StyleSheets.text.subTitle(),
     smallText && StyleSheets.text.smallText(),
+    bold && styles.bold,
   ]);
 
   return (

@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import TutorialSecond from '@screens/tutorial/TutorialSecond';
 import TutorialFirst from '@screens/tutorial/TutorialFirst';
 import TutorialLast from '@screens/tutorial/TutorialLast';
@@ -20,6 +20,10 @@ type TutorialFlowProps = NavigationFlowProps<
 const TutorialStack = createStackNavigator();
 
 const TutorialFlow = ({ navigation }: TutorialFlowProps): JSX.Element => {
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, []);
+
   return (
     <Container topless>
       <TutorialStack.Navigator

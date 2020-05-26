@@ -266,6 +266,8 @@ PODS:
   - React-jsinspector (0.62.2)
   - react-native-config (1.0.0):
     - React
+  - react-native-date-picker (2.7.10):
+    - React
   - react-native-google-maps (0.27.1):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.5.0)
@@ -413,6 +415,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-config (from `../node_modules/react-native-config`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -500,6 +503,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-config:
     :path: "../node_modules/react-native-config"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps"
   react-native-image-resizer:
@@ -587,6 +592,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
+  react-native-date-picker: 74c129e693b43483d5a870e239bc6e70dceb1cb0
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
   react-native-image-resizer: 487c440d091e6dc61fe6afd4ec570df4fb899eea
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c

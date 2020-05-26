@@ -1,21 +1,25 @@
-import React, { ReactNode, FC } from 'react';
+import React, { ReactNode, FC, Ref } from 'react';
 import {
-  TextProps as RNTextProps,
   TextStyle,
   ViewStyle,
   StyleProp,
   FlexAlignType,
   GestureResponderEvent,
+  TouchableOpacityProps,
+  TextProps as RNTextProps,
 } from 'react-native';
 import {
+  Input,
   InputProps,
   CheckBoxProps as RNECheckBoxProps,
-  Input,
 } from 'react-native-elements';
 import { SafeAreaViewProps } from 'react-native-safe-area-context';
+import { FlexAxis } from '@type';
 
 // NOTE: CheckableListItem
-export interface CheckableListItemProps extends CheckboxProps {
+export interface CheckableListItemProps
+  extends Omit<CheckboxProps, 'checked'>,
+    HorizontalViewProps {
   checked?: boolean;
   title?: string;
   children?: ReactNode;
@@ -48,6 +52,7 @@ export interface TextProps extends RNTextProps {
   title?: boolean;
   subTitle?: boolean;
   smallText?: boolean;
+  bold?: boolean;
   style?: StyleProp<TextStyle>;
   children?: React.ReactNode;
 }
@@ -56,8 +61,10 @@ export type TextType = FC<TextProps>;
 
 // NOTE: TextField
 export interface TextFieldProps extends InputProps {
+  refId?: any;
   renderErrorMessage?: boolean;
-  inputRef?(node: Input): void;
+  customRef?(node: Input, id?: any): void;
+  inputRef?: Ref<Input>;
   hasError?: boolean;
 }
 
@@ -100,7 +107,7 @@ export interface ChipProps {
 export type ChipType = FC<ChipProps>;
 
 // NOTE: Checkbox
-export interface CheckboxProps extends RNECheckBoxProps {
+export interface CheckboxProps extends Omit<RNECheckBoxProps, 'onPress'> {
   value?: string;
   large?: boolean;
   onPress?: (value: string, checked: boolean) => void;
@@ -112,7 +119,7 @@ export type CheckboxType = FC<CheckboxProps>;
 export interface HorizontalViewProps {
   children?: ReactNode;
   style?: StyleProp<ViewStyle>;
-  horizontalAlign?: FlexAlignType;
+  horizontalAlign?: FlexAxis;
   verticalAlign?: FlexAlignType;
 }
 

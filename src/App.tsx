@@ -30,10 +30,11 @@ const App = (): JSX.Element => {
       <RootErrorBoundary onError={childErrorhandler}>
         <NavigationContainer>
           <AppStack.Navigator
-            headerMode={'none'}
-            initialRouteName={AppFlow.Splash}>
+            initialRouteName={AppFlow.Splash}
+            screenOptions={{ headerShown: false }}>
             <AppStack.Screen name={AppFlow.Splash} component={Splash} />
             <AppStack.Screen name={AppFlow.LoginFlow} component={LoginFlow} />
+            <AppStack.Screen name={AppFlow.SignUpFlow} component={SignUpFlow} />
             <AppStack.Screen
               name={AppFlow.TutorialFlow}
               component={TutorialFlow}
@@ -41,7 +42,6 @@ const App = (): JSX.Element => {
                 cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
               }}
             />
-            <AppStack.Screen name={AppFlow.SignUpFlow} component={SignUpFlow} />
             <AppStack.Screen
               name={AppFlow.MainFlow}
               component={MainFlow}

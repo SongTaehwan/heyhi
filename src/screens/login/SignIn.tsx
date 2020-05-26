@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import { useMutation } from '@apollo/react-hooks';
-import React, { useRef } from 'react';
 import { Input } from 'react-native-elements';
+import React, { useRef } from 'react';
 import _isEqual from 'lodash/isEqual';
 import validator from 'validator';
 import {
@@ -122,12 +122,8 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
     },
   );
 
-  const onSubmitAuth = (): void => {
-    signIn();
-  };
-
-  const isValidForm = (): boolean => {
-    if (email.length !== 0 && !validator.isEmail(email)) {
+  const isFormDataValid = (): boolean => {
+    if (!validator.isEmail(email)) {
       emailRef.current?.shake();
 
       setFormError((prevState) => {
@@ -145,7 +141,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
       return false;
     }
 
-    if (password.length !== 0 && password.length < 6) {
+    if (password.length < 6) {
       passwordRef.current?.shake();
 
       setFormError((prevState) => {
@@ -177,6 +173,14 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
     }
   };
 
+  const onSubmitAuth = (): void => {
+    const isValid = isFormDataValid();
+
+    if (isValid) {
+      signIn();
+    }
+  };
+
   return (
     <ContentContainer>
       <Content style={{ paddingHorizontal: 47 }}>
@@ -186,8 +190,6 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
           hasError={formError.fromEmail}
           inputRef={setEmailRef}
           returnKeyType={'next'}
-          autoCorrect={false}
-          autoCapitalize={'none'}
           placeholder="Email"
           onChangeText={setEmail}
           onSubmitEditing={focusPasswordInput}
@@ -203,7 +205,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
           placeholder="Password"
           secureTextEntry
           onChangeText={setPassword}
-          onSubmitEditing={isValidForm() ? onSubmitAuth : undefined}
+          onSubmitEditing={!formError.fromPassword ? onSubmitAuth : undefined}
           enablesReturnKeyAutomatically
         />
         <VSpace space={40} />
@@ -214,8 +216,8 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
       {!!serverErrorMessage && <ErrorMessage message={serverErrorMessage} />}
       <BarButton
         title="LOGIN"
-        disabled={!isValidForm() || loading}
         loading={loading}
+        disabled={loading}
         onPress={onSubmitAuth}
       />
     </ContentContainer>

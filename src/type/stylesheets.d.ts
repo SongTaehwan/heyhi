@@ -1,5 +1,8 @@
 import { TextStyle, FlexStyle, FlexAlignType } from 'react-native';
-import { StackHeaderOptions } from '@react-navigation/stack/lib/typescript/src/types';
+import {
+  StackHeaderOptions,
+  StackNavigationOptions,
+} from '@react-navigation/stack/lib/typescript/src/types';
 
 // NOTE: Common type
 export type TextAlign = 'auto' | 'left' | 'right' | 'center' | 'justify';
@@ -88,12 +91,8 @@ export type TextSheetType<K extends keyof any> = SheetHelpers &
 
 export type ContainerSheetType = { [key: string]: TextStyle };
 
-export interface Header extends StackHeaderOptions {
-  title: string;
-}
-
 export type HeaderSheetType = {
-  headerless: Header;
-  tutorialHeader: Header;
-  withBackButton: Header;
+  headerless: StackNavigationOptions;
+  tutorialHeader: StackNavigationOptions;
+  withBackButton: StackNavigationOptions;
 };

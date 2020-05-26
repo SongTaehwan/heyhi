@@ -25,7 +25,8 @@
       "@routes/types": ["routes/types.ts"],
       "@images": ["assets/images/*"],
       "@constants": ["constants/index.ts"],
-      "@components": ["components/index.ts"]
+      "@components": ["components/index.ts"],
+      "@components/types": ["components/types.ts"]
     }
   },
   "include": ["./index.ts", "./src/**/*"],
