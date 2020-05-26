@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
 import {
   Content,
   Title,
@@ -32,10 +32,6 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     width: '100%',
-  },
-  contentLayer: {
-    paddingHorizontal: 30,
-    alignItems: 'flex-start',
   },
   divider: {
     marginTop: 20,
@@ -79,18 +75,18 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
   };
 
   const goToConditionDetail = (): void => {
+    // Store policy agreement
     navigation.navigate(Screens.ServicePolicyDetail);
   };
 
   return (
     <ContentContainer>
-      <Content style={styles.contentLayer}>
-        <Title title style={styles.title}>
-          {'Terms & Conditions'}
-        </Title>
+      <Content>
+        <Title title text={'Terms & Conditions'} />
         <VSpace space={30} />
         <CheckableListItem
           showCheckbox={false}
+          verticalAlign={'center'}
           onPressTextButton={goToConditionDetail}>
           <CheckableListItem.Checkbox
             value={CheckValue.all}
@@ -98,9 +94,10 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
             checked={checkList.all}
             onPress={handleOnCheckAll}
           />
-          <Text text={'I consent to all of the below'} />
+          <Text subTitle bold text={'I consent to all of the below'} />
         </CheckableListItem>
         <Divider style={styles.divider} />
+
         <CheckableListItem
           value={CheckValue.personalInfo}
           checked={checkList.all || checkList.personalInfo}
@@ -113,6 +110,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           />
         </CheckableListItem>
         <VSpace space={40} />
+
         <CheckableListItem
           value={CheckValue.location}
           checked={checkList.all || checkList.location}
@@ -123,6 +121,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           />
         </CheckableListItem>
         <VSpace space={40} />
+
         <CheckableListItem
           value={CheckValue.servicePolicy}
           checked={checkList.all || checkList.servicePolicy}

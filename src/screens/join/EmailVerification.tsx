@@ -1,142 +1,220 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import _debounce from 'lodash/debounce';
-import {
-  ContentContainer,
-  Content,
-  Title,
-  TextField,
-  VSpace,
-  BarButton,
-} from '@components';
-import {
-  NavigationFlowProps,
-  SignUpStackParamList,
-  Screens,
-} from '@routes/types';
-import useText from '@hooks/useText';
 import { useMutation } from '@apollo/react-hooks';
+import React, { useState, useRef } from 'react';
+import { Input } from 'react-native-elements';
+import { Keyboard } from 'react-native';
+import {
+  Title,
+  VSpace,
+  Content,
+  BarButton,
+  TextField,
+  ErrorMessage,
+  ContentContainer,
+} from '@components';
+import { TextFieldProps } from '@components/types';
+import { Screens, ReuseablePageProps } from '@routes/types';
 import { AUTHENTICATION } from '@api/mutation';
+import useText from '@hooks/useText';
 
-type EmailVerificationProps = NavigationFlowProps<
-  SignUpStackParamList,
-  'EmailVerification'
->;
+type EmailVerificationProps = ReuseablePageProps<Screens.EmailVerification>;
 
-const styles = StyleSheet.create({
-  verficationTitle: {
-    fontSize: 15,
-  },
-  errorMessage: {
-    textAlign: 'center',
-    color: 'red',
-    fontSize: 15,
-  },
-});
+const initialErrorState = {
+  message: '',
+  fromEmail: false,
+  fromCode: false,
+};
 
 const EmailVerification = ({
   navigation,
   route,
 }: EmailVerificationProps): JSX.Element => {
-  const [email, setEmail] = useText(route.params.email, {
+  console.log(route);
+  const userEmail = route.params?.email ?? '';
+  const [email, setEmail, isValidEmail] = useText(userEmail, {
     isEmail: true,
     delayTime: 0,
   });
-  // TODO: Add blow code
-  const [emailDisabled, setEmailDisabled] = useState(false);
-  const [showVerificationField, setShowField] = useState(false);
-  const [verificationCode, setCode] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const debouncedCodehandler = _debounce(setCode, 300);
+  const [verificationCode, setCode] = useText('');
+  const [showVerificationField, setShowInput] = useState(false);
+  const [error, setError] = useState(initialErrorState);
+  const emailRef = useRef<Input | null>(null);
+  const codeRef = useRef<Input | null>(null);
 
-  const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
-    fetchPolicy: 'no-cache',
-    onCompleted: (data) => {
-      console.log('data', data);
-    },
-    onError: (error) => {
-      setEmailDisabled(false);
-      console.log('error', error);
-    },
-  });
+  const setEmailRef = (node: Input): void => {
+    if (node) {
+      emailRef.current = node;
+    }
+  };
 
-  const [verifyCode] = useMutation(AUTHENTICATION.VERIFY_CODE, {
-    fetchPolicy: 'no-cache',
-    onCompleted: (data) => {
-      console.log('data', data);
+  const setCodeRef = (node: Input): void => {
+    if (node) {
+      codeRef.current = node;
+    }
+  };
+
+  const [sendEmail, { loading: isSending }] = useMutation(
+    AUTHENTICATION.SEND_EMAIL,
+    {
+      variables: {
+        data: {
+          email,
+        },
+      },
+      notifyOnNetworkStatusChange: false,
+      fetchPolicy: 'no-cache',
+      onCompleted: (data) => {
+        console.log('data', data);
+        setShowInput(true);
+        setError(initialErrorState);
+      },
+      onError: (error) => {
+        console.log(
+          'Error while sending email with verification code: ',
+          error,
+        );
+
+        const message = error.message.split(': ').pop() as string;
+
+        setError({
+          message,
+          fromEmail: true,
+          fromCode: false,
+        });
+
+        if (emailRef.current !== null) {
+          emailRef.current?.shake();
+        }
+      },
     },
-    onError: (error) => {
-      console.log('error', error);
+  );
+
+  const [verifyCode, { loading: isVerifying }] = useMutation(
+    AUTHENTICATION.VERIFY_CODE,
+    {
+      variables: {
+        verifyCode: {
+          email,
+          verifyCode: verificationCode,
+        },
+      },
+      notifyOnNetworkStatusChange: false,
+      fetchPolicy: 'no-cache',
+      onCompleted: (data) => {
+        console.log('data', data);
+        navigateToNextPage();
+      },
+      onError: (error) => {
+        console.log('Error while verifying code: ', error);
+
+        const message = error.message.split(': ').pop() as string;
+
+        setError({
+          message,
+          fromEmail: false,
+          fromCode: true,
+        });
+
+        if (codeRef.current !== null) {
+          codeRef.current?.shake();
+        }
+      },
     },
-  });
+  );
+
+  const sendVerificationMail = (): void => {
+    if (isValidEmail) {
+      sendEmail();
+      Keyboard.dismiss();
+    }
+  };
+
+  const handleVerificationCode = (): void => {
+    if (verificationCode.length === 6) {
+      verifyCode();
+      Keyboard.dismiss();
+    }
+  };
+
+  const navigateToNextPage = (): void => {
+    const nextPage = route.params.to!;
+    navigation.navigate(nextPage);
+  };
 
   return (
     <ContentContainer>
       <Content>
-        <Title title>{'Verify your email'}</Title>
+        <Title title text={'Verify your email'} />
         <VSpace space={30} />
         <TextField
           value={email}
-          placeholder={'Type your email'}
+          inputRef={setEmailRef}
+          hasError={error.fromEmail}
+          enablesReturnKeyAutomatically
           onChangeText={setEmail}
+          placeholder={'Type your email'}
+          returnKeyType={'done'}
+          onSubmitEditing={isValidEmail ? sendVerificationMail : undefined}
         />
         <VSpace />
         <BarButton
-          title={'Send mail'}
           round
-          disabled={email.length === 0 && emailDisabled}
-          onPress={(): void => {
-            setEmailDisabled(true);
-            setShowField(true);
-            sendEmail({
-              variables: {
-                data: {
-                  email,
-                },
-              },
-            });
-          }}
+          loading={isSending}
+          title={'Send Mail'}
+          disabled={!isValidEmail || isSending}
+          onPress={sendVerificationMail}
         />
         <VSpace space={35} />
 
         {showVerificationField && (
-          <>
-            <Title style={styles.verficationTitle}>{'Verification code'}</Title>
-            <VSpace />
-            <TextField
-              placeholder={'Enter verification code'}
-              onChangeText={debouncedCodehandler}
-              hasError={errorMessage.length > 0}
-            />
-          </>
+          <VertificationCode
+            inputRef={setCodeRef}
+            hasError={error.fromCode}
+            onChangeCode={setCode}
+            onSubmitEditing={handleVerificationCode}
+          />
         )}
       </Content>
-
-      {errorMessage.length !== 0 && (
-        <>
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-          <VSpace />
-        </>
-      )}
+      {!!error.message && <ErrorMessage message={error.message} />}
       <BarButton
+        title="NEXT"
+        loading={isVerifying}
         square={false}
-        disabled={verificationCode.length === 0}
-        onPress={(): void => {
-          // verifyCode({
-          //   variables: {
-          //     data: { verifyCode: verificationCode, email },
-          //   },
-          // });
-          // if (errorMessage.length === 0) {
-          //   return setErrorMessage(
-          //     'Invalid Verification Code Please try again',
-          //   );
-          // }
-          navigation.navigate(Screens.ServicePolicy);
-        }}
+        disabled={verificationCode.length !== 6 || isVerifying}
+        onPress={handleVerificationCode}
+        // onPress={navigateToNextPage}
       />
     </ContentContainer>
+  );
+};
+
+interface VertificationCodeProps extends TextFieldProps {
+  hasError: boolean;
+  onChangeCode(code: string): void;
+  onSubmitEditing(): void;
+}
+
+const VertificationCode = ({
+  inputRef,
+  hasError = false,
+  onChangeCode,
+  onSubmitEditing,
+}: VertificationCodeProps): JSX.Element => {
+  return (
+    <>
+      <Title text={'Verification code'} />
+      <VSpace />
+      <TextField
+        inputRef={inputRef}
+        maxLength={6}
+        enablesReturnKeyAutomatically
+        returnKeyType={'done'}
+        onSubmitEditing={onSubmitEditing}
+        placeholder={'Enter verification code'}
+        onChangeText={onChangeCode}
+        hasError={hasError}
+      />
+    </>
   );
 };
 

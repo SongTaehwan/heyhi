@@ -69,6 +69,17 @@ export type MyPageFlowProps<
   T extends keyof MyPageStackParamList
 > = NavigationFlowProps<MyPageStackParamList, T>;
 
+export type ReuseablePageProps<
+  T extends keyof AllParamList
+> = NavigationFlowProps<AllParamList, T>;
+
+export type AllParamList = AppStackParamList &
+  TutorialStackParamList &
+  LoginStackParamList &
+  SignUpStackParamList &
+  MyPageStackParamList &
+  SettingsStackParamList;
+
 export type AppStackParamList = {
   Splash: undefined;
   TutorialFlow: undefined;
@@ -105,6 +116,7 @@ export type SignUpStackParamList = {
   ServicePolicyDetail: undefined;
   EmailVerification: {
     email?: string;
+    to?: Screens;
   };
   InterestSelection: undefined;
 };

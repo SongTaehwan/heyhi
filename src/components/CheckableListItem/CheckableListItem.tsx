@@ -11,10 +11,14 @@ const CheckableListItem: CheckableListItemType = ({
   showCheckbox = true,
   onPressCheckbox,
   onPressTextButton,
+  horizontalAlign,
+  verticalAlign,
   ...rest
 }: CheckableListItemProps): JSX.Element => {
   return (
-    <HorizontalView>
+    <HorizontalView
+      horizontalAlign={horizontalAlign}
+      verticalAlign={verticalAlign}>
       {showCheckbox && (
         <Checkbox checked={checked} onPress={onPressCheckbox} {...rest} />
       )}

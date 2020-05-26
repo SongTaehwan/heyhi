@@ -9,10 +9,12 @@ import {
   ContainerSheetType,
   HeaderSheetType,
   StyleSheetsType,
+  Header,
 } from '@type';
 import { BackButton, SkipButton } from '@components';
 import Colors from './colors';
 
+// NOTE: Text Sheets
 const textSheetCreator = <P extends TextSheetType<keyof P>>(sheets: P): P =>
   sheets;
 
@@ -68,6 +70,7 @@ const textSheets = textSheetCreator({
   },
 });
 
+// NOTE: Container Sheets
 const containerSheet: ContainerSheetType = {
   default: {
     flex: 1,
@@ -81,8 +84,9 @@ const containerSheet: ContainerSheetType = {
   },
 };
 
-const headerless = {
-  headerStyle: { shadowOffset: { height: 0, width: 0 } },
+// NOTE: Header Sheets
+const headerless: Header = {
+  headerStyle: { shadowOffset: { height: 0, width: 0 }, elevation: 0 },
   title: '',
 };
 
@@ -104,7 +108,7 @@ const headerLeftBackButton = {
 };
 
 const headerSheets: HeaderSheetType = {
-  headerless: headerless,
+  headerless,
   tutorialHeader: {
     ...headerless,
     ...headerLeftBackButton,
@@ -125,6 +129,7 @@ const headerSheets: HeaderSheetType = {
   },
 };
 
+// NOTE: StyleSheets
 const StyleSheets: StyleSheetsType = {
   container: containerSheet,
   text: textSheets,

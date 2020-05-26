@@ -31,7 +31,7 @@ const LoginFlow = (props: LoginFlowProps): JSX.Element => {
         />
         <LoginStack.Screen name={Screens.EmailAuth} component={EmailAuth} />
         <LoginStack.Screen name={Screens.NewPassword} component={NewPassword} />
-        <LoginStack.Screen name={AppFlow.SignUpFlow} component={SignUpFlow} />
+        {/* <LoginStack.Screen name={AppFlow.SignUpFlow} component={SignUpFlow} /> */}
       </LoginStack.Navigator>
     </Container>
   );

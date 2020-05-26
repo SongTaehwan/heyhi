@@ -77,8 +77,6 @@ const PasswordRestoration = ({
         <VSpace space={30} />
         <TextField
           autoFocus
-          autoCapitalize={'none'}
-          autoCorrect={false}
           placeholder="Email"
           onChangeText={setEmail}
           inputContainerStyle={{ width: '90%' }}

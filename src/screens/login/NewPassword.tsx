@@ -15,6 +15,7 @@ import { Input } from 'react-native-elements';
 
 type NewPasswordProps = LoginFlowProps<Screens.NewPassword>;
 
+// TODO: API, Navigation logic
 const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
   const { id } = route.params;
   const [password, setPassword] = useText('');
@@ -50,8 +51,6 @@ const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
 
         <TextField
           autoFocus
-          autoCapitalize={'none'}
-          autoCorrect={false}
           maxLength={15}
           placeholder={'New Password'}
           onChangeText={setPassword}
@@ -62,8 +61,6 @@ const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
         <VSpace space={10} />
         <TextField
           inputRef={setConfirmPasswordRef}
-          autoCapitalize={'none'}
-          autoCorrect={false}
           maxLength={15}
           placeholder={'Confirm Password'}
           onChangeText={setPasswordConfirm}

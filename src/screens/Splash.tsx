@@ -27,7 +27,7 @@ const Splash = ({ navigation }: SplashProps): JSX.Element => {
   const [splashTitle, setSplashTitle] = useState('');
   useEffect(() => {
     async function checkToken(): Promise<string | void> {
-      await AsyncStorage.clear();
+      // await AsyncStorage.clear();
       const token = await AsyncStorage.getItem(TOKEN);
 
       if (token) {

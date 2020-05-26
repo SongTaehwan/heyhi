@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
 });
 
 const TextField = ({
+  refId = null,
   inputRef,
+  customRef,
   value,
   onChangeText,
   inputContainerStyle,
@@ -38,6 +40,8 @@ const TextField = ({
   placeholder,
   renderErrorMessage = false,
   hasError = false,
+  autoCapitalize = 'none',
+  autoCorrect = false,
   ...props
 }: TextFieldProps): JSX.Element => {
   const [focused, setFocus] = useState(false);
@@ -63,10 +67,18 @@ const TextField = ({
     inputStyle,
   ]);
 
+  const mapRefWithId = (node: Input): void => {
+    if (customRef && node) {
+      customRef(node, refId);
+    }
+  };
+
   return (
     <Input
-      ref={inputRef}
+      ref={inputRef || mapRefWithId}
       value={value}
+      autoCapitalize={autoCapitalize}
+      autoCorrect={autoCorrect}
       containerStyle={styles.container}
       inputContainerStyle={inputContainer}
       inputStyle={inputComponentStyle}
