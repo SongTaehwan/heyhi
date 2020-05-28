@@ -11,12 +11,7 @@ const SIGN_IN = gql`
 
 const SEND_EMAIL = gql`
   mutation SEND_EMAIL($data: sendEmailInput!) {
-    sendEmail(data: $data) {
-      id
-      email
-      lastName
-      firstName
-    }
+    sendEmail(data: $data)
   }
 `;
 

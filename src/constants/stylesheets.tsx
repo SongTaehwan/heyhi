@@ -26,7 +26,7 @@ const textSheets = textSheetCreator({
     fontWeight: 'bold',
     textAlign: align,
   }),
-  subTitle: (bold = false, align = 'auto') => {
+  subTitle: (bold = false, color = Colors.black, align = 'auto') => {
     return {
       fontSize: 18,
       lineHeight: 30,
@@ -90,17 +90,10 @@ const headerless: Header = {
   title: '',
 };
 
-const headerLeftBackButton = {
-  headerLeftContainerStyle: {
-    paddingLeft: 14,
-  },
+const headerLeftBackButtonConfig = {
   headerLeft(props: StackHeaderLeftButtonProps): React.ReactNode {
     const canGoBack = props.canGoBack ?? true;
 
-    if (props.canGoBack === undefined) {
-      console.log('Origin canGoBack: ', props.canGoBack);
-    }
-    // console.log('Can Go Back: ', props.canGoBack);
     if (canGoBack) {
       return <BackButton canGoBack={canGoBack} />;
     }
@@ -111,7 +104,7 @@ const headerSheets: HeaderSheetType = {
   headerless,
   tutorialHeader: {
     ...headerless,
-    ...headerLeftBackButton,
+    ...headerLeftBackButtonConfig,
     headerRightContainerStyle: {
       paddingVertical: 10,
       paddingRight: 20,
@@ -122,10 +115,7 @@ const headerSheets: HeaderSheetType = {
   },
   withBackButton: {
     ...headerless,
-    headerLeftContainerStyle: {
-      paddingLeft: 14,
-    },
-    ...headerLeftBackButton,
+    ...headerLeftBackButtonConfig,
   },
 };
 

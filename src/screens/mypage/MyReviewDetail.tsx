@@ -71,7 +71,7 @@ const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
                 />
               </View>
               <View style={styles.infoWrap}>
-                <Title h2={true}>
+                <Title title>
                   {review.reviewer.firstName} {review.reviewer.lastName}
                 </Title>
                 <VSpace space={5} />

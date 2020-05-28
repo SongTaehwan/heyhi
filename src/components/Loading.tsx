@@ -1,6 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { ActivityIndicatorProps } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  ActivityIndicatorProps,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {

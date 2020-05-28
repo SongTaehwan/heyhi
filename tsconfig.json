@@ -13,6 +13,7 @@
     "target": "esnext",
     "typeRoots": ["node_modules/@types"],
     "baseUrl": "./src/",
+    "resolveJsonModule": true,
     "paths": {
       "*": ["node_modules/*"],
       "@api/*": ["api/*"],
@@ -21,11 +22,11 @@
       "@hooks/*": ["hooks/*"],
       "@context/*": ["context/*"],
       "@screens/*": ["screens/*"],
-      "@routes": ["routes/index.ts"],
-      "@routes/types": ["routes/types.ts"],
       "@images": ["assets/images/*"],
       "@constants": ["constants/index.ts"],
       "@components": ["components/index.ts"],
+      "@navigation": ["navigation/index.ts"],
+      "@navigation/types": ["navigation/types.ts"],
       "@components/types": ["components/types.ts"]
     }
   },

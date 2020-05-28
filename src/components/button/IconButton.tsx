@@ -1,40 +1,45 @@
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Button } from 'react-native-elements';
+import { IconButtonProps as RNEiconButtonProps } from 'react-native-vector-icons/Icon';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import React from 'react';
-import { IconButtonProps } from './types';
 import { Colors } from '@constants';
 
-const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 50,
-    backgroundColor: '#fff',
-    borderRadius: 50,
-  },
-  icon: {
-    fontSize: 30,
-  },
-});
+interface IconButtonProps extends RNEiconButtonProps {
+  canGoBack?: boolean;
+}
 
-const IconButton = (props: IconButtonProps): JSX.Element => {
-  const iconColor = props.disabled ? Colors.blueyGrey : Colors.brightSkyBlue;
+const IconButton = ({
+  name = 'chevron-left',
+  iconStyle,
+  canGoBack = false,
+  size = 40,
+  onPress,
+  ...rest
+}: IconButtonProps): JSX.Element => {
+  const navigation = useNavigation();
+  const goBackToPreviousScreen = (): void => {
+    if (canGoBack) {
+      navigation.goBack();
+    }
+  };
+
+  const mergedIconStyle = StyleSheet.flatten([
+    { width: size, height: size, marginRight: 0 },
+    iconStyle,
+  ]);
 
   return (
-    <Button
-      icon={
-        <Icon
-          style={props.style ? props.style : styles.icon}
-          name={props.iconName}
-          size={props.iconSize}
-          color={iconColor}
-        />
-      }
-      buttonStyle={
-        props.iconContainerStyle ? props.iconContainerStyle : styles.button
-      }
-      disabled={props.disabled}
-      onPress={props.onPress}
+    <Icon.Button
+      name={name}
+      size={size}
+      iconStyle={mergedIconStyle}
+      color={Colors.black}
+      backgroundColor={'transparent'}
+      activeOpacity={0.3}
+      underlayColor={'transparent'}
+      onPress={onPress || goBackToPreviousScreen}
+      {...rest}
     />
   );
 };

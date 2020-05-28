@@ -11,14 +11,12 @@ const useLocation = (
     let watchId = 0;
 
     const startWatching = (): void => {
-      console.log('called');
       // TODO: add logic of watching position
       try {
         const id = Geolocation.watchPosition(
           (location: GeoPosition) => {
             // callback is not latest version so needs useCallback
             callback(location);
-            console.log('update location');
           },
           (error) => {
             console.log('error: ', error);
@@ -43,12 +41,10 @@ const useLocation = (
     }
 
     if (!shouldTrack && watchId !== null) {
-      console.log('else');
       Geolocation.clearWatch(watchId);
     }
 
     return (): void => {
-      console.log('clear up hook');
       Geolocation.clearWatch(watchId);
     };
   }, [shouldTrack, callback]);

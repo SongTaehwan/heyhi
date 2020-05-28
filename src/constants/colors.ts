@@ -36,4 +36,54 @@ enum Colors {
   white = '#ffffff',
 }
 
+type ShadowProps = {
+  color?: string;
+  width?: number;
+  height?: number;
+  opacity?: number;
+  radius?: number;
+  elevation?: number;
+};
+
+type ShadowStyle = {
+  shadowColor: string;
+  shadowOffset: {
+    width: number;
+    height: number;
+  };
+  shadowOpacity: number;
+  shadowRadius: number;
+  elevation: number;
+};
+
+namespace Colors {
+  export function setRGBA(
+    red: number,
+    green: number,
+    blue: number,
+    alpha: number,
+  ): string {
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  }
+  export function drawShadow({
+    color = Colors.black,
+    width = 2,
+    height = 5,
+    opacity = 0.5,
+    radius = 10,
+    elevation = 3,
+  }: ShadowProps): ShadowStyle {
+    return {
+      shadowColor: color,
+      shadowOffset: {
+        width,
+        height,
+      },
+      shadowOpacity: opacity,
+      shadowRadius: radius,
+      elevation,
+    };
+  }
+}
+
 export default Colors;

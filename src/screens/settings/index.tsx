@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { SettingsStackParamList } from '@routes/types';
+import { SettingsStackParamList } from '@navigation/types';
 
 import { ContentContainer, Title } from '@components';
 import { Colors } from '@constants';

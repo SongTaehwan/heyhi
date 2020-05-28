@@ -9,19 +9,17 @@ import {
   ContentContainer,
 } from '@components';
 import {
-  TutorialStackParamList,
-  NavigationFlowProps,
-  AppStackParamList,
   Screens,
   AppFlow,
-} from '@routes/types';
+  TutorialStackNavigationProps,
+} from '@navigation/types';
 import LastGuidImage from '@images/tuto3.png';
 import { StyleSheets } from '@constants';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-type TutorialLastProps = NavigationFlowProps<
-  TutorialStackParamList & AppStackParamList,
-  Screens.TutorialLast
->;
+interface TutorialLastProps {
+  navigation: TutorialStackNavigationProps<Screens.TutorialFirst>;
+}
 
 const styles = StyleSheet.create({
   content: {
@@ -30,17 +28,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   image: StyleSheets.setDimension('100%', '50%'),
-  boldText: StyleSheets.text.subTitle(true, 'center'),
+  boldText: StyleSheets.text.subTitle(true, Colors.black, 'center'),
 });
 
-const TutorialLast = ({
-  navigation,
-  route,
-}: TutorialLastProps): JSX.Element => {
-  console.log(route);
-  const goToSecondStep = (): void => {
+const TutorialLast = ({ navigation }: TutorialLastProps): JSX.Element => {
+  const goToSignIn = (): void => {
     // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
-    navigation.navigate(AppFlow.LoginFlow, { screen: Screens.SignIn });
+    navigation.navigate(AppFlow.LoginStack, { screen: Screens.SignIn });
   };
 
   return (
@@ -59,7 +53,7 @@ const TutorialLast = ({
           </Text>
         </View>
       </View>
-      <BarButton title={'Next'} square onPress={goToSecondStep} />
+      <BarButton title={'Next'} square onPress={goToSignIn} />
     </ContentContainer>
   );
 };

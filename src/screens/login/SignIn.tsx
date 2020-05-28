@@ -5,13 +5,7 @@ import { Input } from 'react-native-elements';
 import React, { useRef } from 'react';
 import _isEqual from 'lodash/isEqual';
 import validator from 'validator';
-import {
-  LoginStackParamList,
-  NavigationFlowProps,
-  AppStackParamList,
-  Screens,
-  AppFlow,
-} from '@routes/types';
+import { Screens, AppFlow, LoginStackNavigationProps } from '@navigation/types';
 import {
   TextField,
   BarButton,
@@ -31,10 +25,9 @@ import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
 import { Colors } from '@constants';
 
-type SignInProps = NavigationFlowProps<
-  LoginStackParamList & AppStackParamList,
-  Screens.SignIn
->;
+interface SignInProps {
+  navigation: LoginStackNavigationProps<Screens.SignIn>;
+}
 
 interface LoginData {
   data: {
@@ -81,7 +74,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: AppFlow.MainFlow }],
+        routes: [{ name: AppFlow.MainTab }],
       }),
     );
   };
@@ -244,7 +237,7 @@ const NavigationButtons = ({
   };
 
   const goToSignUp = (): void => {
-    navigation.navigate(AppFlow.SignUpFlow);
+    navigation.navigate(AppFlow.SignUpStack);
   };
 
   return (
@@ -262,11 +255,6 @@ const NavigationButtons = ({
       <Divider />
     </>
   );
-};
-
-SignIn.whyDidYouRender = {
-  trackHooks: true,
-  logOnDifferentValues: true,
 };
 
 export default SignIn;

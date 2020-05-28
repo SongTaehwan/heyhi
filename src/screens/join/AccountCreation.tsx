@@ -16,11 +16,13 @@ import {
   HorizontalView,
   ErrorMessage,
 } from '@components';
-import { SignUpFlowProps, Screens } from '@routes/types';
+import { SignUpStackNavigationProps, Screens } from '@navigation/types';
 import { Countries, Colors } from '@constants';
 import useText from '@hooks/useText';
 
-type AccountCreationProps = SignUpFlowProps<Screens.AccountCreation>;
+interface AccountCreationProps {
+  navigation: SignUpStackNavigationProps<Screens.AccountCreation>;
+}
 
 enum FORM_DATA_TYPE {
   EMAIL = 'Email',
@@ -207,7 +209,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
   return (
     <ContentContainer>
       <Content>
-        <Title title text={'Making Account'} />
+        <Title title text={'Making Account'} center />
         <VSpace space={30} />
         <TextField
           enablesReturnKeyAutomatically

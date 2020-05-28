@@ -4,9 +4,9 @@ import React from 'react';
 import { Colors } from '@constants';
 
 interface CheckableButtonProps extends Omit<ButtonProps, 'onPress'> {
-  value: string;
+  value: any;
   checked: boolean;
-  onPress: (value: string) => void;
+  onPress: (value: any) => void;
 }
 
 const styles = StyleSheet.create({

@@ -45,6 +45,7 @@ export type StyleSheetsType = {
     | 'subTitle'
     | 'nameText'
   >;
+
   container: ContainerSheetType;
   header: HeaderSheetType;
   setAlignment(
@@ -78,7 +79,7 @@ export type StyleSheetsType = {
 // NOTE: Heper
 export interface SheetHelpers {
   title(color?: Colors, align?: TextAlign): TextStyle;
-  subTitle(bold?: boolean, align?: TextAlign): TextStyle;
+  subTitle(bold?: boolean, color?: Colors, align?: TextAlign): TextStyle;
   headerTitle(bold?: boolean): TextStyle;
   buttonTitle(size?: 'small' | 'large'): TextStyle;
   baseText(color?: Colors, bold?: boolean, lineHeight?: number): TextStyle;

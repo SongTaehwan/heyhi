@@ -23,6 +23,7 @@ const ContentContainer = ({
       <ScrollView
         bounces={false}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.contentStyle, contentContainerStyle]}>
         {children}
       </ScrollView>

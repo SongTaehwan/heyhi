@@ -10,18 +10,13 @@ import {
   CheckableListItem,
   Text,
 } from '@components';
-import {
-  NavigationFlowProps,
-  SignUpStackParamList,
-  Screens,
-} from '@routes/types';
+import { Screens, SignUpStackNavigationProps } from '@navigation/types';
 
-type ServicePolicyProps = NavigationFlowProps<
-  SignUpStackParamList,
-  'ServicePolicy'
->;
+interface ServicePolicyProps {
+  navigation: SignUpStackNavigationProps<Screens.ServicePolicy>;
+}
 
-enum CheckValue {
+enum Policies {
   personalInfo = 'personalInfo',
   location = 'location',
   servicePolicy = 'servicePolicy',
@@ -61,9 +56,9 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
     }));
   };
 
-  const handleOnCheckCondition = (value: string): void => {
+  const handleOnCheckCondition = (value: Policies): void => {
     setCheckList((prev) => {
-      const targetKey = value as CheckValue;
+      const targetKey = value;
       const prevValue = prev[targetKey];
 
       return {
@@ -89,7 +84,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           verticalAlign={'center'}
           onPressTextButton={goToConditionDetail}>
           <CheckableListItem.Checkbox
-            value={CheckValue.all}
+            value={Policies.all}
             large
             checked={checkList.all}
             onPress={handleOnCheckAll}
@@ -99,7 +94,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
         <Divider style={styles.divider} />
 
         <CheckableListItem
-          value={CheckValue.personalInfo}
+          value={Policies.personalInfo}
           checked={checkList.all || checkList.personalInfo}
           onPressCheckbox={handleOnCheckCondition}>
           <CheckableListItem.ListItem
@@ -112,7 +107,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
         <VSpace space={40} />
 
         <CheckableListItem
-          value={CheckValue.location}
+          value={Policies.location}
           checked={checkList.all || checkList.location}
           onPressCheckbox={handleOnCheckCondition}>
           <CheckableListItem.ListItem
@@ -123,7 +118,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
         <VSpace space={40} />
 
         <CheckableListItem
-          value={CheckValue.servicePolicy}
+          value={Policies.servicePolicy}
           checked={checkList.all || checkList.servicePolicy}
           onPressCheckbox={handleOnCheckCondition}>
           <CheckableListItem.ListItem
@@ -139,7 +134,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           !checkList.personalInfo ||
           !checkList.servicePolicy
         }
-        onPress={(): void => navigation.navigate(Screens.BestShotUpload)}
+        onPress={(): void => navigation.navigate(Screens.SelfieUpload)}
       />
     </ContentContainer>
   );

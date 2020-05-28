@@ -1,13 +1,13 @@
-import { RouteProp, ParamListBase } from '@react-navigation/native';
+import { CompositeNavigationProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 export enum AppFlow {
   Splash = 'Splash',
-  TutorialFlow = 'TutorialFlow',
-  LoginFlow = 'LoginFlow',
-  MainFlow = 'MainFlow',
-  SignUpFlow = 'SignUpFlow',
-  MyPageFlow = 'MyPageFlow',
+  TutorialStack = 'TutorialStack',
+  LoginStack = 'LoginStack',
+  MainTab = 'MainTab',
+  SignUpStack = 'SignUpStack',
+  MyPageStack = 'MyPageStack',
 }
 
 export enum Screens {
@@ -43,36 +43,64 @@ export enum Screens {
   Notification = 'Notification',
   History = 'History',
   Location = 'Location',
+  // NOTE: App
+  App = 'App',
+  SelfieNotice = 'SelfieNotice',
 }
 
-export interface NavigationFlowProps<
-  T extends ParamListBase,
-  K extends keyof T = string
-> {
-  navigation: StackNavigationProp<T, K>;
-  route: RouteProp<T, K>;
-}
+// NOTE: mapping navigation prop with stack navigator
+export type ModalStackNavigationProps<
+  T extends keyof ModalStackParamList
+> = StackNavigationProp<ModalStackParamList, T>;
 
-export type TutorialFlowProps<
+export type AppStackNavigationProps<
+  T extends keyof AppStackParamList
+> = StackNavigationProp<AppStackParamList, T>;
+
+export type TutorialNavigationProps<
   T extends keyof TutorialStackParamList
-> = NavigationFlowProps<TutorialStackParamList, T>;
+> = StackNavigationProp<TutorialStackParamList, T>;
 
-export type LoginFlowProps<
-  T extends keyof LoginStackParamList
-> = NavigationFlowProps<LoginStackParamList, T>;
-
-export type SignUpFlowProps<
+export type SignUpNavigationProps<
   T extends keyof SignUpStackParamList
-> = NavigationFlowProps<SignUpStackParamList, T>;
+> = StackNavigationProp<SignUpStackParamList, T>;
 
-export type MyPageFlowProps<
+export type LoginNavigationProps<
+  T extends keyof LoginStackParamList
+> = StackNavigationProp<LoginStackParamList, T>;
+
+export type MyPageNavigationProps<
   T extends keyof MyPageStackParamList
-> = NavigationFlowProps<MyPageStackParamList, T>;
+> = StackNavigationProp<MyPageStackParamList, T>;
+
+// NOTE: mapping stack navigator with relative one
+export type TutorialStackNavigationProps<
+  T extends keyof TutorialStackParamList
+> = CompositeNavigationProp<
+  TutorialNavigationProps<T>,
+  AppStackNavigationProps<AppFlow.TutorialStack>
+>;
+
+export type SignUpStackNavigationProps<
+  T extends keyof SignUpStackParamList
+> = CompositeNavigationProp<
+  SignUpNavigationProps<T>,
+  AppStackNavigationProps<AppFlow.SignUpStack> &
+    ModalStackNavigationProps<'App'>
+>;
+
+export type LoginStackNavigationProps<
+  T extends keyof LoginStackParamList
+> = CompositeNavigationProp<
+  LoginNavigationProps<T>,
+  AppStackNavigationProps<AppFlow.LoginStack>
+>;
 
 export type ReuseablePageProps<
   T extends keyof AllParamList
-> = NavigationFlowProps<AllParamList, T>;
+> = StackNavigationProp<AllParamList, T>;
 
+// NOTE: Param mapping
 export type AllParamList = AppStackParamList &
   TutorialStackParamList &
   LoginStackParamList &
@@ -80,14 +108,27 @@ export type AllParamList = AppStackParamList &
   MyPageStackParamList &
   SettingsStackParamList;
 
+export type ModalStackParamList = {
+  App: undefined;
+  SelfieNotice: undefined;
+};
+
+export type MainTabParamList = {
+  Map: undefined;
+  Chat: undefined;
+  Account: undefined;
+};
+
 export type AppStackParamList = {
   Splash: undefined;
-  TutorialFlow: undefined;
-  LoginFlow: undefined;
-  SignUpFlow: undefined;
-  MainFlow: undefined;
-  MyPageFlow: undefined;
-  BottomTabFlow: undefined;
+  TutorialStack: undefined;
+  LoginStack: {
+    screen?: 'SignIn';
+  };
+  SignUpStack: undefined;
+  MainTab: undefined;
+  MyPageStack: undefined;
+  BottomTabStack: undefined;
 };
 
 export type TutorialStackParamList = {
@@ -145,6 +186,7 @@ export type SettingsStackParamList = {
   Location: undefined;
 };
 
+// NOTE: response type mapping
 export type AuthenticationResponse = {
   accessToken: string;
   refreshToken: string;

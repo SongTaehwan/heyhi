@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedbackProps,
 } from 'react-native';
 import skipButton from '@images/skipButton.png';
-import { AppFlow, Screens } from '@routes/types';
+import { AppFlow, Screens } from '@navigation/types';
 import { StyleSheets } from '@constants';
 
 interface SkipButtonProps extends TouchableWithoutFeedbackProps {
@@ -27,7 +27,7 @@ const SkipButton = ({
   const navigation = useNavigation();
 
   const skipTutorial = (): void => {
-    navigation.navigate(AppFlow.LoginFlow, { screen: Screens.SignIn });
+    navigation.navigate(AppFlow.LoginStack, { screen: Screens.SignIn });
   };
 
   return (

@@ -9,11 +9,11 @@ module.exports = {
         alias: {
           '@components/types': './src/components/types',
           '@components': './src/components',
+          '@navigation': './src/navigation',
           '@images': './src/assets/images',
           '@constants': './src/constants',
           '@screens': './src/screens',
           '@context': './src/context',
-          '@routes': './src/routes',
           '@hooks': './src/hooks',
           '@util': './src/util',
           '@type': './src/type',
