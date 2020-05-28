@@ -5,45 +5,40 @@ import TutorialFirst from '@screens/tutorial/TutorialFirst';
 import TutorialLast from '@screens/tutorial/TutorialLast';
 import { Container } from '@components';
 import {
-  AppStackParamList,
-  NavigationFlowProps,
   AppFlow,
   Screens,
-} from '@routes/types';
+  TutorialStackParamList,
+  AppStackNavigationProps,
+} from '@navigation/types';
 import { StyleSheets } from '@constants';
 
-type TutorialFlowProps = NavigationFlowProps<
-  AppStackParamList,
-  AppFlow.TutorialFlow
->;
+interface TutorialStackNavigatorProps {
+  navigation: AppStackNavigationProps<AppFlow.TutorialStack>;
+}
 
-const TutorialStack = createStackNavigator();
+const Stack = createStackNavigator<TutorialStackParamList>();
 
-const TutorialFlow = ({ navigation }: TutorialFlowProps): JSX.Element => {
+const TutorialStackNavigator = ({
+  navigation,
+}: TutorialStackNavigatorProps): JSX.Element => {
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, []);
 
   return (
     <Container topless>
-      <TutorialStack.Navigator
+      <Stack.Navigator
         initialRouteName={Screens.TutorialFirst}
         screenOptions={StyleSheets.header.tutorialHeader}>
-        <TutorialStack.Screen
-          name={Screens.TutorialFirst}
-          component={TutorialFirst}
-        />
-        <TutorialStack.Screen
+        <Stack.Screen name={Screens.TutorialFirst} component={TutorialFirst} />
+        <Stack.Screen
           name={Screens.TutorialSecond}
           component={TutorialSecond}
         />
-        <TutorialStack.Screen
-          name={Screens.TutorialLast}
-          component={TutorialLast}
-        />
-      </TutorialStack.Navigator>
+        <Stack.Screen name={Screens.TutorialLast} component={TutorialLast} />
+      </Stack.Navigator>
     </Container>
   );
 };
 
-export default TutorialFlow;
+export default TutorialStackNavigator;

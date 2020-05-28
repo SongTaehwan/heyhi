@@ -66,3 +66,6 @@ apollo.config.js
 
 # specific for windows script files
 *.bat text eol=crlf
+
+#AWS config
+aws.config.js

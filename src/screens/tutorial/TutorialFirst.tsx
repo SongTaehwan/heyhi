@@ -8,11 +8,13 @@ import {
   ImageView,
   ContentContainer,
 } from '@components';
-import { TutorialFlowProps, Screens } from '@routes/types';
+import { TutorialStackNavigationProps, Screens } from '@navigation/types';
 import FirstGuidImage from '@images/tuto1.png';
-import { StyleSheets } from '@constants';
+import { StyleSheets, Colors } from '@constants';
 
-type TutorialFirstProps = TutorialFlowProps<Screens.TutorialFirst>;
+interface TutorialFirstProps {
+  navigation: TutorialStackNavigationProps<Screens.TutorialFirst>;
+}
 
 const styles = StyleSheet.create({
   content: {
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: StyleSheets.setDimension('100%', '50%'),
-  contentText: StyleSheets.text.subTitle(false, 'center'),
+  contentText: StyleSheets.text.subTitle(false, Colors.black, 'center'),
   boldText: StyleSheets.text.subTitle(true),
 });
 

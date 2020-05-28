@@ -30,11 +30,11 @@ const ImageView = ({
       resizeMode={resizeMode}
       source={source}
       style={imageViewStyle}
-      {...props}
       placeholderStyle={imagePlaceholderStyle}
       PlaceholderContent={
         PlaceholderContent ? <ActivityIndicator /> : undefined
       }
+      {...props}
     />
   );
 };

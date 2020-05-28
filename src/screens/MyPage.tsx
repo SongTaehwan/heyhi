@@ -6,7 +6,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { MyPageStackParamList, Screens } from '@routes/types';
+import { MyPageStackParamList, Screens } from '@navigation/types';
 import {
   ImageView,
   Divider,
@@ -197,7 +197,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
             </View>
           </View>
           <VSpace space={5} />
-          <Title h2={true}>{user.name}</Title>
+          <Title title>{user.name}</Title>
           <VSpace space={5} />
           <Text>30 MALE USA</Text>
         </View>

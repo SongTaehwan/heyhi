@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { Content, Title, ContentContainer, Divider } from '@components';
-import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+import { NavigationProps, SignUpStackParamList } from '@navigation/types';
 
-type ServicePolicyDetailProps = NavigationFlowProps<
+type ServicePolicyDetailProps = NavigationProps<
   SignUpStackParamList,
   'ServicePolicyDetail'
 >;
@@ -29,9 +29,11 @@ const ServicePolicyDetail = ({
   return (
     <ContentContainer>
       <Content style={styles.contentLayer}>
-        <Title text={'Location Service'} />
+        <Title bold text={'Location Service'} />
         <Divider style={styles.divider} />
-        <Text style={styles.contentText}>{`Terms and conditions
+        <Text
+          style={styles.contentText}
+          adjustsFontSizeToFit>{`Terms and conditions
 These terms and conditions ("Terms", "Agreement") are an agreement between Mobile Application Developer ("Mobile Application Developer", "us", "we" or "our") and you ("User", "you" or "your"). This Agreement sets forth the general terms and conditions of your use of the "Hey, Hi" mobile application and any of its products or services (collectively, "Mobile Application" or "Services").
 
 Accounts and membership

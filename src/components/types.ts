@@ -24,7 +24,7 @@ export interface CheckableListItemProps
   title?: string;
   children?: ReactNode;
   showCheckbox?: boolean;
-  onPressCheckbox?: (value: string, checked: boolean) => void;
+  onPressCheckbox?: (value: any, checked: boolean) => void;
   onPressTextButton?: (event: GestureResponderEvent) => void;
 }
 
@@ -46,6 +46,7 @@ export type CheckableListContentType = FC<CheckableListContentProps>;
 
 // NOTE: Text
 export interface TextProps extends RNTextProps {
+  center?: boolean;
   align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
   color?: string;
   text?: string;

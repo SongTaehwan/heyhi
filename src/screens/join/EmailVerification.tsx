@@ -12,7 +12,7 @@ import {
   ContentContainer,
 } from '@components';
 import { TextFieldProps } from '@components/types';
-import { Screens, ReuseablePageProps } from '@routes/types';
+import { Screens, ReuseablePageProps } from '@navigation/types';
 import { AUTHENTICATION } from '@api/mutation';
 import useText from '@hooks/useText';
 
@@ -28,7 +28,6 @@ const EmailVerification = ({
   navigation,
   route,
 }: EmailVerificationProps): JSX.Element => {
-  console.log(route);
   const userEmail = route.params?.email ?? '';
   const [email, setEmail, isValidEmail] = useText(userEmail, {
     isEmail: true,
@@ -64,7 +63,6 @@ const EmailVerification = ({
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (data) => {
-        console.log('data', data);
         setShowInput(true);
         setError(initialErrorState);
       },
@@ -101,7 +99,6 @@ const EmailVerification = ({
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (data) => {
-        console.log('data', data);
         navigateToNextPage();
       },
       onError: (error) => {
@@ -144,7 +141,7 @@ const EmailVerification = ({
   return (
     <ContentContainer>
       <Content>
-        <Title title text={'Verify your email'} />
+        <Title title text={'Verify your email'} center />
         <VSpace space={30} />
         <TextField
           value={email}

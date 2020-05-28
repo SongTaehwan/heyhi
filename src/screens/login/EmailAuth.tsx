@@ -11,10 +11,18 @@ import {
   ContentContainer,
 } from '@components';
 import { useMutation } from '@apollo/react-hooks';
-import { LoginFlowProps, Screens } from '@routes/types';
+import {
+  Screens,
+  LoginStackParamList,
+  LoginStackNavigationProps,
+} from '@navigation/types';
 import { AUTHENTICATION } from '@api/mutation';
+import { RouteProp } from '@react-navigation/native';
 
-type EmailAuthProps = LoginFlowProps<Screens.EmailAuth>;
+interface EmailAuthProps {
+  navigation: LoginStackNavigationProps<Screens.EmailAuth>;
+  route: RouteProp<LoginStackParamList, Screens.EmailAuth>;
+}
 
 interface UpdateResult {
   updateMember: {
@@ -78,7 +86,7 @@ const EmailAuth = ({ navigation, route }: EmailAuthProps): JSX.Element => {
   return (
     <ContentContainer>
       <Content>
-        <Title title text="Log in to Hey, Hi!" />
+        <Title title text="Log in to Hey, Hi!" center />
         <VSpace space={30} />
         <Title subTitle text={'Sign in your social account'} />
         <VSpace space={20} />

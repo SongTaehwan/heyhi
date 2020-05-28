@@ -114,7 +114,7 @@ const PaymentsMethods = (): JSX.Element => {
         </View>
         <View style={styles.subWrap}>
           <View style={styles.textWrap}>
-            <Title h2={true}>Become out member!</Title>
+            <Title title>Become out member!</Title>
             <VSpace space={20} />
             <Text style={styles.subTitle}>Choose your plan</Text>
             <Text style={styles.subTitle}>
@@ -147,7 +147,7 @@ const PaymentsMethods = (): JSX.Element => {
                   />
 
                   <VSpace space={10} />
-                  <Title h2={true}>
+                  <Title title>
                     {item.term}{' '}
                     {item.subTerm && (
                       <Text style={styles.subTerm}>({item.subTerm})</Text>

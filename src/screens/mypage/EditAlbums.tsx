@@ -39,7 +39,7 @@ const EditAlbums = (): JSX.Element => {
     <ContentContainer>
       <View style={styles.container}>
         <View style={styles.noticeWrap}>
-          <Title h2={true}>Click to upload images</Title>
+          <Title title>Click to upload images</Title>
           <VSpace space={14} />
           <Title h4={true} style={styles.warnText}>
             You cannot upload face pictures!

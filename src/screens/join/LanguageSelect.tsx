@@ -6,7 +6,7 @@ const LanguageSelect = (): JSX.Element => {
   return (
     <ContentContainer>
       <Content>
-        <Title h2>{'Language'}</Title>
+        <Title title>{'Language'}</Title>
       </Content>
       <BarButton />
     </ContentContainer>

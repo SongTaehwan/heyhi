@@ -12,7 +12,7 @@ import {
   Loading,
 } from '@components';
 import { Colors } from '@constants';
-import { MyPageStackParamList, Screens } from '@routes/types';
+import { MyPageStackParamList, Screens } from '@navigation/types';
 import { REVIEW } from '@api/query';
 import { getAge } from '@util/age';
 

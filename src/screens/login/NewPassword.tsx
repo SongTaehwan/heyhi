@@ -8,16 +8,24 @@ import {
   TextField,
   ErrorMessage,
 } from '@components';
-import { LoginFlowProps, Screens } from '@routes/types';
+import {
+  LoginStackNavigationProps,
+  Screens,
+  LoginStackParamList,
+} from '@navigation/types';
 import useText from '@hooks/useText';
 import { useMutation } from '@apollo/react-hooks';
 import { Input } from 'react-native-elements';
+import { RouteProp } from '@react-navigation/native';
 
-type NewPasswordProps = LoginFlowProps<Screens.NewPassword>;
+interface NewPasswordProps {
+  navigation: LoginStackNavigationProps<Screens.NewPassword>;
+  route: RouteProp<LoginStackParamList, Screens.NewPassword>;
+}
 
 // TODO: API, Navigation logic
 const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
-  const { id } = route.params;
+  const { userId = null } = route.params;
   const [password, setPassword] = useText('');
   const [passwordConfirm, setPasswordConfirm] = useText('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -30,7 +38,6 @@ const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
   };
 
   const onSubmitButton = (): void => {
-    console.log(password === passwordConfirm);
     // API
   };
 

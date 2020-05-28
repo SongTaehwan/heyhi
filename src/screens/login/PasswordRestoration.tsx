@@ -1,6 +1,7 @@
+import { useMutation } from '@apollo/react-hooks';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import { LoginFlowProps, Screens } from '@routes/types';
+import { Screens, LoginStackNavigationProps } from '@navigation/types';
 import useText from '@hooks/useText';
 import {
   ContentContainer,
@@ -12,10 +13,12 @@ import {
   Text,
   ErrorMessage,
 } from '@components';
-import { useMutation } from '@apollo/react-hooks';
+
 import { AUTHENTICATION } from '@api/mutation';
 
-type PasswordRestoration = LoginFlowProps<Screens.PasswordRestoration>;
+interface PasswordRestoration {
+  navigation: LoginStackNavigationProps<Screens.PasswordRestoration>;
+}
 
 interface MutationVariable {
   data: {
@@ -67,11 +70,11 @@ const PasswordRestoration = ({
   return (
     <ContentContainer>
       <Content>
-        <Title title text="Create a new Password" />
+        <Title title text="Create a new Password" center />
         <VSpace space={30} />
         <Text style={styles.guidText}>
           {
-            'To reset your password,\nenter your E-mail address below\nand follow the instructions\nin the E-mail we’ll send you.'
+            'To reset your password,\nenter your E-mail address below\nand follow the instructions\nin the E-mail we’ll send you'
           }
         </Text>
         <VSpace space={30} />
@@ -87,7 +90,7 @@ const PasswordRestoration = ({
       </Content>
       {!!errorMessage && <ErrorMessage message={errorMessage} />}
       <BarButton
-        title="SEND RESET LINK"
+        title="SEND RESET CODE"
         loading={loading}
         disabled={!isValid || loading}
         onPress={sendAuthEmail}

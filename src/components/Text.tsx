@@ -21,16 +21,17 @@ const Text = ({
   children,
   color,
   align = 'auto',
+  center,
   ...rest
 }: TextProps): JSX.Element => {
   const textStyle = StyleSheet.flatten([
     styles.defaultText,
-    { color, textAlign: align },
-    style,
     title && StyleSheets.text.title(),
     subTitle && StyleSheets.text.subTitle(),
     smallText && StyleSheets.text.smallText(),
     bold && styles.bold,
+    { color, textAlign: center ? 'center' : align },
+    style,
   ]);
 
   return (
