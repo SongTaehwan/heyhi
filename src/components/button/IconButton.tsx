@@ -24,10 +24,7 @@ const IconButton = ({
     }
   };
 
-  const mergedIconStyle = StyleSheet.flatten([
-    { width: size, height: size, marginRight: 0 },
-    iconStyle,
-  ]);
+  const mergedIconStyle = StyleSheet.flatten([{ marginRight: 0 }, iconStyle]);
 
   return (
     <Icon.Button

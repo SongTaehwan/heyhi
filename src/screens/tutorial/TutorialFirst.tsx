@@ -7,6 +7,7 @@ import {
   VSpace,
   ImageView,
   ContentContainer,
+  Content,
 } from '@components';
 import { TutorialStackNavigationProps, Screens } from '@navigation/types';
 import FirstGuidImage from '@images/tuto1.png';

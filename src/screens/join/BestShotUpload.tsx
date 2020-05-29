@@ -1,335 +1,212 @@
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
-import React, { useState } from 'react';
+import ImagePicker, {
+  Image as PickerImage,
+} from 'react-native-image-crop-picker';
+import ImageResizer, {
+  Response as ResizingResponse,
+} from 'react-native-image-resizer';
 import {
-  Content,
-  Title,
-  BarButton,
-  VSpace,
-  HSpace,
-  ContentContainer,
-  IconButton,
-  Text,
-  HorizontalView,
-} from '@components';
-import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import ImagePicker from 'react-native-image-crop-picker';
-import ImageResizer from 'react-native-image-resizer';
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import Config from 'react-native-config';
-import { Screens, SignUpStackNavigationProps } from '@navigation/types';
-import { getScreenWidth, getScreenHeight } from '@util/Dimensions';
-import { Colors } from '@constants';
-
+import React, { useState } from 'react';
 import uuidv4 from 'uuid/v4';
-
+import {
+  Text,
+  Title,
+  VSpace,
+  Content,
+  BarButton,
+  IconButton,
+  HorizontalView,
+  ContentContainer,
+  ImageView,
+} from '@components';
+import { Screens, SignUpStackNavigationProps } from '@navigation/types';
+import { getRelativeWidth, getCircleRadiusSize } from '@util/Dimensions';
 import AWS from '../../../aws.config';
+import { Colors } from '@constants';
 
 interface BestShotUploadProps {
   navigation: SignUpStackNavigationProps<Screens.BestShotUpload>;
 }
 
-const imageViewSize = (getScreenWidth() - 60) / 2;
-const circleRadiusSize = (getScreenWidth() + getScreenHeight()) / 2;
-console.log(imageViewSize, Dimensions.get('screen').width);
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    backgroundColor: 'orange',
-    width: '100%',
-  },
-  imageAddIcon: {
-    display: 'flex',
-    width: 100,
-    height: 100,
-    position: 'absolute',
-    borderWidth: 1,
-    borderColor: Colors.brightSkyBlue,
-    borderRadius: circleRadiusSize,
-    backgroundColor: Colors.transparent,
-    top: imageViewSize - 30,
-    left: imageViewSize - 40,
-    zIndex: 1000,
-  },
-  imageLayer: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  imageViewStyle: {
-    width: imageViewSize,
-    height: imageViewSize,
-    borderWidth: 1,
-    borderRadius: 24,
-    borderColor: Colors.veryLightPink,
-  },
-  textStyle: {
-    position: 'absolute',
-    width: '100%',
-    fontSize: 18,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: Colors.brightSkyBlue,
-    top: imageViewSize + 80,
-  },
-});
+interface ImageSlot {
+  filename: string;
+  path: string;
+}
+
+const BUTKET_URL = Config.BUCKET_PATH + '/BACKGROUND';
+
+const getEmptyImageSlot = (count: number): ImageSlot[] => {
+  const slot: ImageSlot = {
+    filename: '',
+    path: '',
+  };
+
+  return Array(count).fill(slot);
+};
 
 const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
-  const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [imageOne, setImageOne] = useState<Image | null>(null);
-  const [imageTwo, setImageTwo] = useState<Image | null>(null);
-  const [imageThree, setImageThree] = useState<Image | null>(null);
-  const [imageFour, setImageFour] = useState<Image | null>(null);
+  const [showAddButton, setShowAddButton] = useState<boolean>(true);
+  const [imageSlots, setImageSlots] = useState<ImageSlot[]>(() =>
+    getEmptyImageSlot(4),
+  );
+  const [isLoading, setLoadng] = useState(false);
 
-  check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-    .then((result) => {
-      switch (result) {
-        case RESULTS.UNAVAILABLE:
-          console.log(
-            'This feature is not available (on this device / in this context)',
-          );
-          break;
-        case RESULTS.DENIED:
-          console.log(
-            'The permission has not been requested / is denied but requestable',
-          );
-          break;
-        case RESULTS.GRANTED:
-          console.log('The permission is granted');
-          break;
-        case RESULTS.BLOCKED:
-          console.log('The permission is denied and not requestable anymore');
-          break;
-      }
+  const convertToImageSlot = (
+    result: PickerImage[] | PickerImage,
+  ): ImageSlot[] => {
+    const images = result as PickerImage[];
+    return images.map(
+      ({ filename, path }): ImageSlot => ({
+        filename,
+        path,
+      }),
+    );
+  };
+
+  const setMultipleImages = (): Promise<ImageSlot[]> => {
+    return ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      writeTempFile: true,
+      maxFiles: imageSlots.length,
     })
-    .catch((error) => {
-      // …
-    });
+      .then(convertToImageSlot)
+      .then((newSlots): ImageSlot[] => {
+        return imageSlots.map((prevSlot, i) =>
+          newSlots[i] ? newSlots[i] : prevSlot,
+        );
+      });
+  };
 
-  const getImageFromGallery = async (): Promise<void> => {
+  const setSingleImage = (index: number): Promise<ImageSlot[]> => {
+    return ImagePicker.openPicker({
+      mediaType: 'photo',
+      writeTempFile: true,
+    }).then((newSlot): ImageSlot[] => {
+      const { filename, path } = newSlot as PickerImage;
+      const isDulpicated = imageSlots.some(
+        (prevSlot) => prevSlot.filename === filename,
+      );
+      const newImageSlots = imageSlots.slice();
+
+      if (!isDulpicated) {
+        newImageSlots[index] = {
+          filename,
+          path,
+        };
+      }
+
+      return isDulpicated ? imageSlots : newImageSlots;
+    });
+  };
+
+  const openPhotoLibrary = async (
+    slotIndex: number | null = null,
+  ): Promise<void> => {
+    setLoadng(true);
+
     try {
-      console.log('Button Clicked!!');
-      const images: any = await ImagePicker.openPicker({
-        multiple: true,
-        writeTempFile: true,
-        maxFiles: 4,
+      let newImageSlots: ImageSlot[] = [];
+
+      if (slotIndex !== null) {
+        newImageSlots = await setSingleImage(slotIndex);
+      } else {
+        newImageSlots = await setMultipleImages();
+        setShowAddButton(false);
+      }
+
+      setImageSlots(newImageSlots);
+      setLoadng(false);
+    } catch (error) {
+      console.log(error);
+      setLoadng(false);
+    }
+  };
+
+  // TODO: Upload from client or server?
+  const resizeImage = async (
+    imagePath: string[],
+  ): Promise<void | ResizingResponse[]> => {
+    try {
+      const resizedImages: Promise<ResizingResponse>[] = [];
+
+      imagePath.forEach((path) => {
+        const resizedImage = ImageResizer.createResizedImage(
+          path,
+          1000,
+          1000,
+          'JPEG',
+          100,
+        );
+
+        resizedImages.push(resizedImage);
       });
 
-      setImageOne(images[0] ?? null);
-      setImageTwo(images[1] ?? null);
-      setImageThree(images[2] ?? null);
-      setImageFour(images[3] ?? null);
-
-      setIsVisible(false);
+      const result = await Promise.all(resizedImages);
+      return result;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const uploadImage = async (): Promise<void> => {
-    const bucketPath = Config.BUCKET_PATH + '/BACKGROUND';
-
-    const imageKeyArray = [];
-    if (imageOne !== null) {
-      const resizedImage = await ImageResizer.createResizedImage(
-        imageOne.path,
-        1000,
-        1000,
-        'JPEG',
-        90,
-      );
-      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
-
-      const params = {
-        Bucket: bucketPath,
-        Key: uuidv4(),
-        Body: imageBlob,
-      };
-
-      const request = new AWS.S3.ManagedUpload({ params });
-      const result = await new Promise((resolve, reject) => {
-        return request.send((error, data) => {
-          if (error) {
-            return reject(error);
-          }
-
-          resolve(data);
-        });
-      });
-
-      imageKeyArray.push(result.Key);
-    }
-    if (imageTwo !== null) {
-      const resizedImage = await ImageResizer.createResizedImage(
-        imageTwo.path,
-        1000,
-        1000,
-        'JPEG',
-        90,
-      );
-      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
-
-      const params = {
-        Bucket: bucketPath,
-        Key: uuidv4(),
-        Body: imageBlob,
-      };
-
-      const request = new AWS.S3.ManagedUpload({ params });
-      const result = await new Promise((resolve, reject) => {
-        return request.send((error, data) => {
-          if (error) {
-            return reject(error);
-          }
-
-          resolve(data);
-        });
-      });
-
-      imageKeyArray.push(result.Key);
-    }
-    if (imageThree !== null) {
-      const resizedImage = await ImageResizer.createResizedImage(
-        imageThree.path,
-        1000,
-        1000,
-        'JPEG',
-        90,
-      );
-      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
-
-      const params = {
-        Bucket: bucketPath,
-        Key: uuidv4(),
-        Body: imageBlob,
-      };
-
-      const request = new AWS.S3.ManagedUpload({ params });
-      const result = await new Promise((resolve, reject) => {
-        return request.send((error, data) => {
-          if (error) {
-            return reject(error);
-          }
-
-          resolve(data);
-        });
-      });
-
-      imageKeyArray.push(result.Key);
-    }
-    if (imageFour !== null) {
-      const resizedImage = await ImageResizer.createResizedImage(
-        imageFour.path,
-        1000,
-        1000,
-        'JPEG',
-        90,
-      );
-      const imageBlob = await fetch(resizedImage.uri).then((res) => res.blob());
-
-      const params = {
-        Bucket: bucketPath,
-        Key: uuidv4(),
-        Body: imageBlob,
-      };
-
-      const request = new AWS.S3.ManagedUpload({ params });
-      const result = await new Promise((resolve, reject) => {
-        return request.send((error, data) => {
-          if (error) {
-            return reject(error);
-          }
-
-          resolve(data);
-        });
-      });
-
-      imageKeyArray.push(result.Key);
-    }
-
-    console.log('imageKeyArray', imageKeyArray);
+  const goToSelfieUpload = (): void => {
     navigation.navigate(Screens.SelfieUpload);
+  };
+
+  const renderImageBox = (): JSX.Element[] => {
+    return imageSlots.map(
+      ({ path }: ImageSlot, i): JSX.Element => {
+        return (
+          <TouchableOpacity
+            key={path || i}
+            onPress={(): Promise<void> => openPhotoLibrary(i)}
+            style={styles.imageViewStyle}>
+            {path.length !== 0 ? (
+              <ImageView
+                resizeMode={'stretch'}
+                source={{ uri: path }}
+                style={styles.image}
+              />
+            ) : (
+              <View>{isLoading && <ActivityIndicator size={'large'} />}</View>
+            )}
+          </TouchableOpacity>
+        );
+      },
+    );
   };
 
   return (
     <ContentContainer>
-      <Content style={{ paddingHorizontal: 20 }}>
+      <Content style={{ paddingHorizontal: 0 }}>
         <PageTitle />
 
         <View style={styles.imageContainer}>
-          {isVisible ? (
-            <View>
-              <IconButton
-                size={30}
-                name={'plus'}
-                onPress={getImageFromGallery}
-              />
-              <Text style={styles.textStyle}>Click to add photo</Text>
-            </View>
-          ) : null}
-
-          <HorizontalView style={{ flexWrap: 'wrap' }}>
-            {imageOne === null ? (
-              <View style={styles.imageViewStyle} />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                source={{ uri: imageOne?.path }}
-                style={styles.imageViewStyle}
-              />
-            )}
-            <HSpace space={20} />
-            {imageTwo === null ? (
-              <View style={styles.imageViewStyle} />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                source={{ uri: imageTwo?.path }}
-                style={styles.imageViewStyle}
-              />
-            )}
-            {imageThree === null ? (
-              <View style={styles.imageViewStyle} />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                source={{ uri: imageThree?.path }}
-                style={styles.imageViewStyle}
-              />
-            )}
-            <HSpace space={20} />
-            {imageFour === null ? (
-              <View style={styles.imageViewStyle} />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                source={{ uri: imageFour?.path }}
-                style={styles.imageViewStyle}
-              />
-            )}
+          {showAddButton && <AddPhoto onPress={openPhotoLibrary} />}
+          <HorizontalView
+            style={styles.imageContentContainer}
+            verticalAlign={'center'}
+            horizontalAlign={'center'}>
+            {renderImageBox()}
           </HorizontalView>
-          {/* <VSpace space={20} />
-          <View style={styles.imageLayer}>
-            {imageThree === null ? (
-              <View style={styles.imageViewStyle} />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                source={{ uri: imageThree?.path }}
-                style={styles.imageViewStyle}
-              />
-            )}
-            <HSpace space={20} />
-            {imageFour === null ? (
-              <View style={styles.imageViewStyle} />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                source={{ uri: imageFour?.path }}
-                style={styles.imageViewStyle}
-              />
-            )}
-          </View> */}
         </View>
+        <VSpace space={50} />
       </Content>
-      <BarButton title={'NEXT'} onPress={uploadImage} />
+      <BarButton
+        title={'NEXT'}
+        disabled={isLoading}
+        onPress={goToSelfieUpload}
+        // onPress={(): Promise<void> =>
+        //   resizeImage(
+        //     imageSlots.filter(({ path }) => !!path).map(({ path }) => path),
+        //   )
+        // }
+      />
     </ContentContainer>
   );
 };
@@ -346,5 +223,74 @@ const PageTitle = (): JSX.Element => (
     <VSpace space={25} />
   </>
 );
+
+const AddPhoto = ({ onPress }: { onPress(): void }): JSX.Element => {
+  const handler = (): void => {
+    onPress();
+  };
+
+  return (
+    <View style={styles.imageCoverContainer}>
+      <IconButton
+        size={50}
+        name={'plus'}
+        color={Colors.brightSkyBlue}
+        style={styles.icon}
+        onPress={handler}
+      />
+      <VSpace space={20} />
+      <Text subTitle color={Colors.brightSkyBlue} text={'Click to add photo'} />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  imageContentContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  imageCoverContainer: {
+    position: 'absolute',
+    top: 30,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.transparent,
+    zIndex: 1,
+  },
+  icon: {
+    width: getRelativeWidth(100),
+    height: getRelativeWidth(100),
+    borderRadius: getCircleRadiusSize(),
+    borderColor: Colors.brightSkyBlue,
+    borderWidth: 1,
+    backgroundColor: Colors.transparent,
+    justifyContent: 'center',
+  },
+  imageViewStyle: {
+    width: getRelativeWidth(160),
+    height: getRelativeWidth(160),
+    borderWidth: 1,
+    borderRadius: 24,
+    borderColor: Colors.veryLightPink,
+    marginBottom: 20,
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: getRelativeWidth(160),
+    height: getRelativeWidth(160),
+    borderRadius: 24,
+  },
+});
 
 export default BestShotUpload;

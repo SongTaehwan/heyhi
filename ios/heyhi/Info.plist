@@ -43,13 +43,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera required for taking your picture</string>
+	<string>Camera access permission required for taking your picture</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>YOUR TEXT</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>YOUR TEXT</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Photo Library access permission required for uploading pictures</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

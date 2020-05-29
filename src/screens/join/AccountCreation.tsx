@@ -212,6 +212,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
         <Title title text={'Making Account'} center />
         <VSpace space={30} />
         <TextField
+          autoFocus
           enablesReturnKeyAutomatically
           refId={FORM_DATA_TYPE.EMAIL}
           customRef={setRefs}
