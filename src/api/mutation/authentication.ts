@@ -10,8 +10,10 @@ const SIGN_IN = gql`
 `;
 
 const SEND_EMAIL = gql`
-  mutation SEND_EMAIL($data: sendEmailInput!) {
-    sendEmail(data: $data)
+  mutation SEND_EMAIL($data: SendEmailInput!) {
+    sendEmail(data: $data) {
+      expiredAt
+    }
   }
 `;
 

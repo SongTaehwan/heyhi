@@ -91,7 +91,7 @@ const EmailVerification = ({
     AUTHENTICATION.VERIFY_CODE,
     {
       variables: {
-        verifyCode: {
+        data: {
           email,
           verifyCode: verificationCode,
         },
@@ -127,6 +127,7 @@ const EmailVerification = ({
   };
 
   const handleVerificationCode = (): void => {
+    console.log('verificationCode', verificationCode);
     if (verificationCode.length === 6) {
       verifyCode();
       Keyboard.dismiss();
