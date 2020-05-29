@@ -9,6 +9,15 @@ const CREATE_USER = gql`
   }
 `;
 
+const CHANGE_PASSWORD = gql`
+  mutation CHANGE_PASSWORD($data: ChangePasswordInput) {
+    changePassword(data: $data) {
+      updated
+    }
+  }
+`;
+
 export default {
   CREATE_USER,
+  CHANGE_PASSWORD,
 };
