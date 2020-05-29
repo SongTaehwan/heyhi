@@ -1,47 +1,40 @@
+import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
 import {
-  ContentLayer,
+  Content,
   Title,
   BarButton,
   VSpace,
   HSpace,
-  Layout,
+  ContentContainer,
   IconButton,
+  Text,
+  HorizontalView,
 } from '@components';
-import ImagePicker from 'react-native-image-crop-picker';
-import {
-  NavigationFlowProps,
-  SignUpStackParamList,
-  SignUpFlowProps,
-  Screens,
-} from '@routes/types';
-import { Colors } from '@constants';
-import { getScreenWidth, getScreenHeight } from '@util/Dimensions';
 import { check, PERMISSIONS, RESULTS } from 'react-native-permissions';
-
+import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
+import Config from 'react-native-config';
+import { Screens, SignUpStackNavigationProps } from '@navigation/types';
+import { getScreenWidth, getScreenHeight } from '@util/Dimensions';
+import { Colors } from '@constants';
+
 import uuidv4 from 'uuid/v4';
 
 import AWS from '../../../aws.config';
-import Config from 'react-native-config';
 
-type BestShotUploadProps = SignUpFlowProps<Screens.BestShotUpload>;
+interface BestShotUploadProps {
+  navigation: SignUpStackNavigationProps<Screens.BestShotUpload>;
+}
 
 const imageViewSize = (getScreenWidth() - 60) / 2;
 const circleRadiusSize = (getScreenWidth() + getScreenHeight()) / 2;
-
+console.log(imageViewSize, Dimensions.get('screen').width);
 const styles = StyleSheet.create({
-  title: {
-    textAlign: 'center',
-  },
-  subTitle: {
-    fontSize: 15,
-    color: Colors.grapeFruit,
-    fontWeight: 'bold',
-  },
   imageContainer: {
-    position: 'relative',
+    flex: 1,
+    backgroundColor: 'orange',
+    width: '100%',
   },
   imageAddIcon: {
     display: 'flex',
@@ -256,30 +249,23 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   };
 
   return (
-    <Layout>
-      <ContentLayer style={{ paddingHorizontal: 20 }}>
-        <Title h2 style={styles.title}>
-          {'Please Upload your\nBest Shots!'}
-        </Title>
-        <VSpace space={14} />
-        <Text style={styles.subTitle}>
-          {'You cannot upload face pictures!'}
-        </Text>
-        <VSpace space={25} />
+    <ContentContainer>
+      <Content style={{ paddingHorizontal: 20 }}>
+        <PageTitle />
+
         <View style={styles.imageContainer}>
           {isVisible ? (
             <View>
               <IconButton
-                iconSize={30}
-                iconName={'plus'}
-                iconContainerStyle={styles.imageAddIcon}
+                size={30}
+                name={'plus'}
                 onPress={getImageFromGallery}
               />
               <Text style={styles.textStyle}>Click to add photo</Text>
             </View>
           ) : null}
 
-          <View style={styles.imageLayer}>
+          <HorizontalView style={{ flexWrap: 'wrap' }}>
             {imageOne === null ? (
               <View style={styles.imageViewStyle} />
             ) : (
@@ -299,8 +285,27 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
                 style={styles.imageViewStyle}
               />
             )}
-          </View>
-          <VSpace space={20} />
+            {imageThree === null ? (
+              <View style={styles.imageViewStyle} />
+            ) : (
+              <Image
+                resizeMode={'cover'}
+                source={{ uri: imageThree?.path }}
+                style={styles.imageViewStyle}
+              />
+            )}
+            <HSpace space={20} />
+            {imageFour === null ? (
+              <View style={styles.imageViewStyle} />
+            ) : (
+              <Image
+                resizeMode={'cover'}
+                source={{ uri: imageFour?.path }}
+                style={styles.imageViewStyle}
+              />
+            )}
+          </HorizontalView>
+          {/* <VSpace space={20} />
           <View style={styles.imageLayer}>
             {imageThree === null ? (
               <View style={styles.imageViewStyle} />
@@ -321,12 +326,25 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
                 style={styles.imageViewStyle}
               />
             )}
-          </View>
+          </View> */}
         </View>
-      </ContentLayer>
+      </Content>
       <BarButton title={'NEXT'} onPress={uploadImage} />
-    </Layout>
+    </ContentContainer>
   );
 };
+
+const PageTitle = (): JSX.Element => (
+  <>
+    <Title title center text={'Please Upload your\nBest Shots!'} />
+    <VSpace space={14} />
+    <Text
+      color={Colors.grapeFruit}
+      bold
+      text={'You cannot upload face pictures!'}
+    />
+    <VSpace space={25} />
+  </>
+);
 
 export default BestShotUpload;

@@ -1,10 +1,12 @@
+import { WheelPicker, DatePicker } from 'react-native-wheel-picker-android';
 import { Text, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Octicons';
+import Icon from 'react-native-vector-icons/Entypo';
 import React, { useState, ReactNode } from 'react';
 import { Colors } from '@constants';
 import PickerModal from './PickerModal';
-import { WheelPicker, DatePicker } from 'react-native-wheel-picker-android';
+import { ModalProps } from 'react-native-modal';
+import { HorizontalView } from '@components';
 
 interface PickerProps {
   value: string;
@@ -36,12 +38,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    lineHeight: 30,
   },
   arrowIcon: {
     position: 'absolute',
-    right: 10,
+    right: 0,
     color: Colors.brightSkyBlue,
+    textAlign: 'center',
+    width: 28,
+    height: 28,
   },
 });
 
@@ -50,8 +54,9 @@ const Picker = ({
   placeholder = 'placeholder',
   containerStyle,
   children,
+  backdropOpacity = 0.5,
   ...props
-}: Partial<PickerProps>): JSX.Element => {
+}: Partial<PickerProps> & Partial<ModalProps>): JSX.Element => {
   const [modalState, setModal] = useState(false);
 
   const toggleModal = (): void => {
@@ -67,11 +72,18 @@ const Picker = ({
         modalState ? styles.activeBorder : styles.inactiveBorder,
       ]}
       onPress={toggleModal}>
-      <Text style={styles.title}>{value || placeholder}</Text>
-      <Icon size={28} name={'triangle-down'} style={styles.arrowIcon} />
+      <HorizontalView horizontalAlign={'center'} verticalAlign={'center'}>
+        <Text style={styles.title}>{value || placeholder}</Text>
+        <Icon
+          size={28}
+          name={modalState ? 'triangle-up' : 'triangle-down'}
+          style={styles.arrowIcon}
+        />
+      </HorizontalView>
       <PickerModal
         isVisible={modalState}
         onBackdropPress={toggleModal}
+        backdropOpacity={backdropOpacity}
         {...props}>
         {children}
       </PickerModal>

@@ -2,10 +2,12 @@ import { View, StyleSheet, Text } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import AsyncStorage from '@react-native-community/async-storage';
-import { AppFlow, NavigationFlowProps, AppStackParamList } from '@routes/types';
+import { AppFlow, AppStackNavigationProps } from '@navigation/types';
 import { CommonActions } from '@react-navigation/native';
 
-type SplashProps = NavigationFlowProps<AppStackParamList, AppFlow.Splash>;
+interface SplashProps {
+  navigation: AppStackNavigationProps<AppFlow.Splash>;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -21,24 +23,34 @@ const styles = StyleSheet.create({
 });
 
 const TITLE = 'Hey, Hi!';
-const TOKEN = 'token';
+const TOKEN = 'ACCESS_TOKEN';
 
 const Splash = ({ navigation }: SplashProps): JSX.Element => {
   const [splashTitle, setSplashTitle] = useState('');
   useEffect(() => {
     async function checkToken(): Promise<string | void> {
+      // await AsyncStorage.clear();
       const token = await AsyncStorage.getItem(TOKEN);
 
       if (token) {
-        navigation.dispatch(
+        return navigation.dispatch(
           CommonActions.reset({
             index: 0,
-            routes: [{ name: AppFlow.MainFlow }],
+            routes: [{ name: AppFlow.MainTab }],
           }),
         );
       }
 
-      navigation.replace(AppFlow.TutorialFlow);
+      // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: AppFlow.LoginStack },
+            { name: AppFlow.TutorialStack },
+          ],
+        }),
+      );
     }
 
     RNBootSplash.hide({ duration: 200 });

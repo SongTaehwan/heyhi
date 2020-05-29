@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
 import {
-  ContentLayer,
+  Content,
   Title,
   BarButton,
-  Layout,
+  ContentContainer,
   VSpace,
   Divider,
   CheckableListItem,
   Text,
 } from '@components';
-import {
-  NavigationFlowProps,
-  SignUpStackParamList,
-  Screens,
-} from '@routes/types';
+import { Screens, SignUpStackNavigationProps } from '@navigation/types';
 
-type ServicePolicyProps = NavigationFlowProps<
-  SignUpStackParamList,
-  'ServicePolicy'
->;
+interface ServicePolicyProps {
+  navigation: SignUpStackNavigationProps<Screens.ServicePolicy>;
+}
 
-enum CheckValue {
+enum Policies {
   personalInfo = 'personalInfo',
   location = 'location',
   servicePolicy = 'servicePolicy',
@@ -32,10 +27,6 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     width: '100%',
-  },
-  contentLayer: {
-    paddingHorizontal: 30,
-    alignItems: 'flex-start',
   },
   divider: {
     marginTop: 20,
@@ -65,9 +56,9 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
     }));
   };
 
-  const handleOnCheckCondition = (value: string): void => {
+  const handleOnCheckCondition = (value: Policies): void => {
     setCheckList((prev) => {
-      const targetKey = value as CheckValue;
+      const targetKey = value;
       const prevValue = prev[targetKey];
 
       return {
@@ -79,30 +70,31 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
   };
 
   const goToConditionDetail = (): void => {
+    // Store policy agreement
     navigation.navigate(Screens.ServicePolicyDetail);
   };
 
   return (
-    <Layout>
-      <ContentLayer style={styles.contentLayer}>
-        <Title h2 style={styles.title}>
-          {'Terms & Conditions'}
-        </Title>
+    <ContentContainer>
+      <Content>
+        <Title title text={'Terms & Conditions'} />
         <VSpace space={30} />
         <CheckableListItem
           showCheckbox={false}
+          verticalAlign={'center'}
           onPressTextButton={goToConditionDetail}>
           <CheckableListItem.Checkbox
-            value={CheckValue.all}
+            value={Policies.all}
             large
             checked={checkList.all}
             onPress={handleOnCheckAll}
           />
-          <Text h3 title={'I consent to all of the below'} />
+          <Text subTitle bold text={'I consent to all of the below'} />
         </CheckableListItem>
         <Divider style={styles.divider} />
+
         <CheckableListItem
-          value={CheckValue.personalInfo}
+          value={Policies.personalInfo}
           checked={checkList.all || checkList.personalInfo}
           onPressCheckbox={handleOnCheckCondition}>
           <CheckableListItem.ListItem
@@ -113,8 +105,9 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           />
         </CheckableListItem>
         <VSpace space={40} />
+
         <CheckableListItem
-          value={CheckValue.location}
+          value={Policies.location}
           checked={checkList.all || checkList.location}
           onPressCheckbox={handleOnCheckCondition}>
           <CheckableListItem.ListItem
@@ -123,8 +116,9 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           />
         </CheckableListItem>
         <VSpace space={40} />
+
         <CheckableListItem
-          value={CheckValue.servicePolicy}
+          value={Policies.servicePolicy}
           checked={checkList.all || checkList.servicePolicy}
           onPressCheckbox={handleOnCheckCondition}>
           <CheckableListItem.ListItem
@@ -132,7 +126,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
             onPress={goToConditionDetail}
           />
         </CheckableListItem>
-      </ContentLayer>
+      </Content>
       <BarButton
         title={'NEXT'}
         disabled={
@@ -140,9 +134,9 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           !checkList.personalInfo ||
           !checkList.servicePolicy
         }
-        onPress={(): void => navigation.navigate(Screens.BestShotUpload)}
+        onPress={(): void => navigation.navigate(Screens.SelfieUpload)}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -11,21 +11,18 @@ const SIGN_IN = gql`
 
 const SEND_EMAIL = gql`
   mutation SEND_EMAIL($data: sendEmailInput!) {
-    sendEmail(data: $data) {
-      id
-      email
-      lastName
-      firstName
-    }
+    sendEmail(data: $data)
   }
 `;
 
 const VERIFY_CODE = gql`
   mutation VERIFY_CODE($data: VerifyEmailInput!) {
-    id
-    email
-    lastName
-    firstName
+    verifyCode(data: $data) {
+      id
+      email
+      lastName
+      firstName
+    }
   }
 `;
 

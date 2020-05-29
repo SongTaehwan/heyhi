@@ -1,31 +1,32 @@
+import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
 import {
-  Layout,
-  ContentLayer,
   Title,
   VSpace,
+  Content,
   BarButton,
-  CheckableButton,
   HorizontalView,
+  CheckableButton,
+  ContentContainer,
   HSpace,
 } from '@components';
 import {
-  NavigationFlowProps,
-  SignUpStackParamList,
-  RootStackParamList,
   AppFlow,
-} from '@routes/types';
+  Screens,
+  SignUpStackNavigationProps,
+} from '@navigation/types';
 
-type InterestSelectionProps = NavigationFlowProps<
-  SignUpStackParamList & RootStackParamList,
-  'InterestSelection'
->;
+interface InterestSelectionProps {
+  navigation: SignUpStackNavigationProps<Screens.InterestSelection>;
+}
+
+enum Interests {
+  short = 'short',
+  long = 'long',
+  reallyLoing = 'reallyLong',
+}
 
 const styles = StyleSheet.create({
-  labelStyle: {
-    fontSize: 18,
-  },
   shorButton: {
     flex: 0.35,
   },
@@ -48,8 +49,7 @@ const InterestSelection = ({
   const totalInterests = Object.keys(interests).length;
   const intersetCount = Object.values(interests).filter((v) => v).length;
 
-  const handleOnCheckInterest = (value: string): void => {
-    console.log(value);
+  const handleOnCheckInterest = (value: Interests): void => {
     setInterest((prev) => {
       const targetValue = value;
       return {
@@ -60,14 +60,13 @@ const InterestSelection = ({
   };
 
   return (
-    <Layout>
-      <ContentLayer>
-        <Title h2>{'My Interests'}</Title>
+    <ContentContainer>
+      <Content>
+        <Title title center text={'My Interests'} />
         <VSpace />
-        <Text style={styles.labelStyle}>
-          {'Please choose a description of you'}
-        </Text>
+        <Title subTitle center text={'Please choose a description of you'} />
         <VSpace space={40} />
+
         <HorizontalView>
           <CheckableButton
             value={'short'}
@@ -92,13 +91,13 @@ const InterestSelection = ({
           title={'REALLY LOING'}
           onPress={handleOnCheckInterest}
         />
-      </ContentLayer>
+      </Content>
       <BarButton
         title={`DONE (${intersetCount}/${totalInterests})`}
         disabled={intersetCount === 0}
-        onPress={(): void => navigation.navigate(AppFlow.MainFlow)}
+        onPress={(): void => navigation.navigate(AppFlow.MainTab)}
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

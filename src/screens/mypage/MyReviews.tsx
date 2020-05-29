@@ -4,7 +4,7 @@ import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import {
-  Layout,
+  ContentContainer,
   HSpace,
   VSpace,
   ImageView,
@@ -12,7 +12,7 @@ import {
   Loading,
 } from '@components';
 import { Colors } from '@constants';
-import { MyPageStackParamList, Screens } from '@routes/types';
+import { MyPageStackParamList, Screens } from '@navigation/types';
 import { REVIEW } from '@api/query';
 import { getAge } from '@util/age';
 
@@ -69,7 +69,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
   const { reviews } = data;
 
   return (
-    <Layout>
+    <ContentContainer>
       {loading ? (
         <Loading />
       ) : (
@@ -117,7 +117,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
           </View>
         </>
       )}
-    </Layout>
+    </ContentContainer>
   );
 };
 

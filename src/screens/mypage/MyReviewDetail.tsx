@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { View, StyleSheet, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
-  Layout,
+  ContentContainer,
   HeadDivider,
   Divider,
   ImageView,
@@ -55,7 +55,7 @@ const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
   const { review } = data;
 
   return (
-    <Layout>
+    <ContentContainer>
       {loading ? (
         <Loading />
       ) : (
@@ -71,7 +71,7 @@ const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
                 />
               </View>
               <View style={styles.infoWrap}>
-                <Title h2={true}>
+                <Title title>
                   {review.reviewer.firstName} {review.reviewer.lastName}
                 </Title>
                 <VSpace space={5} />
@@ -90,7 +90,7 @@ const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
           </View>
         </>
       )}
-    </Layout>
+    </ContentContainer>
   );
 };
 

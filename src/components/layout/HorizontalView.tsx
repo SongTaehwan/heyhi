@@ -18,7 +18,7 @@ const HorizontalView: HorizontalViewType = ({
   const viewStyle = StyleSheet.flatten([
     styles.defaultStyle,
     style && style,
-    { justiftContent: horizontalAlign, alignItems: verticalAlign },
+    { justifyContent: horizontalAlign, alignItems: verticalAlign },
   ]);
   return <View style={viewStyle}>{children}</View>;
 };

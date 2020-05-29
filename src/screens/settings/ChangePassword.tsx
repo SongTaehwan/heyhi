@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import {
-  Layout,
+  ContentContainer,
   BarButton,
   TextField,
   Divider,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
 const ChnagePassword = (): JSX.Element => {
   return (
-    <Layout>
+    <ContentContainer>
       <HeadDivider />
       <View style={styles.wrapper}>
         <VSpace space={40} />
@@ -38,7 +38,7 @@ const ChnagePassword = (): JSX.Element => {
         <TextField placeholder={'New Password Confirm'} />
       </View>
       <BarButton title="DONE" />
-    </Layout>
+    </ContentContainer>
   );
 };
 

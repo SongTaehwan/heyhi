@@ -1,25 +1,30 @@
-import React, { ReactNode, FC } from 'react';
+import React, { ReactNode, FC, Ref } from 'react';
 import {
-  TextProps as RNTextProps,
   TextStyle,
   ViewStyle,
   StyleProp,
   FlexAlignType,
   GestureResponderEvent,
+  TouchableOpacityProps,
+  TextProps as RNTextProps,
 } from 'react-native';
 import {
+  Input,
   InputProps,
   CheckBoxProps as RNECheckBoxProps,
 } from 'react-native-elements';
 import { SafeAreaViewProps } from 'react-native-safe-area-context';
+import { FlexAxis } from '@type';
 
 // NOTE: CheckableListItem
-export interface CheckableListItemProps extends CheckboxProps {
+export interface CheckableListItemProps
+  extends Omit<CheckboxProps, 'checked'>,
+    HorizontalViewProps {
   checked?: boolean;
   title?: string;
   children?: ReactNode;
   showCheckbox?: boolean;
-  onPressCheckbox?: (value: string, checked: boolean) => void;
+  onPressCheckbox?: (value: any, checked: boolean) => void;
   onPressTextButton?: (event: GestureResponderEvent) => void;
 }
 
@@ -41,53 +46,47 @@ export type CheckableListContentType = FC<CheckableListContentProps>;
 
 // NOTE: Text
 export interface TextProps extends RNTextProps {
-  title?: string;
-  h1?: boolean;
-  h2?: boolean;
-  h3?: boolean;
-  h4?: boolean;
-  style?: TextStyle;
+  center?: boolean;
+  align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
+  color?: string;
+  text?: string;
+  title?: boolean;
+  subTitle?: boolean;
+  smallText?: boolean;
+  bold?: boolean;
+  style?: StyleProp<TextStyle>;
   children?: React.ReactNode;
 }
 
 export type TextType = FC<TextProps>;
 
-// NOTE: Title
-export interface TitleProps {
-  text: string;
-  h1: boolean;
-  h2: boolean;
-  h3: boolean;
-  h4: boolean;
-  style: TextStyle;
-  children: React.ReactNode | string;
-}
-
-export type TitleType = FC<TitleProps>;
-
 // NOTE: TextField
 export interface TextFieldProps extends InputProps {
+  refId?: any;
+  renderErrorMessage?: boolean;
+  customRef?(node: Input, id?: any): void;
+  inputRef?: Ref<Input>;
   hasError?: boolean;
 }
 
 export type TextFieldType = FC<TextFieldProps>;
 
-// NOTE: Layout
-export interface LayoutProps {
+// NOTE: ContentContainer
+export interface ContentContainerProps {
   children: React.ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
-export type LayoutType = FC<LayoutProps>;
+export type ContentContainerType = FC<ContentContainerProps>;
 
-// NOTE: ContentLayer
-export interface ContentLayerProps {
-  children: React.ReactNode;
+// NOTE: Content
+export interface ContentProps {
+  children?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 }
 
-export type ContentLayerType = FC<ContentLayerProps>;
+export type ContentType = FC<ContentProps>;
 
 // NOTE: Container
 export interface ContainerProps extends SafeAreaViewProps {
@@ -109,7 +108,7 @@ export interface ChipProps {
 export type ChipType = FC<ChipProps>;
 
 // NOTE: Checkbox
-export interface CheckboxProps extends RNECheckBoxProps {
+export interface CheckboxProps extends Omit<RNECheckBoxProps, 'onPress'> {
   value?: string;
   large?: boolean;
   onPress?: (value: string, checked: boolean) => void;
@@ -121,7 +120,7 @@ export type CheckboxType = FC<CheckboxProps>;
 export interface HorizontalViewProps {
   children?: ReactNode;
   style?: StyleProp<ViewStyle>;
-  horizontalAlign?: FlexAlignType;
+  horizontalAlign?: FlexAxis;
   verticalAlign?: FlexAlignType;
 }
 

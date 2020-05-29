@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { ContentLayer, Title, Layout, Divider } from '@components';
-import { NavigationFlowProps, SignUpStackParamList } from '@routes/types';
+import { Text, StyleSheet } from 'react-native';
+import { Content, Title, ContentContainer, Divider } from '@components';
+import { NavigationProps, SignUpStackParamList } from '@navigation/types';
 
-type ServicePolicyDetailProps = NavigationFlowProps<
+type ServicePolicyDetailProps = NavigationProps<
   SignUpStackParamList,
   'ServicePolicyDetail'
 >;
@@ -27,11 +27,13 @@ const ServicePolicyDetail = ({
   navigation,
 }: ServicePolicyDetailProps): JSX.Element => {
   return (
-    <Layout>
-      <ContentLayer style={styles.contentLayer}>
-        <Title h4>{'Location Service'}</Title>
+    <ContentContainer>
+      <Content style={styles.contentLayer}>
+        <Title bold text={'Location Service'} />
         <Divider style={styles.divider} />
-        <Text style={styles.contentText}>{`Terms and conditions
+        <Text
+          style={styles.contentText}
+          adjustsFontSizeToFit>{`Terms and conditions
 These terms and conditions ("Terms", "Agreement") are an agreement between Mobile Application Developer ("Mobile Application Developer", "us", "we" or "our") and you ("User", "you" or "your"). This Agreement sets forth the general terms and conditions of your use of the "Hey, Hi" mobile application and any of its products or services (collectively, "Mobile Application" or "Services").
 
 Accounts and membership
@@ -89,8 +91,8 @@ Contacting us
 If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to heyhi@heyhi.online
 
 This document was last updated on February 22, 2020`}</Text>
-      </ContentLayer>
-    </Layout>
+      </Content>
+    </ContentContainer>
   );
 };
 

@@ -1,19 +1,30 @@
-import { Text, StyleSheet } from 'react-native';
-import React from 'react';
-import { LoginFlowProps, Screens } from '@routes/types';
+import { useMutation } from '@apollo/react-hooks';
+import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Screens, LoginStackNavigationProps } from '@navigation/types';
 import useText from '@hooks/useText';
 import {
-  Layout,
+  ContentContainer,
   Title,
   BarButton,
   VSpace,
   TextField,
-  ContentLayer,
+  Content,
+  Text,
+  ErrorMessage,
 } from '@components';
-import { useMutation } from '@apollo/react-hooks';
+
 import { AUTHENTICATION } from '@api/mutation';
 
-type PasswordRestoration = LoginFlowProps<Screens.PasswordRestoration>;
+interface PasswordRestoration {
+  navigation: LoginStackNavigationProps<Screens.PasswordRestoration>;
+}
+
+interface MutationVariable {
+  data: {
+    email: string;
+  };
+}
 
 const styles = StyleSheet.create({
   guidText: {
@@ -26,48 +37,66 @@ const styles = StyleSheet.create({
 const PasswordRestoration = ({
   navigation,
 }: PasswordRestoration): JSX.Element => {
-  const [email, setEmail] = useText('', { isEmail: true });
+  const [email, setEmail, isValid] = useText('', { isEmail: true });
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
-    fetchPolicy: 'no-cache',
-    onCompleted: (data) => {
-      navigation.navigate(Screens.PasswordCreation, {
-        checkEmail: data.sendEmail.email,
-      });
+  const [sendEmail, { loading }] = useMutation<{}, MutationVariable>(
+    AUTHENTICATION.SEND_EMAIL,
+    {
+      variables: {
+        data: {
+          email,
+        },
+      },
+      notifyOnNetworkStatusChange: false,
+      fetchPolicy: 'no-cache',
+      onCompleted: (): void => {
+        navigation.navigate(Screens.EmailAuth, { email });
+      },
+      onError: (error): void => {
+        console.log('Error while Sending Auth email: ', error);
+
+        // TODO: 에러 발생 시 UX를 고려해서 무시하고 넘어간 후 Effect 훅에서 재요청 보낼지?
+        const message = error.message.split(': ').pop() as string;
+        setErrorMessage(message);
+      },
     },
-  });
+  );
+
+  const sendAuthEmail = (): void => {
+    sendEmail();
+  };
 
   return (
-    <Layout>
-      <ContentLayer>
-        <Title h2 title="Create a new Password" />
+    <ContentContainer>
+      <Content>
+        <Title title text="Create a new Password" center />
         <VSpace space={30} />
         <Text style={styles.guidText}>
           {
-            'To reset your password,\nenter your E-mail address below\nand follow the instructions\nin the E-mail we’ll send you.'
+            'To reset your password,\nenter your E-mail address below\nand follow the instructions\nin the E-mail we’ll send you'
           }
         </Text>
         <VSpace space={30} />
         <TextField
+          autoFocus
           placeholder="Email"
           onChangeText={setEmail}
           inputContainerStyle={{ width: '90%' }}
+          enablesReturnKeyAutomatically
+          returnKeyType={'done'}
+          onSubmitEditing={sendAuthEmail}
         />
-      </ContentLayer>
+      </Content>
+      {!!errorMessage && <ErrorMessage message={errorMessage} />}
       <BarButton
-        title="SEND RESET LINK"
-        disabled={email.length === 0}
-        onPress={(): void => {
-          sendEmail({
-            variables: {
-              data: {
-                email,
-              },
-            },
-          });
-        }}
+        title="SEND RESET CODE"
+        loading={loading}
+        disabled={!isValid || loading}
+        onPress={sendAuthEmail}
+        // onPress={() => navigation.navigate(Screens.EmailAuth, { email })} // dev
       />
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -1,7 +1,8 @@
-import { Input } from 'react-native-elements';
 import { StyleSheet, Keyboard } from 'react-native';
+import { Input } from 'react-native-elements';
 import React, { useState } from 'react';
-import { Colors } from '@constants';
+import { Colors, StyleSheets } from '@constants';
+import { TextFieldProps } from './types';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,12 +30,18 @@ const styles = StyleSheet.create({
 });
 
 const TextField = ({
+  refId = null,
+  inputRef,
+  customRef,
   value,
   onChangeText,
   inputContainerStyle,
   inputStyle,
   placeholder,
-  hasError,
+  renderErrorMessage = false,
+  hasError = false,
+  autoCapitalize = 'none',
+  autoCorrect = false,
   ...props
 }: TextFieldProps): JSX.Element => {
   const [focused, setFocus] = useState(false);
@@ -56,13 +63,22 @@ const TextField = ({
   ]);
 
   const inputComponentStyle = StyleSheet.flatten([
-    styles.defaultInput,
+    StyleSheets.text.baseText(),
     inputStyle,
   ]);
 
+  const mapRefWithId = (node: Input): void => {
+    if (customRef && node) {
+      customRef(node, refId);
+    }
+  };
+
   return (
     <Input
+      ref={inputRef || mapRefWithId}
       value={value}
+      autoCapitalize={autoCapitalize}
+      autoCorrect={autoCorrect}
       containerStyle={styles.container}
       inputContainerStyle={inputContainer}
       inputStyle={inputComponentStyle}
@@ -72,6 +88,7 @@ const TextField = ({
       onBlur={onBlur}
       onChangeText={onChangeText}
       onSubmitEditing={Keyboard.dismiss}
+      renderErrorMessage={renderErrorMessage}
       {...props}
     />
   );

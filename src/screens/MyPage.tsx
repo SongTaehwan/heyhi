@@ -6,8 +6,15 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { MyPageStackParamList, Screens } from '@routes/types';
-import { Layout, ImageView, Divider, Chip, Title, VSpace } from '@components';
+import { MyPageStackParamList, Screens } from '@navigation/types';
+import {
+  ImageView,
+  Divider,
+  Chip,
+  Title,
+  VSpace,
+  ContentContainer,
+} from '@components';
 import { Grades, Colors } from '@constants';
 import Logo from '@images/logoSmallWhiteHalf.png';
 
@@ -141,7 +148,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
   ];
 
   return (
-    <Layout containerStyle={styles.container}>
+    <ContentContainer containerStyle={styles.container}>
       {user.grade === '' && (
         <View style={styles.noticeWrap}>
           <ImageView resizeMode={'contain'} source={Logo} style={styles.logo} />
@@ -190,7 +197,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
             </View>
           </View>
           <VSpace space={5} />
-          <Title h2={true}>{user.name}</Title>
+          <Title title>{user.name}</Title>
           <VSpace space={5} />
           <Text>30 MALE USA</Text>
         </View>
@@ -230,7 +237,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
           textStyle={styles.logoutText}
         />
       </View>
-    </Layout>
+    </ContentContainer>
   );
 };
 

@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { ContentLayer, Title, BarButton, Layout } from '@components';
+import { Content, Title, BarButton, ContentContainer } from '@components';
 
 const LanguageSelect = (): JSX.Element => {
   return (
-    <Layout>
-      <ContentLayer>
-        <Title h2>{'Language'}</Title>
-      </ContentLayer>
+    <ContentContainer>
+      <Content>
+        <Title title>{'Language'}</Title>
+      </Content>
       <BarButton />
-    </Layout>
+    </ContentContainer>
   );
 };
 

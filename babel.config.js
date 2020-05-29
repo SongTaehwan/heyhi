@@ -4,13 +4,14 @@ module.exports = {
     [
       'module-resolver',
       {
-        root: ['./src'],
+        root: ['./src/'],
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
-          '@constants': './src/constants',
+          '@components/types': './src/components/types',
           '@components': './src/components',
-          '@routes': './src/routes',
+          '@navigation': './src/navigation',
           '@images': './src/assets/images',
+          '@constants': './src/constants',
           '@screens': './src/screens',
           '@context': './src/context',
           '@hooks': './src/hooks',

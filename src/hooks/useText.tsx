@@ -1,58 +1,56 @@
 import validator from 'validator';
 import _debounce from 'lodash/debounce';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 interface TextHookOption {
   isEmail?: boolean;
-  isJWT?: boolean;
   isMobilePhone?: boolean;
   delayTime?: number;
 }
 
 const defaultOption: TextHookOption = {
   isEmail: false,
-  isJWT: false,
   isMobilePhone: false,
   delayTime: 300,
 };
 
-// NOTE: Only check if correct form of JWT or Email
+// NOTE: Only check if correct form of Email
 const useText = (
-  initialState = '',
+  initialText = '',
   options: TextHookOption = defaultOption,
-): [string, (text: string) => void] => {
-  const {
-    isEmail = false,
-    isJWT = false,
-    isMobilePhone = false,
-    delayTime = 300,
-  } = options;
-  const [text, setText] = useState<string>(initialState);
+): [string, (text: string) => void, boolean] => {
+  const { isEmail = false, isMobilePhone = false, delayTime = 300 } = options;
+  const [text, setText] = useState<string>(initialText);
+  const [isValid, setValidation] = useState(false);
 
-  // TODO: Refactor
-  const handleTextChange = (textInput: string): void => {
-    if (isEmail && validator.isEmail(textInput)) {
+  useEffect(() => {
+    handleTextChange(initialText);
+  }, []);
+
+  const handleTextChange = useCallback(
+    (textInput: string): void => {
+      if (isEmail && validator.isEmail(textInput)) {
+        setValidation(true);
+        return setText(textInput);
+      }
+
+      if (isMobilePhone && validator.isMobilePhone(textInput, 'ko-KR')) {
+        setValidation(true);
+        return setText(textInput);
+      }
+
+      if (isValid) {
+        setValidation(false);
+      }
+
       return setText(textInput);
-    }
-
-    if (isJWT && validator.isJWT(textInput)) {
-      return setText(textInput);
-    }
-
-    if (isMobilePhone && validator.isMobilePhone(textInput, 'ko-KR')) {
-      return setText(textInput);
-    }
-
-    if (!isEmail && !isJWT && !isMobilePhone) {
-      return setText(textInput);
-    }
-
-    return setText(textInput);
-  };
+    },
+    [isEmail, isMobilePhone, isValid],
+  );
 
   const debounedTextHandler = _debounce(handleTextChange, delayTime);
 
-  return [text, debounedTextHandler];
+  return [text, debounedTextHandler, isValid];
 };
 
 export default useText;
