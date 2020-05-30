@@ -78,7 +78,7 @@ const RootModalSackNaivgator = (): JSX.Element => {
 const AppStack = (): JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName={AppFlow.Splash}
+      initialRouteName={AppFlow.MainTab}
       screenOptions={{
         headerShown: false,
       }}>
