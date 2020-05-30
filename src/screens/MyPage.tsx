@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Config from 'react-native-config';
+import GeoLocation from 'react-native-geolocation-service';
 import { View, StyleSheet, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -100,6 +102,34 @@ const styles = StyleSheet.create({
 });
 
 const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
+  const [location, setLocation] = useState('');
+  const setAddress = (): void => {
+    GeoLocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${Config.GOOGLE_MAP_API_KEY}`,
+        )
+          .then((response) => response.json())
+          .then((responseJson) => {
+            setLocation(
+              responseJson.results[responseJson.results.length - 2]
+                .formatted_address,
+            );
+          });
+      },
+      (error) => {
+        console.log(error.code, error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    );
+  };
+
+  useEffect(() => {
+    setAddress();
+  }, []);
+
   const user = {
     location: 'Paris',
     email: 'heyhi@gmail.com',
@@ -115,14 +145,12 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
 
   const list = [
     {
-      title: user.location,
+      title: location,
       subtitle: 'My Current Location',
       subtitleStyle: { fontSize: 12, color: Colors.taupeGray },
       icon: 'location-pin',
       chevron: { name: 'md-sync' },
-      onpress: (): void => {
-        console.log('update location');
-      },
+      onpress: (): void => setAddress(),
     },
     {
       title: 'Language Settings',
