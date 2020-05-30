@@ -74,6 +74,10 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
     navigation.navigate(Screens.ServicePolicyDetail);
   };
 
+  const goToBestShotUpload = (): void => {
+    navigation.navigate(Screens.BestShotUpload);
+  };
+
   return (
     <ContentContainer>
       <Content>
@@ -134,7 +138,7 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
           !checkList.personalInfo ||
           !checkList.servicePolicy
         }
-        onPress={(): void => navigation.navigate(Screens.SelfieUpload)}
+        onPress={goToBestShotUpload}
       />
     </ContentContainer>
   );

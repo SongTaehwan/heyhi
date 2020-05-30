@@ -51,7 +51,7 @@ const SignUpStackNavigator = ({
   return (
     <Container topless>
       <Stack.Navigator
-        initialRouteName={Screens.SelfieUpload}
+        initialRouteName={Screens.AccountCreation}
         screenOptions={(): StackNavigationOptions => {
           if (isFirstScene(currentNavRoute)) {
             return {

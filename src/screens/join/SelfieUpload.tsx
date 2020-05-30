@@ -58,6 +58,10 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
     }
   };
 
+  const goToInterestSelection = (): void => {
+    navigation.navigate(Screens.InterestSelection);
+  };
+
   return (
     <ContentContainer>
       <Content>
@@ -101,7 +105,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
       <BarButton
         title={'NEXT'}
         disabled={imagePath === null}
-        onPress={(): void => navigation.navigate(Screens.InterestSelection)}
+        onPress={goToInterestSelection}
       />
     </ContentContainer>
   );
