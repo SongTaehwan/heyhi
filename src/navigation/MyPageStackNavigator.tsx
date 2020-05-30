@@ -11,20 +11,16 @@ import MyReviews from '@screens/mypage/MyReviews';
 import EditEmail from '@screens/mypage/EditEmail';
 import History from '@screens/settings/History';
 import Settings from '@screens/Settings';
-import BottomTopFlow from './BottomTabFlow';
 import { Screens, MyPageStackParamList } from '@navigation/types';
 import { StyleSheets } from '@constants';
 import { Container } from '@components';
 
 const Stack = createStackNavigator<MyPageStackParamList>();
 
-const MyPageFlow = (): JSX.Element => {
+const MyPageStackNavigator = (): JSX.Element => {
   return (
     <Container topless>
-      <Stack.Navigator
-        initialRouteName={Screens.MyPage}
-        screenOptions={StyleSheets.header.headerless}>
-        <Stack.Screen name={Screens.MyPage} component={BottomTopFlow} />
+      <Stack.Navigator screenOptions={StyleSheets.header.withBackButton}>
         <Stack.Screen name={Screens.Settings} component={Settings} />
         <Stack.Screen
           name={Screens.LanguageSettings}
@@ -53,4 +49,4 @@ const MyPageFlow = (): JSX.Element => {
   );
 };
 
-export default MyPageFlow;
+export default MyPageStackNavigator;

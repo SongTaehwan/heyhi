@@ -18,7 +18,7 @@ const request = async (operation) => {
     headers: {
       ...headers,
       authorization: `Bearer ${token}`,
-      'HEYHI-Authentication': Config.HEYHI_AUTHENTICATION,
+      'heyhi-authorization': Config.HEYHI_AUTHENTICATION,
     },
   }));
 };

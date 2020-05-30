@@ -10,7 +10,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Main from '@screens/Main';
-import ChatRoom from '@screens/ChatRoom';
+import ChatRoom from '@screens/chat/ChatRoom';
 import MyPage from '@screens/MyPage';
 
 import { Colors } from '@constants';

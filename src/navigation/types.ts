@@ -7,7 +7,12 @@ export enum AppFlow {
   LoginStack = 'LoginStack',
   MainTab = 'MainTab',
   SignUpStack = 'SignUpStack',
+  MapStack = 'MapStack',
+  ChatStack = 'ChatStack',
   MyPageStack = 'MyPageStack',
+  MyPage = 'MyPage',
+  Map = 'Map',
+  Chat = 'Chat',
 }
 
 export enum Screens {
@@ -46,6 +51,11 @@ export enum Screens {
   // NOTE: App
   App = 'App',
   SelfieNotice = 'SelfieNotice',
+  // NOTE: Map
+  Map = 'Map',
+  // NOTE: Chat
+  ChatList = 'ChatList',
+  ChatRoom = 'ChatRoom',
 }
 
 // NOTE: mapping navigation prop with stack navigator
@@ -116,7 +126,7 @@ export type ModalStackParamList = {
 export type MainTabParamList = {
   Map: undefined;
   Chat: undefined;
-  Account: undefined;
+  MyPage: undefined;
 };
 
 export type AppStackParamList = {
@@ -128,7 +138,6 @@ export type AppStackParamList = {
   SignUpStack: undefined;
   MainTab: undefined;
   MyPageStack: undefined;
-  BottomTabStack: undefined;
 };
 
 export type TutorialStackParamList = {
