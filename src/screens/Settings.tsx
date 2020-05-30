@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { SettingsStackParamList } from '@navigation/types';
 
-import { Title, HeadDivider, ContentContainer } from '@components';
+import { Title, HeadDivider, ContentContainer, VSpace } from '@components';
 import { Colors } from '@constants';
 
 interface SettingsProps {
@@ -74,11 +74,9 @@ const customers = [
 const Settings = ({ navigation }: SettingsProps): JSX.Element => {
   return (
     <ContentContainer>
-      <HeadDivider />
+      <VSpace />
       <View>
-        <Title h4={true} style={styles.titleFirst}>
-          General Settings
-        </Title>
+        <Title bold text={'General Settings'} />
         {settings.map((item, i) => (
           <ListItem
             key={i}
@@ -91,9 +89,7 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
           />
         ))}
 
-        <Title h4={true} style={styles.titleSecond}>
-          Customer
-        </Title>
+        <Title bold text={'Customer'} />
         {customers.map((item, i) => (
           <ListItem
             key={i}

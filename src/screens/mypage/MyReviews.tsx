@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
 const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
   const { loading, data } = useQuery(REVIEW.GET_REVIEWS);
-  const { reviews } = data;
+  const reviews = data?.reviews ?? [];
 
   return (
     <ContentContainer>

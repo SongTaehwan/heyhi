@@ -102,6 +102,7 @@ const headerLeftBackButtonConfig = {
 
 const headerSheets: HeaderSheetType = {
   headerless,
+  headerLeftBackButtonConfig,
   tutorialHeader: {
     ...headerless,
     ...headerLeftBackButtonConfig,
@@ -110,7 +111,7 @@ const headerSheets: HeaderSheetType = {
       paddingRight: 20,
     },
     headerRight(props: StackHeaderLeftButtonProps): React.ReactNode {
-      return <SkipButton />;
+      return <SkipButton {...props} />;
     },
   },
   withBackButton: {
