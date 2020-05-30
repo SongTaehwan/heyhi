@@ -96,4 +96,5 @@ export type HeaderSheetType = {
   headerless: StackNavigationOptions;
   tutorialHeader: StackNavigationOptions;
   withBackButton: StackNavigationOptions;
+  headerLeftBackButtonConfig: StackNavigationOptions;
 };

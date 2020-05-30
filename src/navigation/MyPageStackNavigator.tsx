@@ -11,35 +11,74 @@ import MyReviews from '@screens/mypage/MyReviews';
 import EditEmail from '@screens/mypage/EditEmail';
 import History from '@screens/settings/History';
 import Settings from '@screens/Settings';
-import { Screens, MyPageStackParamList } from '@navigation/types';
+import {
+  Screens,
+  MyPageStackParamList,
+  AppStackNavigationProps,
+  AppFlow,
+} from '@navigation/types';
 import { StyleSheets } from '@constants';
-import { Container } from '@components';
+import { Container, BackButton } from '@components';
+
+interface MyPageStackNavigatorProps {
+  navigation: AppStackNavigationProps<AppFlow.MyPageStack>;
+}
 
 const Stack = createStackNavigator<MyPageStackParamList>();
 
-const MyPageStackNavigator = (): JSX.Element => {
+const MyPageStackNavigator = ({
+  navigation,
+}: MyPageStackNavigatorProps): JSX.Element => {
+  const HeaderLeftBackButton = {
+    headerLeft: (): React.ReactNode => {
+      const goBackToTab = navigation.goBack; // eslint-disable-line
+      return <BackButton onPress={goBackToTab} />;
+    },
+  };
+
   return (
     <Container topless>
-      <Stack.Navigator screenOptions={StyleSheets.header.withBackButton}>
-        <Stack.Screen name={Screens.Settings} component={Settings} />
+      <Stack.Navigator
+        screenOptions={StyleSheets.header.headerLeftBackButtonConfig}>
+        <Stack.Screen
+          name={Screens.Settings}
+          component={Settings}
+          options={HeaderLeftBackButton}
+        />
         <Stack.Screen
           name={Screens.LanguageSettings}
           component={LanguageSettings}
+          options={{ ...HeaderLeftBackButton, title: 'Language Settings' }}
         />
-        <Stack.Screen name={Screens.MyReviews} component={MyReviews} />
+        <Stack.Screen
+          name={Screens.MyReviews}
+          component={MyReviews}
+          options={{ ...HeaderLeftBackButton, title: 'My Reviews' }}
+        />
+        <Stack.Screen
+          name={Screens.EditAlbums}
+          component={EditAlbums}
+          options={{ ...HeaderLeftBackButton, title: 'Edit Albums' }}
+        />
+        <Stack.Screen
+          name={Screens.EditEmail}
+          component={EditEmail}
+          options={{ ...HeaderLeftBackButton, title: 'Edit Email' }}
+        />
         <Stack.Screen
           name={Screens.MyReviewDetail}
           component={MyReviewDetail}
+          options={{ ...HeaderLeftBackButton, title: 'My Reviews' }}
         />
-        <Stack.Screen name={Screens.EditAlbums} component={EditAlbums} />
-        <Stack.Screen name={Screens.EditEmail} component={EditEmail} />
         <Stack.Screen
           name={Screens.ChangePassword}
           component={ChangePassword}
+          options={{ title: 'Change Password' }}
         />
         <Stack.Screen
           name={Screens.PaymentsMethods}
           component={PaymentsMethods}
+          options={{ title: 'Payment' }}
         />
         <Stack.Screen name={Screens.Notification} component={Notification} />
         <Stack.Screen name={Screens.History} component={History} />

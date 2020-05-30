@@ -5,8 +5,9 @@ import { StyleSheet } from 'react-native';
 import React from 'react';
 import { Colors } from '@constants';
 
-interface IconButtonProps extends RNEiconButtonProps {
+interface IconButtonProps extends Omit<RNEiconButtonProps, 'name'> {
   canGoBack?: boolean;
+  name?: string;
 }
 
 const IconButton = ({
@@ -24,7 +25,10 @@ const IconButton = ({
     }
   };
 
-  const mergedIconStyle = StyleSheet.flatten([{ marginRight: 0 }, iconStyle]);
+  const mergedIconStyle = StyleSheet.flatten([
+    { marginRight: 0, width: size, height: size },
+    iconStyle,
+  ]);
 
   return (
     <Icon.Button
