@@ -10,6 +10,7 @@ import {
   VSpace,
   HeadDivider,
 } from '@components';
+
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
