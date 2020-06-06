@@ -17,7 +17,21 @@ const CHANGE_PASSWORD = gql`
   }
 `;
 
+const UPDATE_MEMBER_LOCATION = gql`
+  mutation UpdateMemberLocation(
+    $data: MemberLocationUpdateInput!
+    $where: MemberLocationWhereUniqueInput!
+  ) {
+    updateMemberLocation(data: $data, where: $where) {
+      distance
+      latitude
+      longitude
+    }
+  }
+`;
+
 export default {
   CREATE_MEMBER,
   CHANGE_PASSWORD,
+  UPDATE_MEMBER_LOCATION,
 };

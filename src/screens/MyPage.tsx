@@ -2,6 +2,7 @@ import { View, StyleSheet, ImageSourcePropType } from 'react-native';
 import { ListItem, Avatar, Button, Icon } from 'react-native-elements';
 import { MyPageStackParamList, Screens, AppFlow } from '@navigation/types';
 import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
 import GeoLocation from 'react-native-geolocation-service';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -104,16 +105,20 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
     GeoLocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
+        AsyncStorage.setItem('coords', JSON.stringify({ latitude, longitude }));
 
         fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${Config.GOOGLE_MAP_API_KEY}`,
         )
           .then((response) => response.json())
           .then((responseJson) => {
-            setLocation(
+            const _location =
               responseJson.results[responseJson.results.length - 2]
-                .formatted_address,
-            );
+                .formatted_address;
+
+            AsyncStorage.setItem('location', _location);
+
+            setLocation(_location);
           });
       },
       (error) => {

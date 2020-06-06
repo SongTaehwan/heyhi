@@ -16,15 +16,14 @@ interface SettingsProps {
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    paddingHorizontal: 20,
-  },
   titleFirst: {
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
   titleSecond: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
   },
 });
 
@@ -74,9 +73,10 @@ const customers = [
 const Settings = ({ navigation }: SettingsProps): JSX.Element => {
   return (
     <ContentContainer>
+      <HeadDivider />
       <VSpace />
       <View>
-        <Title bold text={'General Settings'} />
+        <Title bold text={'General Settings'} style={styles.titleFirst} />
         {settings.map((item, i) => (
           <ListItem
             key={i}
@@ -89,7 +89,7 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
           />
         ))}
 
-        <Title bold text={'Customer'} />
+        <Title bold text={'Customer'} style={styles.titleSecond} />
         {customers.map((item, i) => (
           <ListItem
             key={i}

@@ -69,3 +69,6 @@ apollo.config.js
 
 #AWS config
 aws.config.js
+
+# .vscode
+.vscode
