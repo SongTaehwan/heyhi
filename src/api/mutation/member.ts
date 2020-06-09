@@ -17,6 +17,14 @@ const CHANGE_PASSWORD = gql`
   }
 `;
 
+const UPDATE_MEMBER_EMAIL = gql`
+  mutation UpdateMemberEmail($data: UpdateMemberEmailInput!) {
+    updateMemberEmail(data: $data) {
+      email
+    }
+  }
+`;
+
 const UPDATE_MEMBER_LOCATION = gql`
   mutation UpdateMemberLocation(
     $data: MemberLocationUpdateInput!
@@ -33,5 +41,6 @@ const UPDATE_MEMBER_LOCATION = gql`
 export default {
   CREATE_MEMBER,
   CHANGE_PASSWORD,
+  UPDATE_MEMBER_EMAIL,
   UPDATE_MEMBER_LOCATION,
 };

@@ -26,7 +26,6 @@ const ChnagePassword = (): JSX.Element => {
   const [changePasswordMutation] = useMutation(MEMBER.CHANGE_PASSWORD, {
     fetchPolicy: 'no-cache',
     onCompleted: (data) => {
-      console.log('data', data.changePassword.updated);
       if (data.changePassword.updated) {
         Alert.alert('비밀번호가 수정 되었습니다.');
       }
