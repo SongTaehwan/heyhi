@@ -3,7 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 import {
   Chip,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 
 const PaymentsMethods = (): JSX.Element => {
   const [selectedPrice, setPrice] = useState({});
-  const priceList = [
+  const [priceList, setPriceList] = useState([
     {
       priceText: '$1.99',
       price: 1.99,
@@ -80,18 +80,32 @@ const PaymentsMethods = (): JSX.Element => {
       term: '1 Day',
       subTerm: '24Hrs',
       description: 'One day for One trip',
+      selected: false,
+      backgroundColor: Grades.basic.backgroundColor,
+      borderRightColor: Grades.basic.borderRightColor,
+      chipColor: Grades.basic.chipColor,
+      selectedTextColor: 'black',
     },
     {
       priceText: '$5.99',
       price: 5.99,
       grade: 'premium',
       term: '7 Days',
+      selected: false,
+      backgroundColor: Grades.premium.backgroundColor,
+      borderRightColor: Grades.premium.borderRightColor,
+      chipColor: Grades.premium.chipColor,
     },
     {
       priceText: '$11.99',
       price: 11.99,
       grade: 'vip',
       term: '14 Days',
+      selected: false,
+      backgroundColor: Grades.vip.backgroundColor,
+      borderRightColor: Grades.vip.borderRightColor,
+      chipColor: Grades.vip.chipColor,
+      selectedTextColor: 'black',
     },
     {
       priceText: '$21.99',
@@ -99,8 +113,36 @@ const PaymentsMethods = (): JSX.Element => {
       grade: 'vvip',
       term: '30 Days',
       description: 'Best Value Pack!',
+      selected: false,
+      backgroundColor: Grades.vvip.backgroundColor,
+      borderRightColor: Grades.vvip.borderRightColor,
+      chipColor: Grades.vvip.chipColor,
+      selectedTextColor: 'black',
     },
-  ];
+  ]);
+
+  const setSelected = (grade: string, price: number): void => {
+    setPrice(price);
+    setPriceList(
+      priceList.map((price) => {
+        const selected = price.grade === grade;
+        return {
+          ...price,
+          selected,
+          backgroundColor: selected
+            ? Grades[`${grade}`].selectedBackgroundColor
+            : Grades[`${price.grade}`].backgroundColor,
+          borderRightColor: selected
+            ? Grades[`${grade}`].selectedWhite
+            : Grades[`${price.grade}`].borderRightColor,
+          selectedTextColor: selected
+            ? Grades[`${grade}`].selectedWhite
+            : 'black',
+        };
+      }),
+    );
+  };
+
   return (
     <ContentContainer>
       <HeadDivider />
@@ -126,39 +168,56 @@ const PaymentsMethods = (): JSX.Element => {
         <View style={styles.subWrap}>
           {priceList.map((item, i) => (
             <>
-              <View
+              <TouchableOpacity
+                key={i}
                 style={{
                   ...styles.priceWrap,
-                  borderColor: Grades[`${item.grade}`].backgroundColor,
-                  backgroundColor: Grades[`${item.grade}`].backgroundColor,
-                }}>
+                  borderColor: item.backgroundColor,
+                  backgroundColor: item.backgroundColor,
+                }}
+                onPress={(): void => setSelected(item.grade, item.price)}>
                 <View
                   style={{
                     ...styles.priceTextWrap,
-                    borderRightColor: Grades[`${item.grade}`].borderRightColor,
+                    borderRightColor: item.borderRightColor,
                   }}>
-                  <Title style={styles.price}>{item.priceText}</Title>
+                  <Title style={styles.price} color={item.borderRightColor}>
+                    {item.priceText}
+                  </Title>
                 </View>
 
                 <View style={styles.infoWrap}>
-                  <Chip
-                    text={item.grade}
-                    color={Grades[`${item.grade}`].chipColor}
-                  />
+                  {item.selected ? (
+                    <Chip
+                      viewStyle={{
+                        width: 223,
+                        backgroundColor: Grades[`${item.grade}`].selectedWhite,
+                      }}
+                      text={'SELECTED!'}
+                      color={item.chipColor}
+                    />
+                  ) : (
+                    <Chip text={item.grade} color={item.chipColor} />
+                  )}
 
                   <VSpace space={10} />
-                  <Title title>
+                  <Title title color={item.selectedTextColor}>
                     {item.term}{' '}
                     {item.subTerm && (
                       <Text style={styles.subTerm}>({item.subTerm})</Text>
                     )}
                   </Title>
                   <VSpace space={10} />
-                  <Text style={{ ...styles.description, fontWeight: 'bold' }}>
+                  <Text
+                    style={{
+                      ...styles.description,
+                      fontWeight: 'bold',
+                      color: item.selectedTextColor,
+                    }}>
                     {item?.description}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
               <VSpace space={40} />
             </>
           ))}
