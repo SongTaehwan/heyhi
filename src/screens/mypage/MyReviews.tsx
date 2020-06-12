@@ -13,7 +13,7 @@ import {
 } from '@components';
 import { Colors } from '@constants';
 import { MyPageStackParamList, Screens } from '@navigation/types';
-import { REVIEW } from '@api/query';
+import { QUERY_REVIEWS } from '@api/query';
 import { getAge } from '@util/age';
 
 export interface MyReviewProps {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 });
 
 const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
-  const { loading, data } = useQuery(REVIEW.GET_REVIEWS);
+  const { loading, data } = useQuery(QUERY_REVIEWS);
   const reviews = data?.reviews ?? [];
 
   return (

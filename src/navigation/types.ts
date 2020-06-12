@@ -124,7 +124,9 @@ export type ModalStackParamList = {
 };
 
 export type MainTabParamList = {
-  Map: undefined;
+  Map: {
+    screen: 'Map';
+  };
   Chat: undefined;
   MyPage: undefined;
 };

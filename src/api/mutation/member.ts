@@ -1,23 +1,14 @@
 import gql from 'graphql-tag';
 
-const CREATE_MEMBER = gql`
-  query CREATE_USER($data: createMemberInput, $id: Int!) {
-    createMember(where: { id: $id }, data: $data) {
+export const MUTATION_CREATE_MEMBER = gql`
+  mutation CREATE_USER($data: MemberCreateInput!) {
+    createMember(data: $data) {
       id
-      name
     }
   }
 `;
 
-const CHANGE_PASSWORD = gql`
-  mutation CHANGE_PASSWORD($data: ChangePasswordInput) {
-    changePassword(data: $data) {
-      updated
-    }
-  }
-`;
-
-const UPDATE_MEMBER_EMAIL = gql`
+export const MUTATION_UPDATE_MEMBER_EMAIL = gql`
   mutation UpdateMemberEmail($data: UpdateMemberEmailInput!) {
     updateMemberEmail(data: $data) {
       email
@@ -25,7 +16,7 @@ const UPDATE_MEMBER_EMAIL = gql`
   }
 `;
 
-const UPDATE_MEMBER_LOCATION = gql`
+export const MUTATION_UPDATE_MEMBER_LOCATION = gql`
   mutation UpdateMemberLocation(
     $data: MemberLocationUpdateInput!
     $where: MemberLocationWhereUniqueInput!
@@ -37,10 +28,3 @@ const UPDATE_MEMBER_LOCATION = gql`
     }
   }
 `;
-
-export default {
-  CREATE_MEMBER,
-  CHANGE_PASSWORD,
-  UPDATE_MEMBER_EMAIL,
-  UPDATE_MEMBER_LOCATION,
-};

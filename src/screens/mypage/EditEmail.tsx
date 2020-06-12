@@ -14,7 +14,10 @@ import {
 } from '@components';
 
 import { TextFieldProps } from '@components/types';
-import { AUTHENTICATION, MEMBER } from '@api/mutation';
+import {
+  MUTATION_SEND_EMAIL,
+  MUTATION_UPDATE_MEMBER_EMAIL,
+} from '@api/mutation';
 import useText from '@hooks/useText';
 
 const initialErrorState = {
@@ -47,43 +50,37 @@ const EditEmail = (): JSX.Element => {
     }
   };
 
-  const [sendEmail, { loading: isSending }] = useMutation(
-    AUTHENTICATION.SEND_EMAIL,
-    {
-      variables: {
-        data: {
-          email,
-        },
-      },
-      notifyOnNetworkStatusChange: false,
-      fetchPolicy: 'no-cache',
-      onCompleted: () => {
-        setShowInput(true);
-        setError(initialErrorState);
-      },
-      onError: (error) => {
-        console.log(
-          'Error while sending email with verification code: ',
-          error,
-        );
-
-        const message = error.message.split(': ').pop() as string;
-
-        setError({
-          message,
-          fromEmail: true,
-          fromCode: false,
-        });
-
-        if (emailRef.current !== null) {
-          emailRef.current?.shake();
-        }
+  const [sendEmail, { loading: isSending }] = useMutation(MUTATION_SEND_EMAIL, {
+    variables: {
+      data: {
+        email,
       },
     },
-  );
+    notifyOnNetworkStatusChange: false,
+    fetchPolicy: 'no-cache',
+    onCompleted: () => {
+      setShowInput(true);
+      setError(initialErrorState);
+    },
+    onError: (error) => {
+      console.log('Error while sending email with verification code: ', error);
+
+      const message = error.message.split(': ').pop() as string;
+
+      setError({
+        message,
+        fromEmail: true,
+        fromCode: false,
+      });
+
+      if (emailRef.current !== null) {
+        emailRef.current?.shake();
+      }
+    },
+  });
 
   const [updateMemberEmail, { loading: isVerifying }] = useMutation(
-    MEMBER.UPDATE_MEMBER_EMAIL,
+    MUTATION_UPDATE_MEMBER_EMAIL,
     {
       variables: {
         data: {

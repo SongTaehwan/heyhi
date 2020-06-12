@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { View, StyleSheet, Alert } from 'react-native';
-import { MEMBER } from '@api/mutation';
+import { MUTATION_CHANGE_PW } from '@api/mutation';
 import {
   ContentContainer,
   BarButton,
@@ -23,7 +23,7 @@ const ChnagePassword = (): JSX.Element => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
-  const [changePasswordMutation] = useMutation(MEMBER.CHANGE_PASSWORD, {
+  const [changePasswordMutation] = useMutation(MUTATION_CHANGE_PW, {
     fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       if (data.changePassword.updated) {

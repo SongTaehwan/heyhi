@@ -19,7 +19,7 @@ import {
   Content,
   ErrorMessage,
 } from '@components';
-import { AUTHENTICATION } from '@api/mutation';
+import { MUTATION_SIGN_IN } from '@api/mutation';
 import useValue from '@hooks/useValue';
 import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
@@ -51,8 +51,8 @@ const initialFormError = {
 
 // NOTE: SignIn Component
 const SignIn = ({ navigation }: SignInProps): JSX.Element => {
-  const [email, setEmail] = useText('', { isEmail: true, delayTime: 1000 });
-  const [password, setPassword] = useText('', { delayTime: 1000 });
+  const [email, setEmail] = useText('', { isEmail: true, delayTime: 500 });
+  const [password, setPassword] = useText('', { delayTime: 500 });
   const [formError, setFormError] = useValue(initialFormError, 300);
   const [serverErrorMessage, setServerErrorMessage] = useText('');
   const passwordRef = useRef<Input | null>(null);
@@ -96,7 +96,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
   };
 
   const [signIn, { loading }] = useMutation<AuthTokens, LoginData>(
-    AUTHENTICATION.SIGN_IN,
+    MUTATION_SIGN_IN,
     {
       variables: {
         data: {

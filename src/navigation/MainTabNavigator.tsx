@@ -1,5 +1,5 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import RNBootSplash from 'react-native-bootsplash';
+import { RouteProp } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import React from 'react';
 import HomeIconActive from '@images/home_active.png';
@@ -8,22 +8,33 @@ import MeIconActive from '@images/me_active.png';
 import HomeIcon from '@images/home.png';
 import ChatIcon from '@images/chat.png';
 import MeIcon from '@images/me.png';
-import { MainTabParamList, AppFlow } from '@navigation/types';
+import {
+  MainTabParamList,
+  AppFlow,
+  AppStackNavigationProps,
+  AppStackParamList,
+} from '@navigation/types';
 import { ImageView, Container } from '@components';
+import { isFirstScene } from '@util/navigation';
 import ChatList from '@screens/chat/ChatList';
 import MyPage from '@screens/MyPage';
-import Map from '@screens/Main';
+import Map from '@screens/main/Main';
 
 type TabBarIconProps = { focused: boolean; color: string };
 
+interface MainTabNavigatorProps {
+  navigation: AppStackNavigationProps<AppFlow.MainTab>;
+  route: RouteProp<AppStackParamList, AppFlow.MainTab>;
+}
+
 const BottomTab = createMaterialBottomTabNavigator<MainTabParamList>();
 
-const MainFlow = (): JSX.Element => {
-  RNBootSplash.hide();
+const MainTabNavigator = ({ route }: MainTabNavigatorProps): JSX.Element => {
+  const isFirstScreen = isFirstScene(route);
   return (
-    <Container bottomless>
+    <Container bottomless topless={isFirstScreen}>
       <BottomTab.Navigator
-        initialRouteName={AppFlow.MyPage}
+        initialRouteName={AppFlow.Map}
         labeled={false}
         sceneAnimationEnabled
         keyboardHidesNavigationBar
@@ -87,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainFlow;
+export default MainTabNavigator;

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const SIGN_IN = gql`
+export const MUTATION_SIGN_IN = gql`
   mutation SIGN_IN($data: PasswordAuthenticationInput!) {
     passwordAuthentication(data: $data) {
       accessToken
@@ -9,7 +9,7 @@ const SIGN_IN = gql`
   }
 `;
 
-const SEND_EMAIL = gql`
+export const MUTATION_SEND_EMAIL = gql`
   mutation SEND_EMAIL($data: SendEmailInput!) {
     sendEmail(data: $data) {
       expiredAt
@@ -17,7 +17,7 @@ const SEND_EMAIL = gql`
   }
 `;
 
-const VERIFY_CODE = gql`
+export const MUTATION_VERIFY_CODE = gql`
   mutation VERIFY_CODE($data: VerifyEmailInput!) {
     verifyCode(data: $data) {
       id
@@ -28,8 +28,22 @@ const VERIFY_CODE = gql`
   }
 `;
 
-export default {
-  SIGN_IN,
-  SEND_EMAIL,
-  VERIFY_CODE,
-};
+export const MUTATION_CHANGE_PW = gql`
+  mutation CHANGE_PW($data: ChangePasswordInput) {
+    changePassword(data: $data) {
+      updated
+    }
+  }
+`;
+
+export const MUTATION_RESET_PASSWORD = gql`
+  mutation RESET_PASSWORD(
+    $data: ResetPasswordInput!
+    $where: MemberWhereUniqueInput!
+  ) {
+    resetPassword(data: $data, where: $where) {
+      accessToken
+      refreshToken
+    }
+  }
+`;

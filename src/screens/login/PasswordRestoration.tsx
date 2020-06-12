@@ -14,7 +14,7 @@ import {
   ErrorMessage,
 } from '@components';
 
-import { AUTHENTICATION } from '@api/mutation';
+import { MUTATION_SEND_EMAIL } from '@api/mutation';
 
 interface PasswordRestoration {
   navigation: LoginStackNavigationProps<Screens.PasswordRestoration>;
@@ -41,7 +41,7 @@ const PasswordRestoration = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   const [sendEmail, { loading }] = useMutation<{}, MutationVariable>(
-    AUTHENTICATION.SEND_EMAIL,
+    MUTATION_SEND_EMAIL,
     {
       variables: {
         data: {

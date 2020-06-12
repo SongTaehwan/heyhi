@@ -31,20 +31,23 @@ const Splash = ({ navigation }: SplashProps): JSX.Element => {
     async function checkToken(): Promise<string | void> {
       // await AsyncStorage.clear();
       const token = await AsyncStorage.getItem(TOKEN);
+      // console.log(token);
 
       if (token) {
-        return navigation.dispatch(
-          CommonActions.reset({
+        return navigation.dispatch((state) => {
+          // console.log(state);
+
+          return CommonActions.reset({
             index: 0,
             routes: [{ name: AppFlow.MainTab }],
-          }),
-        );
+          });
+        });
       }
 
       // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
       navigation.dispatch(
         CommonActions.reset({
-          index: 1,
+          index: 0,
           routes: [
             { name: AppFlow.LoginStack },
             { name: AppFlow.TutorialStack },
