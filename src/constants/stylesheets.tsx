@@ -50,7 +50,6 @@ const textSheets = textSheetCreator({
   },
   nameText: {
     fontSize: 30,
-    lineHeight: 21,
     fontWeight: 'bold',
   },
   baseText(color = Colors.black, bold = false, lineHeight) {

@@ -17,8 +17,8 @@ const REVIEW_FRAGMENT = gql`
   }
 `;
 
-const GET_REVIEW = gql`
-  query GET_REVIEW($id: Int!) {
+export const QUERY_REVIEW = gql`
+  query QUERY_REVIEW($id: Int!) {
     review(where: { id: $id }) {
       ...review
     }
@@ -26,16 +26,11 @@ const GET_REVIEW = gql`
   ${REVIEW_FRAGMENT}
 `;
 
-const GET_REVIEWS = gql`
-  query GET_REVIEWS {
+export const QUERY_REVIEWS = gql`
+  query QUERY_REVIEWS {
     reviews {
       ...review
     }
   }
   ${REVIEW_FRAGMENT}
 `;
-
-export default {
-  GET_REVIEW,
-  GET_REVIEWS,
-};

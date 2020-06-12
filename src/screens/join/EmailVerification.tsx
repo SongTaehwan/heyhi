@@ -13,7 +13,7 @@ import {
 } from '@components';
 import { TextFieldProps } from '@components/types';
 import { Screens, ReuseablePageProps } from '@navigation/types';
-import { AUTHENTICATION } from '@api/mutation';
+import { MUTATION_SEND_EMAIL, MUTATION_VERIFY_CODE } from '@api/mutation';
 import useText from '@hooks/useText';
 
 type EmailVerificationProps = ReuseablePageProps<Screens.EmailVerification>;
@@ -52,43 +52,37 @@ const EmailVerification = ({
     }
   };
 
-  const [sendEmail, { loading: isSending }] = useMutation(
-    AUTHENTICATION.SEND_EMAIL,
-    {
-      variables: {
-        data: {
-          email,
-        },
-      },
-      notifyOnNetworkStatusChange: false,
-      fetchPolicy: 'no-cache',
-      onCompleted: (data) => {
-        setShowInput(true);
-        setError(initialErrorState);
-      },
-      onError: (error) => {
-        console.log(
-          'Error while sending email with verification code: ',
-          error,
-        );
-
-        const message = error.message.split(': ').pop() as string;
-
-        setError({
-          message,
-          fromEmail: true,
-          fromCode: false,
-        });
-
-        if (emailRef.current !== null) {
-          emailRef.current?.shake();
-        }
+  const [sendEmail, { loading: isSending }] = useMutation(MUTATION_SEND_EMAIL, {
+    variables: {
+      data: {
+        email,
       },
     },
-  );
+    notifyOnNetworkStatusChange: false,
+    fetchPolicy: 'no-cache',
+    onCompleted: (data) => {
+      setShowInput(true);
+      setError(initialErrorState);
+    },
+    onError: (error) => {
+      console.log('Error while sending email with verification code: ', error);
+
+      const message = error.message.split(': ').pop() as string;
+
+      setError({
+        message,
+        fromEmail: true,
+        fromCode: false,
+      });
+
+      if (emailRef.current !== null) {
+        emailRef.current?.shake();
+      }
+    },
+  });
 
   const [verifyCode, { loading: isVerifying }] = useMutation(
-    AUTHENTICATION.VERIFY_CODE,
+    MUTATION_VERIFY_CODE,
     {
       variables: {
         data: {

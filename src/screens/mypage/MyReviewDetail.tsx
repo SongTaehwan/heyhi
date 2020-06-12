@@ -1,7 +1,7 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { View, StyleSheet, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { View, StyleSheet, Text } from 'react-native';
+import { useQuery } from '@apollo/react-hooks';
+import React from 'react';
 import {
   ContentContainer,
   HeadDivider,
@@ -12,7 +12,7 @@ import {
   Loading,
 } from '@components';
 import { Colors } from '@constants';
-import { REVIEW } from '@api/query';
+import { QUERY_REVIEW } from '@api/query';
 import { getAge } from '@util/age';
 import { MyReviewProps } from './MyReviews';
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
 const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
   const { id } = route.params;
-  const { loading, data } = useQuery(REVIEW.GET_REVIEW, {
+  const { loading, data } = useQuery(QUERY_REVIEW, {
     variables: { id },
   });
 

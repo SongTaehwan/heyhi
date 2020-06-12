@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Slider } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { MEMBER } from '@api/mutation';
+import { MUTATION_UPDATE_MEMBER_LOCATION } from '@api/mutation';
 import {
   ContentContainer,
   Divider,
@@ -42,7 +42,7 @@ const Location = (): JSX.Element => {
   }, []);
 
   const [updateMemberLocationMutation] = useMutation(
-    MEMBER.UPDATE_MEMBER_LOCATION,
+    MUTATION_UPDATE_MEMBER_LOCATION,
   );
 
   const updateMemberLocation = (_distance: number): void => {

@@ -9,7 +9,7 @@ import FoundationIcon from 'react-native-vector-icons/Foundation';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Main from '@screens/Main';
+import Main from '@screens/main/Main';
 import ChatRoom from '@screens/chat/ChatRoom';
 import MyPage from '@screens/MyPage';
 

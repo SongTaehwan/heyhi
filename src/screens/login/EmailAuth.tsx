@@ -16,7 +16,7 @@ import {
   LoginStackParamList,
   LoginStackNavigationProps,
 } from '@navigation/types';
-import { AUTHENTICATION } from '@api/mutation';
+import { MUTATION_SEND_EMAIL, MUTATION_VERIFY_CODE } from '@api/mutation';
 import { RouteProp } from '@react-navigation/native';
 
 interface EmailAuthProps {
@@ -24,8 +24,15 @@ interface EmailAuthProps {
   route: RouteProp<LoginStackParamList, Screens.EmailAuth>;
 }
 
-interface UpdateResult {
-  updateMember: {
+interface VerificationVariables {
+  data: {
+    email: string;
+    verifyCode: string;
+  };
+}
+
+interface VerificationResult {
+  verifyCode: {
     id: number;
   };
 }
@@ -35,12 +42,7 @@ const EmailAuth = ({ navigation, route }: EmailAuthProps): JSX.Element => {
   const [verificationCode, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [sendEmail] = useMutation(AUTHENTICATION.SEND_EMAIL, {
-    variables: {
-      data: {
-        email,
-      },
-    },
+  const [sendEmail] = useMutation(MUTATION_SEND_EMAIL, {
     notifyOnNetworkStatusChange: false,
     fetchPolicy: 'no-cache',
     onError: (error): void => {
@@ -51,36 +53,52 @@ const EmailAuth = ({ navigation, route }: EmailAuthProps): JSX.Element => {
   });
 
   const sendAuthEmail = (): void => {
-    sendEmail();
+    sendEmail({
+      variables: {
+        data: {
+          email,
+        },
+      },
+    });
   };
 
-  const [sendAuth, { loading }] = useMutation<UpdateResult>(
-    AUTHENTICATION.VERIFY_CODE,
-    {
-      variables: {
-        data: { verifyCode: verificationCode, email },
-      },
-      notifyOnNetworkStatusChange: false,
-      fetchPolicy: 'no-cache',
-      onCompleted: ({ updateMember: { id } }) => {
-        navigation.navigate(Screens.NewPassword, {
-          userId: id,
-        });
-      },
-      onError: (error) => {
-        console.log('Error while Sending verification code: ', error);
-        const message = error.message.split(': ').pop() as string;
-        setErrorMessage(message);
+  const [sendAuth, { loading }] = useMutation<
+    VerificationResult,
+    VerificationVariables
+  >(MUTATION_VERIFY_CODE, {
+    variables: {
+      data: {
+        email,
+        verifyCode: verificationCode,
       },
     },
-  );
+    notifyOnNetworkStatusChange: false,
+    fetchPolicy: 'no-cache',
+    onCompleted: ({ verifyCode: { id } }) => {
+      navigation.navigate(Screens.NewPassword, {
+        userId: id,
+      });
+    },
+    onError: (error) => {
+      console.log('Error while Sending verification code: ', error);
+      const message = error.message.split(': ').pop() as string;
+      setErrorMessage(message);
+    },
+  });
 
   const onChangeVerificationCode = (code: string): void => {
     setPassword(code);
   };
 
   const onSubmitButton = (): void => {
-    sendAuth();
+    sendAuth({
+      variables: {
+        data: {
+          email,
+          verifyCode: verificationCode,
+        },
+      },
+    });
   };
 
   return (
