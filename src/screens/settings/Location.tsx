@@ -36,12 +36,9 @@ const Location = (): JSX.Element => {
       setLocation(_location ?? ''),
     );
 
-    AsyncStorage.getItem('coords')
-      .then((c) => {
-        console.log(c);
-        return c;
-      })
-      .then((_coords) => setCoords(_coords ? JSON.parse(_coords) : {}));
+    AsyncStorage.getItem('coords').then((_coords) =>
+      setCoords(_coords ? JSON.parse(_coords) : {}),
+    );
   }, []);
 
   const [updateMemberLocationMutation] = useMutation(
