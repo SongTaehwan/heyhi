@@ -2,10 +2,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink, Observable } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
+import { RetryLink } from 'apollo-link-retry';
 import { ApolloClient } from 'apollo-client';
 import { onError } from 'apollo-link-error';
 import Config from 'react-native-config';
-import { RetryLink } from 'apollo-link-retry';
+import resolvers from './resolvers';
+import { typeDefs } from './schema';
 
 // TODO: Customize ApolloClient setting ie. error handling, advanced options and cache setting
 // TODO: dig into request Link logic
@@ -35,6 +37,11 @@ const checkTokenValidation = (message) => {
   } catch {
     return false;
   }
+};
+
+const getAccessToken = () => {
+  // Add url
+  return fetch(`${Config.API_HOST}/`);
 };
 
 const getNewAccessToken = async (operation) => {
@@ -126,9 +133,27 @@ const retryLink = new RetryLink({
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
+  resolvers,
   link: ApolloLink.from([retryLink, requestLink, errorLink, httpLink]),
   cache,
   connectToDevTools: true,
+  typeDefs,
+});
+
+cache.writeData({
+  data: {
+    user: {
+      firstName: null,
+      lastName: null,
+      gender: null,
+      country: null,
+      password: null,
+      birthDate: null,
+      interests: [],
+      selfie: null,
+      bestShots: [],
+    },
+  },
 });
 
 export default client;

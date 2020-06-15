@@ -93,6 +93,7 @@ const EmailVerification = ({
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (data) => {
+        console.log(data);
         navigateToNextPage();
       },
       onError: (error) => {
