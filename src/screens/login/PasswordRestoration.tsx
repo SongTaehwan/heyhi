@@ -37,7 +37,10 @@ const styles = StyleSheet.create({
 const PasswordRestoration = ({
   navigation,
 }: PasswordRestoration): JSX.Element => {
-  const [email, setEmail, isValid] = useText('', { isEmail: true });
+  const [email, setEmail, isValid] = useText('', {
+    isEmail: true,
+    delayTime: 100,
+  });
   const [errorMessage, setErrorMessage] = useState('');
 
   const [sendEmail, { loading }] = useMutation<{}, MutationVariable>(
