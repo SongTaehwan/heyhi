@@ -2,11 +2,14 @@ import gql from 'graphql-tag';
 
 export const typeDefs = gql`
   extend type Query {
-    getPersonalInfo: User
+    user: PersonalInformation
   }
 
   extend type Mutation {
-    setPersonalInfo(data: PersonalInformation): null
+    setSelfie(data: String!): PersonalInformation
+    setInterests(data: [String!]!): PersonalInformation
+    setBestPictures(data: [String]!): PersonalInformation
+    setPersonalInfo(data: PersonalInformation!): PersonalInformation
   }
 
   input PersonalInformation {

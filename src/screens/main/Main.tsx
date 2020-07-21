@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
-import {
-  ContentContainer,
-  BarButton,
-  VSpace,
-  Text,
-  HorizontalView,
-} from '@components';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { Image, Icon } from 'react-native-elements';
-import { StyleSheets, Colors } from '@constants';
-import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
-import MapView from 'react-native-maps';
-import { BlurView } from '@react-native-community/blur';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { BlurView } from '@react-native-community/blur';
+import { Image, Icon } from 'react-native-elements';
 import { useQuery } from '@apollo/react-hooks';
+import MapView from 'react-native-maps';
+import React, { useState } from 'react';
+import {
+  Text,
+  VSpace,
+  BarButton,
+  HorizontalView,
+  ContentContainer,
+} from '@components';
+import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
 import { QUERY_MEMBER_AROUND_ME } from '@api/query';
+import { StyleSheets, Colors } from '@constants';
 
 interface Item {
   id: number;

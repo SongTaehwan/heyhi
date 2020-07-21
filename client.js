@@ -152,6 +152,7 @@ cache.writeData({
       interests: [],
       selfie: null,
       bestShots: [],
+      __typename: 'Member',
     },
   },
 });

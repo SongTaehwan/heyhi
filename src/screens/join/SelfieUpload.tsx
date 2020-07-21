@@ -1,6 +1,7 @@
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
-import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import {
   Text,
   Title,
@@ -10,9 +11,12 @@ import {
   IconButton,
   ContentContainer,
   ImageView,
+  ErrorMessage,
 } from '@components';
 import { getRelativeWidth, getCircleRadiusSize } from '@util/Dimensions';
 import { Screens, SignUpStackNavigationProps } from '@navigation/types';
+import { LOCAL_SET_SELFIE } from '@api/mutation';
+import { logError } from '@util/Error';
 import { Colors } from '@constants';
 
 interface SelfieUploadProps {
@@ -36,7 +40,16 @@ const styles = StyleSheet.create({
 });
 
 const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
-  const [imagePath, setImagePath] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  const [setSelie] = useMutation(LOCAL_SET_SELFIE, {
+    notifyOnNetworkStatusChange: false,
+    onCompleted: ({ setSelfie }) => {
+      console.log(setSelfie);
+      goToInterestSelection();
+    },
+    onError: logError(setServerErrorMessage),
+  });
 
   useEffect(() => {
     navigation.navigate(Screens.SelfieNotice);
@@ -47,12 +60,13 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
       const image = (await ImagePicker.openCamera({
         width: 400,
         height: 400,
+        includeBase64: true,
         cropping: true,
         useFrontCamera: true,
         cropperChooseText: 'Done',
       })) as Image;
 
-      setImagePath(image.path);
+      setImageUrl(`data:${image.mime};base64,${image.data}`);
     } catch (error) {
       console.log(error);
     }
@@ -60,6 +74,14 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
 
   const goToInterestSelection = (): void => {
     navigation.navigate(Screens.InterestSelection);
+  };
+
+  const handleOnPressNext = (): void => {
+    setSelie({
+      variables: {
+        selfie: imageUrl,
+      },
+    });
   };
 
   return (
@@ -70,10 +92,10 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
         </Title>
         <VSpace space={80} />
         <View style={styles.centerlize}>
-          {imagePath !== null ? (
+          {imageUrl !== null ? (
             <TouchableOpacity style={styles.imageAddIcon} onPress={openCamera}>
               <ImageView
-                source={{ uri: imagePath }}
+                source={{ uri: imageUrl }}
                 style={styles.imageAddIcon}
               />
             </TouchableOpacity>
@@ -102,10 +124,11 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
           />
         </View>
       </Content>
+      {!!serverErrorMessage && <ErrorMessage message={serverErrorMessage} />}
       <BarButton
         title={'NEXT'}
-        disabled={imagePath === null}
-        onPress={goToInterestSelection}
+        // disabled={imageUrl === null}
+        onPress={handleOnPressNext}
       />
     </ContentContainer>
   );

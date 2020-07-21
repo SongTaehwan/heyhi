@@ -20,10 +20,7 @@ export const MUTATION_SEND_EMAIL = gql`
 export const MUTATION_VERIFY_CODE = gql`
   mutation VERIFY_CODE($data: VerifyEmailInput!) {
     verifyCode(data: $data) {
-      id
-      email
-      lastName
-      firstName
+      verified
     }
   }
 `;
