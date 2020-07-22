@@ -24,6 +24,7 @@ import useValue from '@hooks/useValue';
 import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
 import { Colors } from '@constants';
+import { logError } from '@util/Error';
 
 interface SignInProps {
   navigation: LoginStackNavigationProps<Screens.SignIn>;
@@ -107,11 +108,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: handleSignIn,
-      onError: (error) => {
-        console.log('Error while Loging in: ', error);
-        const message = error.message.split(': ').pop() as string;
-        setServerErrorMessage(message);
-      },
+      onError: logError(setServerErrorMessage),
     },
   );
 
@@ -121,7 +118,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
 
       setFormError((prevState) => {
         const emailError = {
-          message: 'Correct Email Formmat Required',
+          message: 'Correct Email Format Required',
           fromEmail: true,
           fromPassword: false,
         };

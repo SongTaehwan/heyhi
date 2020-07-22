@@ -4,4 +4,3 @@ export { default as LoginStack } from './LoginStackNavigator';
 export { default as MainTab } from './MainTabNavigator';
 export { default as ChatStack } from './ChatStackNavigator';
 export { default as MyPageStack } from './MyPageStackNavigator';
-export { default as BottomTabFlow } from './BottomTabFlow';

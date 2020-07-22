@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { Screens, LoginStackNavigationProps } from '@navigation/types';
+import { MUTATION_SEND_EMAIL } from '@api/mutation';
 import useText from '@hooks/useText';
 import {
   ContentContainer,
@@ -13,8 +14,7 @@ import {
   Text,
   ErrorMessage,
 } from '@components';
-
-import { MUTATION_SEND_EMAIL } from '@api/mutation';
+import { logError } from '@util/Error';
 
 interface PasswordRestoration {
   navigation: LoginStackNavigationProps<Screens.PasswordRestoration>;
@@ -37,34 +37,32 @@ const styles = StyleSheet.create({
 const PasswordRestoration = ({
   navigation,
 }: PasswordRestoration): JSX.Element => {
-  const [email, setEmail, isValid] = useText('', { isEmail: true });
   const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail, isValid] = useText('', {
+    isEmail: true,
+    delayTime: 100,
+  });
 
   const [sendEmail, { loading }] = useMutation<{}, MutationVariable>(
     MUTATION_SEND_EMAIL,
     {
-      variables: {
-        data: {
-          email,
-        },
-      },
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (): void => {
         navigation.navigate(Screens.EmailAuth, { email });
       },
-      onError: (error): void => {
-        console.log('Error while Sending Auth email: ', error);
-
-        // TODO: 에러 발생 시 UX를 고려해서 무시하고 넘어간 후 Effect 훅에서 재요청 보낼지?
-        const message = error.message.split(': ').pop() as string;
-        setErrorMessage(message);
-      },
+      onError: logError(setErrorMessage),
     },
   );
 
   const sendAuthEmail = (): void => {
-    sendEmail();
+    sendEmail({
+      variables: {
+        data: {
+          email,
+        },
+      },
+    });
   };
 
   return (

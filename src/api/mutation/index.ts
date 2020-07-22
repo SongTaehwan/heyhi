@@ -10,3 +10,10 @@ export {
   MUTATION_VERIFY_CODE,
   MUTATION_RESET_PASSWORD,
 } from './authentication';
+
+export {
+  LOCAL_SET_SELFIE,
+  LOCAL_SET_INTERESTS,
+  LOCAL_SET_BEST_PICTURES,
+  LOCAL_SET_PERSONAL_INFO,
+} from './local';

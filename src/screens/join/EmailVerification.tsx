@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/react-hooks';
 import React, { useState, useRef } from 'react';
 import { Input } from 'react-native-elements';
-import { Keyboard } from 'react-native';
 import {
   Title,
   VSpace,
@@ -11,9 +10,9 @@ import {
   ErrorMessage,
   ContentContainer,
 } from '@components';
-import { TextFieldProps } from '@components/types';
-import { Screens, ReuseablePageProps } from '@navigation/types';
 import { MUTATION_SEND_EMAIL, MUTATION_VERIFY_CODE } from '@api/mutation';
+import { Screens, ReuseablePageProps } from '@navigation/types';
+import { TextFieldProps } from '@components/types';
 import useText from '@hooks/useText';
 
 type EmailVerificationProps = ReuseablePageProps<Screens.EmailVerification>;
@@ -34,9 +33,10 @@ const EmailVerification = ({
     delayTime: 0,
   });
 
-  const [verificationCode, setCode] = useText('');
   const [showVerificationField, setShowInput] = useState(false);
   const [error, setError] = useState(initialErrorState);
+  const [verificationCode, setCode] = useText('');
+
   const emailRef = useRef<Input | null>(null);
   const codeRef = useRef<Input | null>(null);
 
@@ -53,14 +53,10 @@ const EmailVerification = ({
   };
 
   const [sendEmail, { loading: isSending }] = useMutation(MUTATION_SEND_EMAIL, {
-    variables: {
-      data: {
-        email,
-      },
-    },
     notifyOnNetworkStatusChange: false,
     fetchPolicy: 'no-cache',
-    onCompleted: (data) => {
+    onCompleted: ({ sendEmail }) => {
+      console.log(sendEmail.expiredAt);
       setShowInput(true);
       setError(initialErrorState);
     },
@@ -84,15 +80,10 @@ const EmailVerification = ({
   const [verifyCode, { loading: isVerifying }] = useMutation(
     MUTATION_VERIFY_CODE,
     {
-      variables: {
-        data: {
-          email,
-          verifyCode: verificationCode,
-        },
-      },
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (data) => {
+        console.log(data);
         navigateToNextPage();
       },
       onError: (error) => {
@@ -114,17 +105,32 @@ const EmailVerification = ({
   );
 
   const sendVerificationMail = (): void => {
+    emailRef.current?.blur();
+
     if (isValidEmail) {
-      sendEmail();
-      Keyboard.dismiss();
+      sendEmail({
+        variables: {
+          data: {
+            email,
+          },
+        },
+      });
     }
   };
 
   const handleVerificationCode = (): void => {
     console.log('verificationCode', verificationCode);
+    codeRef.current?.blur();
+
     if (verificationCode.length === 6) {
-      verifyCode();
-      Keyboard.dismiss();
+      verifyCode({
+        variables: {
+          data: {
+            email,
+            verifyCode: verificationCode,
+          },
+        },
+      });
     }
   };
 
@@ -162,6 +168,7 @@ const EmailVerification = ({
           <VertificationCode
             inputRef={setCodeRef}
             hasError={error.fromCode}
+            keyboardType={'number-pad'}
             onChangeCode={setCode}
             onSubmitEditing={handleVerificationCode}
           />
@@ -172,9 +179,9 @@ const EmailVerification = ({
         title="NEXT"
         loading={isVerifying}
         square={false}
-        disabled={verificationCode.length !== 6 || isVerifying}
-        onPress={handleVerificationCode}
-        // onPress={navigateToNextPage}
+        // disabled={verificationCode.length !== 6 || isVerifying}
+        // onPress={handleVerificationCode}
+        onPress={navigateToNextPage}
       />
     </ContentContainer>
   );
@@ -191,6 +198,7 @@ const VertificationCode = ({
   hasError = false,
   onChangeCode,
   onSubmitEditing,
+  ...rest
 }: VertificationCodeProps): JSX.Element => {
   return (
     <>
@@ -205,6 +213,7 @@ const VertificationCode = ({
         placeholder={'Enter verification code'}
         onChangeText={onChangeCode}
         hasError={hasError}
+        {...rest}
       />
     </>
   );

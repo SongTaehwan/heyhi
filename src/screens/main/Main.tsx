@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
-import {
-  ContentContainer,
-  BarButton,
-  VSpace,
-  Text,
-  HorizontalView,
-} from '@components';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { Image, Icon } from 'react-native-elements';
-import { StyleSheets, Colors } from '@constants';
-import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
-import MapView from 'react-native-maps';
-import { BlurView } from '@react-native-community/blur';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { BlurView } from '@react-native-community/blur';
+import { Image, Icon } from 'react-native-elements';
 import { useQuery } from '@apollo/react-hooks';
+import MapView from 'react-native-maps';
+import React, { useState } from 'react';
+import {
+  Text,
+  VSpace,
+  BarButton,
+  HorizontalView,
+  ContentContainer,
+} from '@components';
+import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
 import { QUERY_MEMBER_AROUND_ME } from '@api/query';
+import { StyleSheets, Colors } from '@constants';
 
 interface Item {
   id: number;
@@ -36,78 +36,58 @@ const DATA = [
     age: 30,
     gender: 'MALE',
     country: 'USA',
-    distance: 400,
+    distance: 100,
     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
   },
   {
     id: 2,
-    firstName: 'Bay',
-    lastName: 'Kim',
+    firstName: 'June',
+    lastName: 'Park',
     age: 30,
     gender: 'MALE',
     country: 'USA',
-    distance: 1000,
+    distance: 470,
     uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
   },
   {
     id: 3,
-    firstName: 'May',
-    lastName: 'Lee',
+    firstName: 'Yeong',
+    lastName: 'Park',
     age: 30,
     gender: 'FEMALE',
     country: 'Korea',
-    distance: 300,
+    distance: 500,
     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg',
   },
   {
     id: 4,
-    firstName: 'Jay',
-    lastName: 'Lim',
+    firstName: 'Suyeon',
+    lastName: 'Kim',
     age: 30,
     gender: 'MALE',
     country: 'USA',
-    distance: 400,
+    distance: 259,
     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg',
   },
   {
     id: 5,
-    firstName: 'Jay',
-    lastName: 'Lim',
+    firstName: 'Lee',
+    lastName: 'Kim',
     age: 30,
     gender: 'MALE',
     country: 'USA',
-    distance: 400,
+    distance: 840,
     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
   },
   {
     id: 6,
-    firstName: 'Jay',
+    firstName: 'Hong',
     lastName: 'Lim',
     age: 30,
     gender: 'MALE',
     country: 'USA',
-    distance: 400,
+    distance: 980,
     uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
-  },
-  {
-    id: 7,
-    firstName: 'Jay',
-    lastName: 'Lim',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 400,
-    uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg',
-  },
-  {
-    id: 8,
-    firstName: 'Jay',
-    lastName: 'Lim',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 400,
-    uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg',
   },
 ];
 
