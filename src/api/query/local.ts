@@ -3,16 +3,15 @@ import gql from 'graphql-tag';
 export const LOCAL_QUERY_PERSONAL_INFO = gql`
   query QUERY_PERSONAL_INFO {
     user @client {
+      email
       firstName
       lastName
       gender
-      country
+      nationality
       password
       birthDate
-      interests
-      selfie
+      thumbnail
       bestShots
-      __typename
     }
   }
 `;

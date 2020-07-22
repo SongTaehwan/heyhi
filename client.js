@@ -143,14 +143,14 @@ const client = new ApolloClient({
 cache.writeData({
   data: {
     user: {
+      email: null,
       firstName: null,
       lastName: null,
       gender: null,
-      country: null,
+      nationality: null,
       password: null,
       birthDate: null,
-      interests: [],
-      selfie: null,
+      thumbnail: null,
       bestShots: [],
       __typename: 'Member',
     },

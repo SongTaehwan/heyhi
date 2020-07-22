@@ -67,25 +67,6 @@ const Mutation: Resolvers = {
 
     return updatedUser;
   },
-  setInterests: (_, { data }, { cache }) => {
-    const prev = cache.readQuery({
-      query: LOCAL_QUERY_PERSONAL_INFO,
-    });
-
-    const updatedUser = {
-      ...prev.user,
-      interests: data,
-    };
-
-    cache.writeQuery({
-      query: LOCAL_QUERY_PERSONAL_INFO,
-      data: {
-        user: updatedUser,
-      },
-    });
-
-    return updatedUser;
-  },
 };
 
 const Query: Resolvers = {};

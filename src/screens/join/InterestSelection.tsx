@@ -1,23 +1,20 @@
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import {
   Title,
   VSpace,
+  HSpace,
   Content,
   BarButton,
+  ErrorMessage,
   HorizontalView,
   CheckableButton,
   ContentContainer,
-  HSpace,
-  ErrorMessage,
 } from '@components';
-import {
-  AppFlow,
-  Screens,
-  SignUpStackNavigationProps,
-} from '@navigation/types';
-import { useMutation } from '@apollo/react-hooks';
-import { LOCAL_SET_INTERESTS } from '@api/mutation';
+import { Screens, SignUpStackNavigationProps } from '@navigation/types';
+import { MUTATION_CREATE_MEMBER } from '@api/mutation';
+import { LOCAL_QUERY_PERSONAL_INFO } from '@api/query';
 import { logError } from '@util/Error';
 
 interface InterestSelectionProps {
@@ -53,7 +50,14 @@ const InterestSelection = ({
   const intersetCount = Object.values(interests).filter((v) => v).length;
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   // TODO: Create
-  // const [setInterests] = useMutation(LOCAL_SET_INTERESTS, {});
+  const client = useApolloClient();
+  const [createUser] = useMutation(MUTATION_CREATE_MEMBER, {
+    notifyOnNetworkStatusChange: false,
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: logError(setServerErrorMessage),
+  });
 
   const handleOnCheckInterest = (value: Interests): void => {
     setInterest((prev) => {
@@ -62,6 +66,43 @@ const InterestSelection = ({
         ...prev,
         [targetValue]: !prev[targetValue],
       };
+    });
+  };
+
+  const handleOnSubmit = (): void => {
+    const { user } = client.readQuery({ query: LOCAL_QUERY_PERSONAL_INFO });
+    const { __typename, ...personalInfo } = user;
+
+    createUser({
+      variables: {
+        data: {
+          ...personalInfo,
+          gender: personalInfo.gender.toUpperCase(),
+          state: 'APPROVED',
+          photos: {
+            create: {
+              id: 0,
+              photo: '',
+              type: 'enum',
+            },
+          },
+          role: {
+            connect: {
+              id: 0,
+            },
+          },
+          nationality: {
+            connect: {
+              id: 0,
+            },
+          },
+          payment: {
+            connect: {
+              id: 0,
+            },
+          },
+        },
+      },
     });
   };
 
@@ -102,7 +143,8 @@ const InterestSelection = ({
       <BarButton
         title={`DONE (${intersetCount}/${totalInterests})`}
         disabled={intersetCount === 0}
-        onPress={(): void => navigation.navigate(AppFlow.MainTab)}
+        // onPress={(): void => navigation.navigate(AppFlow.MainTab)}
+        onPress={handleOnSubmit}
       />
     </ContentContainer>
   );

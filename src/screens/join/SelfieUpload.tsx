@@ -79,7 +79,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
   const handleOnPressNext = (): void => {
     setSelie({
       variables: {
-        selfie: imageUrl,
+        thumbnail: imageUrl ?? 'dummy',
       },
     });
   };

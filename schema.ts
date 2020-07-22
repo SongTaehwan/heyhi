@@ -7,19 +7,18 @@ export const typeDefs = gql`
 
   extend type Mutation {
     setSelfie(data: String!): PersonalInformation
-    setInterests(data: [String!]!): PersonalInformation
     setBestPictures(data: [String]!): PersonalInformation
     setPersonalInfo(data: PersonalInformation!): PersonalInformation
   }
 
   input PersonalInformation {
+    email: String!
     firstName: String!
     lastName: String!
     gender: GenderEnum!
     nationality: Nationality!
     password: String!
     birthDate: DateTime!
-    interests: [String]
     thumbnail: String!
     bestShots: [MemberPhoto!]
   }

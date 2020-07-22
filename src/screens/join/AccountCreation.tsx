@@ -250,6 +250,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
       setPersonalInfo({
         variables: {
           user: {
+            email,
             firstName,
             lastName,
             gender,

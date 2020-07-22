@@ -13,13 +13,7 @@ export const LOCAL_SET_BEST_PICTURES = gql`
 `;
 
 export const LOCAL_SET_SELFIE = gql`
-  mutation SET_SELFIE($selfie: String!) {
-    setSelfie(data: $selfie) @client
-  }
-`;
-
-export const LOCAL_SET_INTERESTS = gql`
-  mutation SET_INTERESTS($interests: [String!]!) {
-    setInterests(data: $interests) @client
+  mutation SET_SELFIE($thumbnail: String!) {
+    setSelfie(data: $thumbnail) @client
   }
 `;

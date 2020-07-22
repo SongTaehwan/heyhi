@@ -1,16 +1,14 @@
 import ImagePicker, {
   Image as PickerImage,
 } from 'react-native-image-crop-picker';
-import ImageResizer, {
-  Response as ResizingResponse,
-} from 'react-native-image-resizer';
 import {
-  StyleSheet,
   View,
-  ActivityIndicator,
-  TouchableOpacity,
   Alert,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
+import ImageResizer from 'react-native-image-resizer';
 import { useMutation } from '@apollo/react-hooks';
 import React, { useState } from 'react';
 import {
@@ -21,15 +19,16 @@ import {
   ImageView,
   BarButton,
   IconButton,
+  ErrorMessage,
   HorizontalView,
   ContentContainer,
-  ErrorMessage,
 } from '@components';
 import { getRelativeWidth, getCircleRadiusSize } from '@util/Dimensions';
 import { Screens, SignUpStackNavigationProps } from '@navigation/types';
 import { LOCAL_SET_BEST_PICTURES } from '@api/mutation';
 import { Colors } from '@constants';
 import { logError } from '@util/Error';
+import RNFS from 'react-native-fs';
 
 interface BestShotUploadProps {
   navigation: SignUpStackNavigationProps<Screens.BestShotUpload>;
@@ -47,7 +46,13 @@ const getEmptyImageSlot = (count: number): ImageSlot[] => {
   return Array(count).fill(slot);
 };
 
-const getBase64Url = ({ mime, data }: PickerImage): string => {
+const getBase64Url = ({
+  mime,
+  data,
+}: {
+  mime: string;
+  data: string;
+}): string => {
   return `data:${mime};base64,${data}`;
 };
 
@@ -57,7 +62,7 @@ const convertToImageSlot = (
   const images = result as PickerImage[];
   return images.map(
     (image): ImageSlot => ({
-      imageUrl: getBase64Url(image),
+      imageUrl: getBase64Url({ mime: image.mime, data: image.data! }),
     }),
   );
 };
@@ -88,9 +93,11 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
       maxFiles: imageSlots.length,
     })
       .then(convertToImageSlot)
+      .then(resizeImage)
       .then((newSlots): ImageSlot[] => {
+        const base64ImageSlots = newSlots as ImageSlot[];
         return imageSlots.map((prevSlot, i) =>
-          newSlots[i] ? newSlots[i] : prevSlot,
+          base64ImageSlots[i] ? base64ImageSlots[i] : prevSlot,
         );
       });
   };
@@ -101,7 +108,8 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
       mediaType: 'photo',
       writeTempFile: true,
     }).then((newSlot): ImageSlot[] => {
-      const imageUrl = getBase64Url(newSlot as PickerImage);
+      const { mime, data } = newSlot as PickerImage;
+      const imageUrl = getBase64Url({ mime, data: data! });
       const isDulpicated = imageSlots.some(
         (prevSlot) => prevSlot.imageUrl === imageUrl,
       );
@@ -142,19 +150,23 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
 
   // TODO: Upload from client or server?
   const resizeImage = async (
-    imagePath: string[],
-  ): Promise<void | ResizingResponse[]> => {
+    images: ImageSlot[],
+  ): Promise<void | ImageSlot[]> => {
     try {
-      const resizedImages: Promise<ResizingResponse>[] = [];
+      const resizedImages: Promise<ImageSlot>[] = [];
 
-      imagePath.forEach((path) => {
+      images.forEach(({ imageUrl }) => {
         const resizedImage = ImageResizer.createResizedImage(
-          path,
-          1000,
-          1000,
+          imageUrl,
+          600,
+          600,
           'JPEG',
           100,
-        );
+        )
+          .then(({ uri }): Promise<string> => RNFS.readFile(uri, 'base64'))
+          .then((base64Str) => ({
+            imageUrl: getBase64Url({ mime: 'image/png', data: base64Str }),
+          }));
 
         resizedImages.push(resizedImage);
       });
