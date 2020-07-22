@@ -9,12 +9,16 @@ import {
   CheckableButton,
   ContentContainer,
   HSpace,
+  ErrorMessage,
 } from '@components';
 import {
   AppFlow,
   Screens,
   SignUpStackNavigationProps,
 } from '@navigation/types';
+import { useMutation } from '@apollo/react-hooks';
+import { LOCAL_SET_INTERESTS } from '@api/mutation';
+import { logError } from '@util/Error';
 
 interface InterestSelectionProps {
   navigation: SignUpStackNavigationProps<Screens.InterestSelection>;
@@ -44,10 +48,12 @@ const initialState = {
 const InterestSelection = ({
   navigation,
 }: InterestSelectionProps): JSX.Element => {
-  // TODO: Set interest into local query
   const [interests, setInterest] = useState(initialState);
   const totalInterests = Object.keys(interests).length;
   const intersetCount = Object.values(interests).filter((v) => v).length;
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  // TODO: Create
+  // const [setInterests] = useMutation(LOCAL_SET_INTERESTS, {});
 
   const handleOnCheckInterest = (value: Interests): void => {
     setInterest((prev) => {
@@ -92,6 +98,7 @@ const InterestSelection = ({
           onPress={handleOnCheckInterest}
         />
       </Content>
+      {!!serverErrorMessage && <ErrorMessage message={serverErrorMessage} />}
       <BarButton
         title={`DONE (${intersetCount}/${totalInterests})`}
         disabled={intersetCount === 0}

@@ -30,7 +30,7 @@
       "@components/types": ["components/types.ts"]
     }
   },
-  "include": ["./index.ts", "./src/**/*"],
+  "include": ["./resolvers.ts", "./index.ts", "./schema.ts", "./src/**/*"],
   "exclude": [
     "node_modules",
     "babel.config.js",

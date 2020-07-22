@@ -1,24 +1,27 @@
-import { WheelPicker } from 'react-native-wheel-picker-android';
 import { View, StyleSheet, Platform, Keyboard } from 'react-native';
+import { WheelPicker } from 'react-native-wheel-picker-android';
 import DatePicker from 'react-native-date-picker';
+import { useMutation } from '@apollo/react-hooks';
 import React, { useState, useRef } from 'react';
 import { Input } from 'react-native-elements';
 import moment from 'moment';
 import {
-  Content,
   Title,
-  BarButton,
-  TextField,
   VSpace,
   HSpace,
   Picker,
-  ContentContainer,
-  HorizontalView,
+  Content,
+  BarButton,
+  TextField,
   ErrorMessage,
+  HorizontalView,
+  ContentContainer,
 } from '@components';
 import { SignUpStackNavigationProps, Screens } from '@navigation/types';
+import { LOCAL_SET_PERSONAL_INFO } from '@api/mutation/local';
 import { Countries, Colors } from '@constants';
 import useText from '@hooks/useText';
+import { logError } from '@util/Error';
 
 interface AccountCreationProps {
   navigation: SignUpStackNavigationProps<Screens.AccountCreation>;
@@ -36,7 +39,7 @@ enum FORM_DATA_TYPE {
 }
 
 enum MSG {
-  EMAIL = 'Correct email formmat required',
+  EMAIL = 'Correct email format required',
   PASSWORD = 'Password is not confirmed',
   NAME = 'Not valid name',
   COUNTRY = 'Choose your birth country',
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const GENDERS = ['Choose your Gender', 'Male', 'Female', 'X gender'];
+const GENDERS = ['Choose your Gender', 'Male', 'Female'];
 Countries.unshift('Choose your country');
 
 const initialErrorState = {
@@ -73,16 +76,29 @@ const initialErrorState = {
 };
 
 const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
-  const [email, setEmail, isValidEmail] = useText('', { isEmail: true });
-  const [password, setPassword] = useText('');
-  const [passwordConfirmed, setPasswordEquality] = useState(false);
-  const [firstName, setFirstName] = useText('');
-  const [secondName, setSecondName] = useText('');
-  const [gender, setGender] = useState('');
-  const [birthCountry, setCountry] = useState('');
+  const [email, setEmail, isValidEmail] = useText('xoghks167@naver.com', {
+    isEmail: true,
+  });
+  const [lastName, setSecondName] = useText('송');
+  const [firstName, setFirstName] = useText('태환');
+  const [password, setPassword] = useText('123123');
   const [birthDate, setBirthDate] = useState<Date>(() => new Date());
+  const [birthCountry, setCountry] = useState('South Korea');
+  const [gender, setGender] = useState('Male');
+
+  const [passwordConfirmed, setPasswordEquality] = useState(true);
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [error, setError] = useState(initialErrorState);
   const inputRefs = useRef<{ ref: Input; id: any }[]>([]);
+
+  const [setPersonalInfo, { loading }] = useMutation(LOCAL_SET_PERSONAL_INFO, {
+    notifyOnNetworkStatusChange: false,
+    onCompleted: ({ setPersonalInfo: personalInfo }) => {
+      console.log(personalInfo);
+      goToEmailVerification();
+    },
+    onError: logError(setServerErrorMessage),
+  });
 
   const setRefs = (node: Input, id: any): void => {
     if (node) {
@@ -140,7 +156,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
     }
   };
 
-  const isFormDataValid = (): boolean => {
+  const validateEmail = (): boolean => {
     if (!isValidEmail) {
       setError({
         message: MSG.EMAIL,
@@ -153,6 +169,10 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
       return false;
     }
 
+    return true;
+  };
+
+  const validatePwConfirm = (): boolean => {
     if (!passwordConfirmed) {
       setError({
         message: MSG.PASSWORD,
@@ -165,8 +185,16 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
       return false;
     }
 
-    const validateName = new RegExp(/^[a-zA-Z]/);
-    if (!validateName.exec(firstName) || !validateName.exec(secondName)) {
+    return true;
+  };
+
+  const validateName = (): boolean => {
+    const nameValidationExp = new RegExp(/^[가-힣a-zA-Z]/);
+
+    if (
+      !nameValidationExp.exec(firstName) ||
+      !nameValidationExp.exec(lastName)
+    ) {
       setError({
         message: MSG.NAME,
         fromEmail: false,
@@ -179,6 +207,10 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
       return false;
     }
 
+    return true;
+  };
+
+  const validateCountry = (): boolean => {
     if (birthCountry.length === 0) {
       setError({
         ...initialErrorState,
@@ -187,6 +219,10 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
       return false;
     }
 
+    return true;
+  };
+
+  const validateGender = (): boolean => {
     if (gender.length === 0) {
       setError({ ...initialErrorState, message: MSG.GENDER });
       return false;
@@ -197,12 +233,32 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
     return true;
   };
 
+  const isFormDataValid = (): boolean => {
+    if (!validateEmail()) return false;
+    if (!validatePwConfirm()) return false;
+    if (!validateName()) return false;
+    if (!validateCountry()) return false;
+    if (!validateGender()) return false;
+
+    return true;
+  };
+
   const onSubmitSignUp = (): void => {
     const isValid = isFormDataValid();
 
     if (isValid) {
-      // NEXT
-      goToEmailVerification();
+      setPersonalInfo({
+        variables: {
+          user: {
+            firstName,
+            lastName,
+            gender,
+            nationality: birthCountry,
+            password,
+            birthDate,
+          },
+        },
+      });
     }
   };
 
@@ -314,8 +370,11 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
           />
         </Picker>
       </Content>
+      {!!serverErrorMessage && <ErrorMessage message={serverErrorMessage} />}
       {!!error.message && <ErrorMessage message={error.message} />}
       <BarButton
+        loading={loading}
+        disabled={loading}
         title={'NEXT'}
         onPress={onSubmitSignUp}
         // onPress={() => navigation.navigate('EmailVerification', { email: 123 })}

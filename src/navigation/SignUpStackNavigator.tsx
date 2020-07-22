@@ -81,9 +81,6 @@ const SignUpStackNavigator = ({
               false,
               Colors.darkSlateBlue,
             ),
-            headerStyle: {
-              backgroundColor: 'orange',
-            },
           }}
         />
         <Stack.Screen

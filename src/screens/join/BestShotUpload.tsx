@@ -9,67 +9,79 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import Config from 'react-native-config';
+import { useMutation } from '@apollo/react-hooks';
 import React, { useState } from 'react';
-import uuidv4 from 'uuid/v4';
 import {
   Text,
   Title,
   VSpace,
   Content,
+  ImageView,
   BarButton,
   IconButton,
   HorizontalView,
   ContentContainer,
-  ImageView,
+  ErrorMessage,
 } from '@components';
-import { Screens, SignUpStackNavigationProps } from '@navigation/types';
 import { getRelativeWidth, getCircleRadiusSize } from '@util/Dimensions';
-import AWS from '../../../aws.config';
+import { Screens, SignUpStackNavigationProps } from '@navigation/types';
+import { LOCAL_SET_BEST_PICTURES } from '@api/mutation';
 import { Colors } from '@constants';
+import { logError } from '@util/Error';
 
 interface BestShotUploadProps {
   navigation: SignUpStackNavigationProps<Screens.BestShotUpload>;
 }
 
 interface ImageSlot {
-  filename: string;
-  path: string;
+  imageUrl: string;
 }
-
-const BUTKET_URL = Config.BUCKET_PATH + '/BACKGROUND';
 
 const getEmptyImageSlot = (count: number): ImageSlot[] => {
   const slot: ImageSlot = {
-    filename: '',
-    path: '',
+    imageUrl: '',
   };
 
   return Array(count).fill(slot);
 };
 
+const getBase64Url = ({ mime, data }: PickerImage): string => {
+  return `data:${mime};base64,${data}`;
+};
+
+const convertToImageSlot = (
+  result: PickerImage[] | PickerImage,
+): ImageSlot[] => {
+  const images = result as PickerImage[];
+  return images.map(
+    (image): ImageSlot => ({
+      imageUrl: getBase64Url(image),
+    }),
+  );
+};
+
 const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   const [showAddButton, setShowAddButton] = useState<boolean>(true);
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [imageSlots, setImageSlots] = useState<ImageSlot[]>(() =>
     getEmptyImageSlot(4),
   );
   const [isLoading, setLoadng] = useState(false);
 
-  const convertToImageSlot = (
-    result: PickerImage[] | PickerImage,
-  ): ImageSlot[] => {
-    const images = result as PickerImage[];
-    return images.map(
-      ({ filename, path }): ImageSlot => ({
-        filename,
-        path,
-      }),
-    );
-  };
+  const [setBestShots] = useMutation(LOCAL_SET_BEST_PICTURES, {
+    notifyOnNetworkStatusChange: false,
+    onCompleted: ({ setBestPictures }) => {
+      console.log(setBestPictures.bestShots);
+      goToSelfieUpload();
+    },
+    onError: logError(setServerErrorMessage),
+  });
 
   const setMultipleImages = (): Promise<ImageSlot[]> => {
     return ImagePicker.openPicker({
+      includeBase64: true,
       mediaType: 'photo',
       multiple: true,
       writeTempFile: true,
@@ -85,19 +97,19 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
 
   const setSingleImage = (index: number): Promise<ImageSlot[]> => {
     return ImagePicker.openPicker({
+      includeBase64: true,
       mediaType: 'photo',
       writeTempFile: true,
     }).then((newSlot): ImageSlot[] => {
-      const { filename, path } = newSlot as PickerImage;
+      const imageUrl = getBase64Url(newSlot as PickerImage);
       const isDulpicated = imageSlots.some(
-        (prevSlot) => prevSlot.filename === filename,
+        (prevSlot) => prevSlot.imageUrl === imageUrl,
       );
       const newImageSlots = imageSlots.slice();
 
       if (!isDulpicated) {
         newImageSlots[index] = {
-          filename,
-          path,
+          imageUrl,
         };
       }
 
@@ -158,18 +170,35 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
     navigation.navigate(Screens.SelfieUpload);
   };
 
+  const handleOnPressButton = (): void => {
+    const userImages = imageSlots.filter(({ imageUrl }) => imageUrl.length > 0);
+
+    if (userImages.length > 0) {
+      setBestShots({
+        variables: {
+          pics: userImages,
+        },
+      });
+    } else {
+      Alert.alert(
+        'Alert',
+        'Please upload at least one best picture that you took',
+      );
+    }
+  };
+
   const renderImageBox = (): JSX.Element[] => {
     return imageSlots.map(
-      ({ path }: ImageSlot, i): JSX.Element => {
+      ({ imageUrl }: ImageSlot, i): JSX.Element => {
         return (
           <TouchableOpacity
-            key={path || i}
+            key={imageUrl || i}
             onPress={(): Promise<void> => openPhotoLibrary(i)}
             style={styles.imageViewStyle}>
-            {path.length !== 0 ? (
+            {imageUrl.length !== 0 ? (
               <ImageView
                 resizeMode={'stretch'}
-                source={{ uri: path }}
+                source={{ uri: imageUrl }}
                 style={styles.image}
               />
             ) : (
@@ -184,7 +213,14 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   return (
     <ContentContainer>
       <Content style={{ paddingHorizontal: 0 }}>
-        <PageTitle />
+        <Title title center text={'Please Upload your\nBest Shots!'} />
+        <VSpace space={14} />
+        <Text
+          color={Colors.grapeFruit}
+          bold
+          text={'You cannot upload face pictures!'}
+        />
+        <VSpace space={25} />
 
         <View style={styles.imageContainer}>
           {showAddButton && <AddPhoto onPress={openPhotoLibrary} />}
@@ -197,32 +233,15 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
         </View>
         <VSpace space={50} />
       </Content>
+      {!!serverErrorMessage && <ErrorMessage message={serverErrorMessage} />}
       <BarButton
         title={'NEXT'}
         disabled={isLoading}
-        onPress={goToSelfieUpload}
-        // onPress={(): Promise<void> =>
-        //   resizeImage(
-        //     imageSlots.filter(({ path }) => !!path).map(({ path }) => path),
-        //   )
-        // }
+        onPress={handleOnPressButton}
       />
     </ContentContainer>
   );
 };
-
-const PageTitle = (): JSX.Element => (
-  <>
-    <Title title center text={'Please Upload your\nBest Shots!'} />
-    <VSpace space={14} />
-    <Text
-      color={Colors.grapeFruit}
-      bold
-      text={'You cannot upload face pictures!'}
-    />
-    <VSpace space={25} />
-  </>
-);
 
 const AddPhoto = ({ onPress }: { onPress(): void }): JSX.Element => {
   const handler = (): void => {
