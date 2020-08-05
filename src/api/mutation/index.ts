@@ -13,7 +13,6 @@ export {
 
 export {
   LOCAL_SET_SELFIE,
-  LOCAL_SET_INTERESTS,
   LOCAL_SET_BEST_PICTURES,
   LOCAL_SET_PERSONAL_INFO,
 } from './local';

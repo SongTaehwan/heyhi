@@ -1,0 +1,101 @@
+import { createBox, createText, createTheme } from '@shopify/restyle';
+
+const palette = {
+  transparent: 'transparent',
+  aliceBlue: '#e5f1ff',
+  black: '#000000',
+  blueyGrey: '#8898aa',
+  brightRed: '#F76C6C',
+  brownGrey: '#7B7B7B',
+  brownGreyTwo: '#9d9d9d',
+  brownishGrey: '#5A5A5A',
+  brightPurple: '#BC25FF',
+  brightSkyBlue: '#00c7ff',
+  brightSeaGreen: '#00ffa7',
+  caramel: '#ffd19d',
+  columbiaBlue: '#9ECAFF',
+  cornflowerBlue: '#a3eaff',
+  caribbeanGreen: '#9de9ff',
+  deepSkyBlue: '#0076FF',
+  darkSlateBlue: '#172b4d',
+  grapeFruit: '#ff5353',
+  grapefruit: '#FF5353',
+  lightCyan: '#E5F9FF',
+  purply: '#7764e4',
+  pumpkinOrange: '#ff9b26',
+  mauve: '#e19dff',
+  magnolia: '#F7E5FF',
+  matterhorn: '#4b4b4b',
+  mediumSpringGreen: '#09ECAF',
+  red: '#ff0000',
+  robinSEgg: '#5adbff',
+  seashell: '#FFF3E5',
+  taupeGray: '#888888',
+  vibrantBlue: '#0045ff',
+  veryLightPink: '#cecece',
+  veryLightPinkTwo: '#efefef',
+  veryLightPinkFour: '#E6E6E6',
+  veryLightPinkThree: '#f2f2f2',
+  white: '#ffffff',
+};
+
+const theme = createTheme({
+  colors: {
+    transparent: palette.transparent,
+    aliceBlue: palette.aliceBlue,
+    black: palette.black,
+    blueyGrey: palette.blueyGrey,
+    brightRed: palette.brightRed,
+    brownGrey: palette.brownGrey,
+    brownGreyTwo: palette.brownGreyTwo,
+    brownishGrey: palette.brownishGrey,
+    brightPurple: palette.brightPurple,
+    brightSkyBlue: palette.brightSkyBlue,
+    brightSeaGreen: palette.brightSeaGreen,
+    caramel: palette.caramel,
+    columbiaBlue: palette.columbiaBlue,
+    cornflowerBlue: palette.cornflowerBlue,
+    caribbeanGreen: palette.caribbeanGreen,
+    deepSkyBlue: palette.deepSkyBlue,
+    darkSlateBlue: palette.darkSlateBlue,
+    grapeFruit: palette.grapeFruit,
+    grapefruit: palette.grapefruit,
+    lightCyan: palette.lightCyan,
+    purply: palette.purply,
+    pumpkinOrange: palette.pumpkinOrange,
+    mauve: palette.mauve,
+    magnolia: palette.magnolia,
+    matterhorn: palette.matterhorn,
+    mediumSpringGreen: palette.mediumSpringGreen,
+    red: palette.red,
+    robinSEgg: palette.robinSEgg,
+    seashell: palette.seashell,
+    taupeGray: palette.taupeGray,
+    vibrantBlue: palette.vibrantBlue,
+    veryLightPink: palette.veryLightPink,
+    veryLightPinkTwo: palette.veryLightPinkTwo,
+    veryLightPinkFour: palette.veryLightPinkFour,
+    veryLightPinkThree: palette.veryLightPinkThree,
+    white: palette.white,
+  },
+  spacing: {
+    s: 8,
+    m: 16,
+    l: 24,
+    xl: 40,
+  },
+  breakpoints: {},
+});
+
+export const darkTheme = {
+  ...theme,
+  color: {
+    ...theme.colors,
+  },
+};
+
+export type Theme = typeof theme;
+export type DarkTheme = typeof darkTheme;
+export const Box = createBox();
+export const Text = createText();
+export default theme;

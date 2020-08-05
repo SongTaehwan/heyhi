@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedbackProps,
 } from 'react-native';
 import skipButton from '@images/skipButton.png';
-import { AppFlow, Screens } from '@navigation/types';
+import { AppFlow, Screens } from '@navigator/types';
 import { StyleSheets } from '@constants';
 
 interface SkipButtonProps extends TouchableWithoutFeedbackProps {

@@ -1,37 +1,49 @@
 import { NavigationContainer } from '@react-navigation/native';
 import RootErrorBoundary from 'react-native-error-boundary';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { ThemeProvider } from '@shopify/restyle';
 import React from 'react';
+import { useColorScheme } from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
   StackCardInterpolatedStyle,
 } from '@react-navigation/stack';
-import {
-  MainTab,
-  LoginStack,
-  SignUpStack,
-  MyPageStack,
-  TutorialStack,
-} from '@navigation';
+import { TutorialNavigator } from '@navigator/Tutorial';
+import { LoginNavigator } from '@navigator/Login';
+import { SignUpNavigator } from '@navigator/SignUp';
+import { HomeNavigator } from '@navigator/Home';
+
 import {
   AppFlow,
   AppStackParamList,
   ModalStackParamList,
-} from '@navigation/types';
+} from '@navigator/types';
 import SelfieNoticeModal from '@screens/modal/SelfieNoticeModal';
 import Splash from '@screens/Splash';
+import ChatRoom from '@screens/ChatRoom';
+import { SettingNavigator } from '@navigator/Setting';
+import theme, { darkTheme } from './components/Theme';
 import apolloClient from '../client';
 
 const Stack = createStackNavigator<AppStackParamList>();
 const ModalStack = createStackNavigator<ModalStackParamList>();
 
 const App = (): JSX.Element => {
-  // TODO: Build App Color Theme provider wrapping AppWithErrorBoundary
-  return <AppWithErrorBoundary />;
+  // TODO: Theme color 적용
+  const colorScheme = useColorScheme();
+  const dark = colorScheme === 'dark';
+
+  return (
+    <ApolloProvider client={apolloClient}>
+      <ThemeProvider {...{ theme: dark ? darkTheme : theme }}>
+        <AppErrorBoundary />
+      </ThemeProvider>
+    </ApolloProvider>
+  );
 };
 
-const AppWithErrorBoundary = (): JSX.Element => {
+const AppErrorBoundary = (): JSX.Element => {
   const childErrorhandler = (error: Error, stackTrace: string): void => {
     console.log(error.message);
     // TODO: report error to a cash analysis service like crashlytics from firebase
@@ -45,7 +57,6 @@ const AppWithErrorBoundary = (): JSX.Element => {
 };
 
 const RootModalSackNaivgator = (): JSX.Element => {
-  // TODO: Theme color 적용
   return (
     <NavigationContainer>
       <ModalStack.Navigator
@@ -83,34 +94,31 @@ const AppStack = (): JSX.Element => {
         headerShown: false,
       }}>
       <Stack.Screen name={AppFlow.Splash} component={Splash} />
-      <Stack.Screen name={AppFlow.LoginStack} component={LoginStack} />
-      <Stack.Screen name={AppFlow.SignUpStack} component={SignUpStack} />
+      <Stack.Screen name={AppFlow.LoginStack} component={LoginNavigator} />
+      <Stack.Screen name={AppFlow.SignUpStack} component={SignUpNavigator} />
       <Stack.Screen
         name={AppFlow.TutorialStack}
-        component={TutorialStack}
+        component={TutorialNavigator}
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}
       />
       <Stack.Screen
         name={AppFlow.MainTab}
-        component={MainTab}
+        component={HomeNavigator}
         options={{
           cardStyleInterpolator:
             CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
-      <Stack.Screen name={AppFlow.MyPageStack} component={MyPageStack} />
+      <Stack.Screen
+        name={'ChatRoom'}
+        component={ChatRoom}
+        options={{ headerShown: true, title: 'ChatRoom' }}
+      />
+      <Stack.Screen name={AppFlow.MyPageStack} component={SettingNavigator} />
     </Stack.Navigator>
   );
 };
 
-const ProviderWrapper = (): JSX.Element => {
-  return (
-    <ApolloProvider client={apolloClient}>
-      <App />
-    </ApolloProvider>
-  );
-};
-
-export default ProviderWrapper;
+export default App;

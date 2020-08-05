@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import selfie from '@images/selfie.png';
 import { Content, VSpace, Text, NoticeModal, ImageView } from '@components';
 import { getRelativeWidth } from '@util/Dimensions';
-import { ModalStackNavigationProps } from '@navigation/types';
+import { ModalStackNavigationProps } from '@navigator/types';
 
 interface SelfieNoticeModalProp {
   navigation: ModalStackNavigationProps<'SelfieNotice'>;

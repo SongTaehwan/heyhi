@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import AsyncStorage from '@react-native-community/async-storage';
-import { AppFlow, AppStackNavigationProps } from '@navigation/types';
+import { AppFlow, AppStackNavigationProps } from '@navigator/types';
 import { CommonActions } from '@react-navigation/native';
 
 interface SplashProps {
