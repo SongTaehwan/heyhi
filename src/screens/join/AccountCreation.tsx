@@ -79,12 +79,12 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
   const [email, setEmail, isValidEmail] = useText('xoghks167@naver.com', {
     isEmail: true,
   });
-  const [lastName, setSecondName] = useText('송');
-  const [firstName, setFirstName] = useText('태환');
-  const [password, setPassword] = useText('123123');
+  const [lastName, setSecondName] = useText('');
+  const [firstName, setFirstName] = useText('');
+  const [password, setPassword] = useText('');
   const [birthDate, setBirthDate] = useState<Date>(() => new Date());
-  const [birthCountry, setCountry] = useState('South Korea');
-  const [gender, setGender] = useState('Male');
+  const [birthCountry, setCountry] = useState('');
+  const [gender, setGender] = useState('');
 
   const [passwordConfirmed, setPasswordEquality] = useState(true);
   const [serverErrorMessage, setServerErrorMessage] = useState('');

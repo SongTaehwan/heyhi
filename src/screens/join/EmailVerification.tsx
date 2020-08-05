@@ -179,9 +179,9 @@ const EmailVerification = ({
         title="NEXT"
         loading={isVerifying}
         square={false}
-        // disabled={verificationCode.length !== 6 || isVerifying}
-        // onPress={handleVerificationCode}
-        onPress={navigateToNextPage}
+        disabled={verificationCode.length !== 6 || isVerifying}
+        onPress={handleVerificationCode}
+        // onPress={navigateToNextPage}
       />
     </ContentContainer>
   );
