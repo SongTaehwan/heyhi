@@ -26,7 +26,7 @@
       "@constants": ["constants/index.ts"],
       "@components": ["components/index.ts"],
       "@navigator/*": ["navigator/*"],
-      "@navigator/types": ["navigator/types.ts"],
+      "@navigator/Routes": ["navigator/Routes.ts"],
       "@components/types": ["components/types.ts"]
     }
   },

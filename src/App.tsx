@@ -14,11 +14,7 @@ import { LoginNavigator } from '@navigator/Login';
 import { SignUpNavigator } from '@navigator/SignUp';
 import { HomeNavigator } from '@navigator/Home';
 
-import {
-  AppFlow,
-  AppStackParamList,
-  ModalStackParamList,
-} from '@navigator/types';
+import { RootModalRoutes, AppRoutes } from '@navigator/Routes';
 import SelfieNoticeModal from '@screens/modal/SelfieNoticeModal';
 import Splash from '@screens/Splash';
 import ChatRoom from '@screens/ChatRoom';
@@ -26,8 +22,8 @@ import { SettingNavigator } from '@navigator/Setting';
 import theme, { darkTheme } from './components/Theme';
 import apolloClient from '../client';
 
-const Stack = createStackNavigator<AppStackParamList>();
-const ModalStack = createStackNavigator<ModalStackParamList>();
+const Stack = createStackNavigator<AppRoutes>();
+const ModalStack = createStackNavigator<RootModalRoutes>();
 
 const App = (): JSX.Element => {
   // TODO: Theme color 적용
@@ -89,22 +85,22 @@ const RootModalSackNaivgator = (): JSX.Element => {
 const AppStack = (): JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName={AppFlow.Splash}
+      initialRouteName={'Splash'}
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name={AppFlow.Splash} component={Splash} />
-      <Stack.Screen name={AppFlow.LoginStack} component={LoginNavigator} />
-      <Stack.Screen name={AppFlow.SignUpStack} component={SignUpNavigator} />
+      <Stack.Screen name={'Splash'} component={Splash} />
+      <Stack.Screen name={'LoginStack'} component={LoginNavigator} />
+      <Stack.Screen name={'SignUpStack'} component={SignUpNavigator} />
       <Stack.Screen
-        name={AppFlow.TutorialStack}
+        name={'TutorialStack'}
         component={TutorialNavigator}
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}
       />
       <Stack.Screen
-        name={AppFlow.MainTab}
+        name={'Home'}
         component={HomeNavigator}
         options={{
           cardStyleInterpolator:
@@ -116,7 +112,7 @@ const AppStack = (): JSX.Element => {
         component={ChatRoom}
         options={{ headerShown: true, title: 'ChatRoom' }}
       />
-      <Stack.Screen name={AppFlow.MyPageStack} component={SettingNavigator} />
+      <Stack.Screen name={'MyPageStack'} component={SettingNavigator} />
     </Stack.Navigator>
   );
 };

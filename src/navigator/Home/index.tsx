@@ -23,8 +23,8 @@ import Map from './Main';
 type TabBarIconProps = { focused: boolean; color: string };
 
 interface HomeNavigatorProps {
-  navigation: AppStackNavigationProps<AppFlow.MainTab>;
-  route: RouteProp<AppStackParamList, AppFlow.MainTab>;
+  navigation: AppStackNavigationProps<AppFlow.Home>;
+  route: RouteProp<AppStackParamList, AppFlow.Home>;
 }
 
 const BottomTab = createMaterialBottomTabNavigator<MainTabParamList>();

@@ -39,7 +39,7 @@ const Splash = ({ navigation }: SplashProps): JSX.Element => {
 
           return CommonActions.reset({
             index: 0,
-            routes: [{ name: AppFlow.MainTab }],
+            routes: [{ name: AppFlow.Home }],
           });
         });
       }

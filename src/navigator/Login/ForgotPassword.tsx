@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import { Screens, LoginStackNavigationProps } from '@navigator/types';
+import { Screens } from '@navigator/types';
 import { MUTATION_SEND_EMAIL } from '@api/mutation';
 import useText from '@hooks/useText';
 import {
@@ -15,10 +15,7 @@ import {
   ErrorMessage,
 } from '@components';
 import { logError } from '@util/Error';
-
-interface PasswordRestoration {
-  navigation: LoginStackNavigationProps<Screens.PasswordRestoration>;
-}
+import { LoginNavigationProps } from '@navigator/Routes';
 
 interface MutationVariable {
   data: {
@@ -34,9 +31,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const PasswordRestoration = ({
+const ForgotPassword = ({
   navigation,
-}: PasswordRestoration): JSX.Element => {
+}: LoginNavigationProps<'ForgotPassword'>): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail, isValid] = useText('', {
     isEmail: true,
@@ -98,4 +95,4 @@ const PasswordRestoration = ({
   );
 };
 
-export default PasswordRestoration;
+export default ForgotPassword;

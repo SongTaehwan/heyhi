@@ -11,18 +11,9 @@ import {
   ContentContainer,
 } from '@components';
 import { useMutation } from '@apollo/react-hooks';
-import {
-  Screens,
-  LoginStackParamList,
-  LoginStackNavigationProps,
-} from '@navigator/types';
+import { Screens } from '@navigator/types';
 import { MUTATION_SEND_EMAIL, MUTATION_VERIFY_CODE } from '@api/mutation';
-import { RouteProp } from '@react-navigation/native';
-
-interface EmailAuthProps {
-  navigation: LoginStackNavigationProps<Screens.EmailAuth>;
-  route: RouteProp<LoginStackParamList, Screens.EmailAuth>;
-}
+import { LoginNavigationProps } from '@navigator/Routes';
 
 interface VerificationVariables {
   data: {
@@ -37,7 +28,10 @@ interface VerificationResult {
   };
 }
 
-const EmailAuth = ({ navigation, route }: EmailAuthProps): JSX.Element => {
+const EmailAuth = ({
+  navigation,
+  route,
+}: LoginNavigationProps<'EmailAuth'>): JSX.Element => {
   const { email } = route.params;
   const [verificationCode, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

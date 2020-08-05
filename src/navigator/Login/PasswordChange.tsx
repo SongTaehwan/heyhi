@@ -8,23 +8,13 @@ import {
   ErrorMessage,
   ContentContainer,
 } from '@components';
-import {
-  Screens,
-  LoginStackParamList,
-  LoginStackNavigationProps,
-  AppFlow,
-} from '@navigator/types';
+import { AppFlow } from '@navigator/types';
 import AsyncStorage from '@react-native-community/async-storage';
-import { RouteProp } from '@react-navigation/native';
 import { useMutation } from '@apollo/react-hooks';
 import { Input } from 'react-native-elements';
 import { MUTATION_RESET_PASSWORD } from '@api/mutation';
 import useText from '@hooks/useText';
-
-interface NewPasswordProps {
-  navigation: LoginStackNavigationProps<Screens.NewPassword>;
-  route: RouteProp<LoginStackParamList, Screens.NewPassword>;
-}
+import { LoginNavigationProps } from '@navigator/Routes';
 
 interface Variables {
   data: {
@@ -44,7 +34,10 @@ interface Result {
 }
 
 // TODO: API, Navigation logic
-const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
+const PasswordChange = ({
+  navigation,
+  route,
+}: LoginNavigationProps<'PasswordChange'>): JSX.Element => {
   const { userId = 0 } = route.params;
   const [password, setPassword] = useText('');
   const [passwordConfirm, setPasswordConfirm] = useState(false);
@@ -75,7 +68,7 @@ const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
       ]);
 
       // move to Map
-      navigation.navigate(AppFlow.MainTab);
+      navigation.navigate(AppFlow.Home);
     } catch (error) {
       console.log('Error during update token: ', error);
       setErrorMessage(error.message);
@@ -164,4 +157,4 @@ const NewPassword = ({ navigation, route }: NewPasswordProps): JSX.Element => {
   );
 };
 
-export default NewPassword;
+export default PasswordChange;

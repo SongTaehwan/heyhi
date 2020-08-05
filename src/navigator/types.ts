@@ -5,7 +5,7 @@ export enum AppFlow {
   Splash = 'Splash',
   TutorialStack = 'TutorialStack',
   LoginStack = 'LoginStack',
-  MainTab = 'MainTab',
+  Home = 'Home',
   SignUpStack = 'SignUpStack',
   MapStack = 'MapStack',
   ChatStack = 'ChatStack',
@@ -21,10 +21,10 @@ export enum Screens {
   TutorialSecond = 'TutorialSecond',
   TutorialLast = 'TutorialLast',
   // NOTE: Login
-  SignIn = 'SignIn',
+  Login = 'Login',
   SignUp = 'SignUp',
-  PasswordRestoration = 'PasswordRestoration',
-  NewPassword = 'NewPassword',
+  ForgotPassword = 'ForgotPassword',
+  PasswordChange = 'PasswordChange',
   EmailAuth = 'EmailAuth',
   // NOTE: Sign up
   AccountCreation = 'AccountCreation',
@@ -138,7 +138,7 @@ export type AppStackParamList = {
     screen?: 'SignIn';
   };
   SignUpStack: undefined;
-  MainTab: undefined;
+  Home: undefined;
   MyPageStack: undefined;
 };
 

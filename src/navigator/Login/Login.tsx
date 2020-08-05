@@ -5,7 +5,8 @@ import { Input } from 'react-native-elements';
 import React, { useRef } from 'react';
 import _isEqual from 'lodash/isEqual';
 import validator from 'validator';
-import { Screens, AppFlow, LoginStackNavigationProps } from '@navigator/types';
+
+import { Screens, AppFlow } from '@navigator/types';
 import {
   TextField,
   BarButton,
@@ -25,10 +26,7 @@ import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
 import { Colors } from '@constants';
 import { logError } from '@util/Error';
-
-interface SignInProps {
-  navigation: LoginStackNavigationProps<Screens.SignIn>;
-}
+import { LoginNavigationProps } from '@navigator/Routes';
 
 interface LoginData {
   data: {
@@ -51,7 +49,7 @@ const initialFormError = {
 };
 
 // NOTE: SignIn Component
-const SignIn = ({ navigation }: SignInProps): JSX.Element => {
+const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
   const [email, setEmail] = useText('', { isEmail: true, delayTime: 500 });
   const [password, setPassword] = useText('', { delayTime: 500 });
   const [formError, setFormError] = useValue(initialFormError, 300);
@@ -75,7 +73,7 @@ const SignIn = ({ navigation }: SignInProps): JSX.Element => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: AppFlow.MainTab }],
+        routes: [{ name: AppFlow.Home }],
       }),
     );
   };
@@ -230,7 +228,7 @@ const NavigationButtons = ({
   navigation,
 }: Pick<SignInProps, 'navigation'>): JSX.Element => {
   const goToPasswordRestoration = (): void => {
-    navigation.navigate(Screens.PasswordRestoration);
+    navigation.navigate(Screens.ForgotPassword);
   };
 
   const goToSignUp = (): void => {
@@ -254,4 +252,4 @@ const NavigationButtons = ({
   );
 };
 
-export default SignIn;
+export default Login;

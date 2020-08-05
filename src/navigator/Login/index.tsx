@@ -1,29 +1,32 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Container } from '@components';
-import { Screens, LoginStackParamList } from '../types';
-import PasswordRestoration from './PasswordRestoration';
-import NewPassword from './NewPassword';
+import { Screens } from '../types';
+import ForgotPassword from './ForgotPassword';
+import PasswordChange from './PasswordChange';
 import EmailAuth from './EmailAuth';
-import SignIn from './SignIn';
+import Login from './Login';
 import { StyleSheets } from '@constants';
+import { LoginRoutes } from '@navigator/Routes';
 
-const Stack = createStackNavigator<LoginStackParamList>();
+const Stack = createStackNavigator<LoginRoutes>();
 
 export const LoginNavigator = (): JSX.Element => {
   return (
     <Container topless>
       <Stack.Navigator
-        initialRouteName={Screens.SignIn}
+        initialRouteName={Screens.Login}
         screenOptions={StyleSheets.header.withBackButton}>
-        <Stack.Screen name={Screens.SignIn} component={SignIn} />
+        <Stack.Screen name={Screens.Login} component={Login} />
         <Stack.Screen
-          name={Screens.PasswordRestoration}
-          component={PasswordRestoration}
+          name={Screens.ForgotPassword}
+          component={ForgotPassword}
         />
         <Stack.Screen name={Screens.EmailAuth} component={EmailAuth} />
-        <Stack.Screen name={Screens.NewPassword} component={NewPassword} />
-        {/* <Stack.Screen name={AppFlow.SignUpStack} component={SignUpStack} /> */}
+        <Stack.Screen
+          name={Screens.PasswordChange}
+          component={PasswordChange}
+        />
       </Stack.Navigator>
     </Container>
   );
