@@ -95,12 +95,11 @@ const ChangeEmail = (): JSX.Element => {
         await AsyncStorage.multiRemove(['ACCESS_TOKEN', 'REFRESH_TOKEN']);
       },
       onError: (error) => {
-        console.log('Error while verifying code: ', error);
+        console.log('Error while verifying code: ', error.message);
 
         const { message } = JSON.parse(
           error.message.split(': ').pop() as string,
         );
-        console.log(message);
 
         setError({
           message,
@@ -123,7 +122,6 @@ const ChangeEmail = (): JSX.Element => {
   };
 
   const handleVerificationCode = (): void => {
-    console.log('verificationCode', verificationCode);
     if (verificationCode.length === 6) {
       updateMemberEmail();
       Keyboard.dismiss();

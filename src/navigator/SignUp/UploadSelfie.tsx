@@ -43,7 +43,6 @@ const UploadSelfie = ({
   const [setSelie] = useMutation(LOCAL_SET_SELFIE, {
     notifyOnNetworkStatusChange: false,
     onCompleted: ({ setSelfie }) => {
-      console.log(setSelfie);
       goToInterestSelection();
     },
     onError: logError(setServerErrorMessage),

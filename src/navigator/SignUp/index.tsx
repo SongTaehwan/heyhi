@@ -26,7 +26,6 @@ const Stack = createStackNavigator<SignUpRoutes>();
 const SignUpNavigator = ({
   navigation,
 }: StackNavigationProps<AppRoutes, 'LoginStack'>): JSX.Element => {
-  console.log(navigation);
   const currentNavRoute = useNavigationState(
     (state) => state.routes[state.index],
   );

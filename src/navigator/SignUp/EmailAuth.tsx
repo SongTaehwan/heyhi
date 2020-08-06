@@ -54,7 +54,6 @@ const EmailAuth = ({
     notifyOnNetworkStatusChange: false,
     fetchPolicy: 'no-cache',
     onCompleted: ({ sendEmail }) => {
-      console.log(sendEmail.expiredAt);
       setShowInput(true);
       setError(initialErrorState);
     },
@@ -81,7 +80,6 @@ const EmailAuth = ({
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (data) => {
-        console.log(data);
         navigateToNextPage();
       },
       onError: (error) => {
@@ -117,7 +115,6 @@ const EmailAuth = ({
   };
 
   const handleVerificationCode = (): void => {
-    console.log('verificationCode', verificationCode);
     codeRef.current?.blur();
 
     if (verificationCode.length === 6) {

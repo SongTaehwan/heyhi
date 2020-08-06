@@ -50,7 +50,7 @@ const UserInterest = ({
   const [createUser] = useMutation(MUTATION_CREATE_MEMBER, {
     notifyOnNetworkStatusChange: false,
     onCompleted: (data) => {
-      console.log(data);
+      // console.log(data);
     },
     onError: logError(setServerErrorMessage),
   });

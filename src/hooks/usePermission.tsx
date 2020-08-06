@@ -60,7 +60,6 @@ const usePermission = (
           const result = await check(PERMISSIONS.ANDROID.CALL_PHONE).then(
             (status) => status,
           );
-          console.log(result);
           setAndroidPermission({ call: result });
           onCompletedCheck(result === RESULTS.GRANTED);
         } catch (error) {

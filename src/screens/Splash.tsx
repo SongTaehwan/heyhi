@@ -30,7 +30,6 @@ const Splash = ({
     async function checkToken(): Promise<string | void> {
       // await AsyncStorage.clear();
       const token = await AsyncStorage.getItem(TOKEN);
-      // console.log(token);
 
       if (token) {
         return navigation.dispatch((state) => {

@@ -75,7 +75,6 @@ const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
       date: string;
     };
   }): JSX.Element => {
-    console.log(item);
     return (
       <TouchableScale
         onPress={(): void => navigation.navigate('ChatRoom')}

@@ -92,7 +92,7 @@ const SignUp = ({
   const [setPersonalInfo, { loading }] = useMutation(LOCAL_SET_PERSONAL_INFO, {
     notifyOnNetworkStatusChange: false,
     onCompleted: ({ setPersonalInfo: personalInfo }) => {
-      console.log(personalInfo);
+      // console.log(personalInfo);
       goToEmailVerification();
     },
     onError: logError(setServerErrorMessage),

@@ -101,7 +101,6 @@ const Main = (): JSX.Element => {
     },
   });
 
-  console.log(loading, data);
   const renderItem = ({
     item,
     index,

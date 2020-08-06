@@ -76,7 +76,6 @@ const BestShotUpload = ({
   const [setBestShots] = useMutation(LOCAL_SET_BEST_PICTURES, {
     notifyOnNetworkStatusChange: false,
     onCompleted: ({ setBestPictures }) => {
-      console.log(setBestPictures.bestShots);
       goToSelfieUpload();
     },
     onError: logError(setServerErrorMessage),
