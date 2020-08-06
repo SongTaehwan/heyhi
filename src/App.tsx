@@ -9,16 +9,18 @@ import {
   CardStyleInterpolators,
   StackCardInterpolatedStyle,
 } from '@react-navigation/stack';
-import { OnboaddingNavigator } from '@navigator/Onboarding';
-import { LoginNavigator } from '@navigator/Login';
-import { SignUpNavigator } from '@navigator/SignUp';
-import { HomeNavigator } from '@navigator/Home';
+
+import OnboaddingNavigator from '@navigator/Onboarding';
+import SettingNavigator from '@navigator/Setting';
+import SignUpNavigator from '@navigator/SignUp';
+import LoginNavigator from '@navigator/Login';
+import HomeNavigator from '@navigator/Home';
 
 import { RootModalRoutes, AppRoutes } from '@navigator/Routes';
 import SelfieNoticeModal from '@screens/modal/SelfieNoticeModal';
-import Splash from '@screens/Splash';
 import ChatRoom from '@screens/ChatRoom';
-import { SettingNavigator } from '@navigator/Setting';
+import Splash from '@screens/Splash';
+
 import theme, { darkTheme } from './components/Theme';
 import apolloClient from '../client';
 

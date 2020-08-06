@@ -8,10 +8,10 @@ import {
   ImageView,
   ContentContainer,
 } from '@components';
-import LastGuidImage from './assets/tuto3.png';
 import { StyleSheets } from '@constants';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { OnboardingNavigationProps } from '@navigator/Routes';
+import { assets } from '.';
 
 const styles = StyleSheet.create({
   content: {
@@ -28,7 +28,7 @@ const LastGuide = ({
 }: OnboardingNavigationProps<'LastGuide'>): JSX.Element => {
   const goToSignIn = (): void => {
     // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
-    navigation.navigate('Login');
+    navigation.navigate('LoginStack', { screen: 'Login' });
   };
 
   return (
@@ -38,7 +38,7 @@ const LastGuide = ({
         <Title title>{'This is Hey, Hi'}</Title>
         <ImageView
           resizeMode={'contain'}
-          source={LastGuidImage}
+          source={assets[2]}
           style={styles.image}
         />
         <View>

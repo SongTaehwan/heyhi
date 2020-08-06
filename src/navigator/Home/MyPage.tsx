@@ -1,9 +1,9 @@
-import { View, StyleSheet, ImageSourcePropType } from 'react-native';
 import { ListItem, Avatar, Button, Icon } from 'react-native-elements';
-import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, ImageSourcePropType } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import Config from 'react-native-config';
 import GeoLocation from 'react-native-geolocation-service';
+import React, { useState, useEffect } from 'react';
+import Config from 'react-native-config';
 import {
   Text,
   Chip,
@@ -16,7 +16,6 @@ import {
   HSpace,
 } from '@components';
 import { Grades, Colors } from '@constants';
-import Logo from '@images/logoSmallWhiteHalf.png';
 import { HomeNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
@@ -178,7 +177,11 @@ const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
     <ContentContainer containerStyle={styles.container}>
       {user.grade === '' && (
         <View style={styles.noticeWrap}>
-          <ImageView resizeMode={'contain'} source={Logo} style={styles.logo} />
+          <ImageView
+            resizeMode={'contain'}
+            source={'./assets/logoSmallWhiteHalf.png'}
+            style={styles.logo}
+          />
           <Text style={styles.notice}>Become out Hey,Hi Member</Text>
           <Icon
             type={'entypo'}

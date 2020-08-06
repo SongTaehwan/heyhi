@@ -3,23 +3,26 @@ import { StyleSheet } from 'react-native';
 import React from 'react';
 
 import { HomeRoutes, StackNavigationProps, AppRoutes } from '@navigator/Routes';
-import HomeIconActive from '@images/home_active.png';
-import ChatIconActive from '@images/chat_active.png';
-import MeIconActive from '@images/me_active.png';
-import HomeIcon from '@images/home.png';
-import ChatIcon from '@images/chat.png';
-import MeIcon from '@images/me.png';
 import { ImageView, Container } from '@components';
 import { isFirstScene } from '@util/navigation';
 import Chat from './Chat';
 import MyPage from './MyPage';
 import Map from './Main';
 
+export const assets = [
+  require('./assets/home_active.png'),
+  require('./assets/home.png'),
+  require('./assets/chat_active.png'),
+  require('./assets/chat.png'),
+  require('./assets/me_active.png'),
+  require('./assets/me.png'),
+];
+
 type TabBarIconProps = { focused: boolean; color: string };
 
 const BottomTab = createMaterialBottomTabNavigator<HomeRoutes>();
 
-export const HomeNavigator = ({
+const HomeNavigator = ({
   route,
 }: StackNavigationProps<AppRoutes, 'Home'>): JSX.Element => {
   const isFirstScreen = isFirstScene(route);
@@ -38,7 +41,7 @@ export const HomeNavigator = ({
           options={{
             tabBarIcon: ({ focused }: TabBarIconProps): React.ReactNode => (
               <ImageView
-                source={focused ? HomeIconActive : HomeIcon}
+                source={focused ? assets[0] : assets[1]}
                 style={styles.icon}
               />
             ),
@@ -50,7 +53,7 @@ export const HomeNavigator = ({
           options={{
             tabBarIcon: ({ focused }: TabBarIconProps): React.ReactNode => (
               <ImageView
-                source={focused ? ChatIconActive : ChatIcon}
+                source={focused ? assets[2] : assets[3]}
                 style={styles.icon}
               />
             ),
@@ -62,7 +65,7 @@ export const HomeNavigator = ({
           options={{
             tabBarIcon: ({ focused }: TabBarIconProps): React.ReactNode => (
               <ImageView
-                source={focused ? MeIconActive : MeIcon}
+                source={focused ? assets[4] : assets[5]}
                 style={styles.icon}
               />
             ),

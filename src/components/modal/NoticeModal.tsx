@@ -5,7 +5,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import iconExitActive from '@images/iconExitActive.png';
 import HorizontalView from '../layout/HorizontalView';
 import { Colors } from '../../constants';
 import ImageView from '../ImageView';
@@ -75,7 +74,10 @@ const NoticeModal = ({
           <TouchableOpacity
             style={styles.closeContainer}
             onPress={onClosePress}>
-            <ImageView source={iconExitActive} style={styles.closeIcon} />
+            <ImageView
+              source={require('./assets/iconExitActive.png')}
+              style={styles.closeIcon}
+            />
           </TouchableOpacity>
           <Text bold text="Notice" />
         </HorizontalView>

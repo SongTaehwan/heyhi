@@ -1,8 +1,8 @@
 # Demo
 
 <p align="center">
-  <img src="./src/assets/demo1.gif" width="200" style="margin-right: 30px"/>
-  <img src="./src/assets/demo2.gif" width="200" />
+  <img src="./demo/demo1.gif" width="200" style="margin-right: 100px"/>
+  <img src="./demo/demo2.gif" width="200" />
 </p>
 
 # heyhi-app

@@ -9,9 +9,11 @@ import PasswordChange from './PasswordChange';
 import EmailAuth from './EmailAuth';
 import Login from './Login';
 
+export const assets = [require('./assets/logo.png')];
+
 const Stack = createStackNavigator<LoginRoutes>();
 
-export const LoginNavigator = (): JSX.Element => {
+const LoginNavigator = (): JSX.Element => {
   return (
     <Container topless>
       <Stack.Navigator
@@ -25,3 +27,5 @@ export const LoginNavigator = (): JSX.Element => {
     </Container>
   );
 };
+
+export default LoginNavigator;

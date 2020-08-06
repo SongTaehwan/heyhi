@@ -23,7 +23,7 @@ import {
 
 const Stack = createStackNavigator<SignUpRoutes>();
 
-export const SignUpNavigator = ({
+const SignUpNavigator = ({
   navigation,
 }: StackNavigationProps<AppRoutes, 'LoginStack'>): JSX.Element => {
   console.log(navigation);
@@ -83,3 +83,5 @@ export const SignUpNavigator = ({
     </Container>
   );
 };
+
+export default SignUpNavigator;

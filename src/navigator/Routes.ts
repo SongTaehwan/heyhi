@@ -41,7 +41,10 @@ export interface SignUpNavigationProps<RouteName extends keyof SignUpRoutes> {
 export interface OnboardingNavigationProps<
   RouteName extends keyof OnboardingRoutes
 > {
-  navigation: StackNavigationProp<OnboardingRoutes, RouteName>;
+  navigation: CompositeNavigationProp<
+    StackNavigationProp<OnboardingRoutes, RouteName>,
+    StackNavigationProp<AppRoutes, 'OnboardingStack'>
+  >;
   route: RouteProp<OnboardingRoutes, RouteName>;
 }
 

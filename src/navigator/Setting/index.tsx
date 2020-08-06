@@ -12,7 +12,7 @@ import Payment from './Payment';
 
 const Stack = createStackNavigator<SettingRoutes>();
 
-export const SettingNavigator = (): JSX.Element => {
+const SettingNavigator = (): JSX.Element => {
   return (
     <Container topless>
       <Stack.Navigator initialRouteName={'Setting'}>
@@ -29,3 +29,5 @@ export const SettingNavigator = (): JSX.Element => {
     </Container>
   );
 };
+
+export default SettingNavigator;

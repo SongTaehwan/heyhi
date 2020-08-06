@@ -8,9 +8,9 @@ import {
   ImageView,
   ContentContainer,
 } from '@components';
-import SecondGuidImage from './assets/tuto2.png';
 import { StyleSheets, Colors } from '@constants';
 import { OnboardingNavigationProps } from '@navigator/Routes';
+import { assets } from '.';
 
 const styles = StyleSheet.create({
   content: {
@@ -36,7 +36,7 @@ const SecondGuide = ({
         <Title title>{'Find your mate'}</Title>
         <ImageView
           resizeMode={'contain'}
-          source={SecondGuidImage}
+          source={assets[1]}
           style={styles.image}
         />
         <Text style={styles.contentText}>

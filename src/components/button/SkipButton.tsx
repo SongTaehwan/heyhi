@@ -8,7 +8,6 @@ import {
   StyleProp,
   TouchableWithoutFeedbackProps,
 } from 'react-native';
-import skipButton from '@images/skipButton.png';
 import { StyleSheets } from '@constants';
 
 interface SkipButtonProps extends TouchableWithoutFeedbackProps {
@@ -31,7 +30,7 @@ const SkipButton = ({
 
   return (
     <TouchableOpacity style={containerStyle} onPress={skipTutorial} {...rest}>
-      <Image source={skipButton} style={styles.size} />
+      <Image source={require('./assets/skipButton.png')} style={styles.size} />
     </TouchableOpacity>
   );
 };

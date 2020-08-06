@@ -24,7 +24,6 @@ import { MUTATION_SIGN_IN } from '@api/mutation';
 import { logError } from '@util/Error';
 import useValue from '@hooks/useValue';
 import useText from '@hooks/useText';
-import Logo from '@images/logo.png';
 import { Colors } from '@constants';
 
 interface LoginData {
@@ -214,7 +213,7 @@ const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
 const Hero = (): JSX.Element => {
   return (
     <>
-      <ImageView source={Logo} />
+      <ImageView source={require('./assets/logo.png')} />
       <VSpace space={40} />
 
       <Title title text={'Login'} />

@@ -8,9 +8,9 @@ import {
   ImageView,
   ContentContainer,
 } from '@components';
-import FirstGuidImage from './assets/tuto1.png';
 import { StyleSheets, Colors } from '@constants';
 import { OnboardingNavigationProps } from '@navigator/Routes';
+import { assets } from '.';
 
 const styles = StyleSheet.create({
   content: {
@@ -36,7 +36,7 @@ const TutorialFirst = ({
         <Title title>{'How to use'}</Title>
         <ImageView
           resizeMode={'contain'}
-          source={FirstGuidImage}
+          source={assets[0]}
           style={styles.image}
         />
         <Text style={styles.contentText}>

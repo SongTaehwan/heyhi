@@ -1,25 +1,26 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useLayoutEffect } from 'react';
+
 import SecondGuide from './SecondGuide';
 import FirstGuide from './FirstGuide';
 import LastGuide from './LastGuide';
-import { Container } from '@components';
 import { StyleSheets } from '@constants';
+import { Container } from '@components';
 import {
+  AppRoutes,
   OnboardingRoutes,
   StackNavigationProps,
-  AppRoutes,
 } from '@navigator/Routes';
 
 export const assets = [
-  require('./assets/tuto1.png'),
-  require('./assets/tuto2.png'),
-  require('./assets/tuto3.png'),
+  require('./assets/guide1.png'),
+  require('./assets/guide2.png'),
+  require('./assets/guide3.png'),
 ];
 
 const Stack = createStackNavigator<OnboardingRoutes>();
 
-export const OnboaddingNavigator = ({
+const OnboaddingNavigator = ({
   navigation,
 }: StackNavigationProps<AppRoutes, 'OnboardingStack'>): JSX.Element => {
   useLayoutEffect(() => {
@@ -38,3 +39,5 @@ export const OnboaddingNavigator = ({
     </Container>
   );
 };
+
+export default OnboaddingNavigator;

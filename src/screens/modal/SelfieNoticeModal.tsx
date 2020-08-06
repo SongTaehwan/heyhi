@@ -1,13 +1,8 @@
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import selfie from '@images/selfie.png';
 import { Content, VSpace, Text, NoticeModal, ImageView } from '@components';
 import { getRelativeWidth } from '@util/Dimensions';
-import { ModalStackNavigationProps } from '@navigator/types';
-
-interface SelfieNoticeModalProp {
-  navigation: ModalStackNavigationProps<'SelfieNotice'>;
-}
+import { StackNavigationProps, RootModalRoutes } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   imageSize: {
@@ -26,7 +21,7 @@ const styles = StyleSheet.create({
 
 const SelfieNoticeModal = ({
   navigation,
-}: SelfieNoticeModalProp): JSX.Element => {
+}: StackNavigationProps<RootModalRoutes, 'SelfieNotice'>): JSX.Element => {
   const [isVisible, modalState] = useState(true);
 
   const hideModal = (): void => {
@@ -40,7 +35,10 @@ const SelfieNoticeModal = ({
       isVisible={isVisible}
       onClosePress={hideModal}>
       <Content style={styles.content}>
-        <ImageView source={selfie} style={styles.imageSize} />
+        <ImageView
+          source={require('./assets/selfie.png')}
+          style={styles.imageSize}
+        />
         <VSpace space={20} />
         <Text bold text={'Please take off your\nsunglasses or cap :('} />
       </Content>
