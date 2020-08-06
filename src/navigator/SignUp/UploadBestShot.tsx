@@ -24,15 +24,11 @@ import {
   ContentContainer,
 } from '@components';
 import { getRelativeWidth, getCircleRadiusSize } from '@util/Dimensions';
-import { Screens, SignUpStackNavigationProps } from '@navigator/types';
 import { LOCAL_SET_BEST_PICTURES } from '@api/mutation';
 import { Colors } from '@constants';
 import { logError } from '@util/Error';
 import RNFS from 'react-native-fs';
-
-interface BestShotUploadProps {
-  navigation: SignUpStackNavigationProps<Screens.BestShotUpload>;
-}
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 interface ImageSlot {
   imageUrl: string;
@@ -67,7 +63,9 @@ const convertToImageSlot = (
   );
 };
 
-const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
+const BestShotUpload = ({
+  navigation,
+}: SignUpNavigationProps<'UploadBestShot'>): JSX.Element => {
   const [showAddButton, setShowAddButton] = useState<boolean>(true);
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [imageSlots, setImageSlots] = useState<ImageSlot[]>(() =>
@@ -179,7 +177,7 @@ const BestShotUpload = ({ navigation }: BestShotUploadProps): JSX.Element => {
   };
 
   const goToSelfieUpload = (): void => {
-    navigation.navigate(Screens.SelfieUpload);
+    navigation.navigate('UploadSelfie');
   };
 
   const handleOnPressButton = (): void => {

@@ -1,13 +1,10 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { CommonActions } from '@react-navigation/native';
 import { View, StyleSheet, Text } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
-import AsyncStorage from '@react-native-community/async-storage';
-import { AppFlow, AppStackNavigationProps } from '@navigator/types';
-import { CommonActions } from '@react-navigation/native';
 
-interface SplashProps {
-  navigation: AppStackNavigationProps<AppFlow.Splash>;
-}
+import { StackNavigationProps, AppRoutes } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +22,9 @@ const styles = StyleSheet.create({
 const TITLE = 'Hey, Hi!';
 const TOKEN = 'ACCESS_TOKEN';
 
-const Splash = ({ navigation }: SplashProps): JSX.Element => {
+const Splash = ({
+  navigation,
+}: StackNavigationProps<AppRoutes, 'Splash'>): JSX.Element => {
   const [splashTitle, setSplashTitle] = useState('');
   useEffect(() => {
     async function checkToken(): Promise<string | void> {
@@ -39,7 +38,7 @@ const Splash = ({ navigation }: SplashProps): JSX.Element => {
 
           return CommonActions.reset({
             index: 0,
-            routes: [{ name: AppFlow.Home }],
+            routes: [{ name: 'Home' }],
           });
         });
       }
@@ -48,10 +47,7 @@ const Splash = ({ navigation }: SplashProps): JSX.Element => {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [
-            { name: AppFlow.LoginStack },
-            { name: AppFlow.TutorialStack },
-          ],
+          routes: [{ name: 'LoginStack' }, { name: 'OnboardingStack' }],
         }),
       );
     }

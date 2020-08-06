@@ -1,19 +1,11 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
+import { ListItem } from 'react-native-elements';
+import { View, StyleSheet } from 'react-native';
+import React from 'react';
 
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { SettingsStackParamList } from '@navigator/types';
-
+import { SettingNavigationProps, SettingRoutes } from '@navigator/Routes';
 import { ContentContainer, Title } from '@components';
 import { Colors } from '@constants';
-
-interface SettingsProps {
-  navigation: StackNavigationProp<SettingsStackParamList, 'Settings'>;
-  route: RouteProp<SettingsStackParamList, 'Settings'>;
-}
 
 const styles = StyleSheet.create({
   titleFirst: {
@@ -25,7 +17,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const settings = [
+type SettingItme = {
+  title: string;
+  icon: string;
+  routeName: keyof SettingRoutes;
+};
+
+const settings: SettingItme[] = [
   {
     title: 'Change Password',
     icon: 'key',
@@ -34,12 +32,12 @@ const settings = [
   {
     title: 'Payments Methods',
     icon: 'credit-card',
-    routeName: 'PaymentsMethods',
+    routeName: 'Payment',
   },
   {
     title: 'Notification',
     icon: 'megaphone',
-    routeName: 'Notification',
+    routeName: 'NotificationControl',
   },
   {
     title: 'History',
@@ -68,11 +66,13 @@ const customers = [
   },
 ];
 
-const Settings = ({ navigation }: SettingsProps): JSX.Element => {
+const Setting = ({
+  navigation,
+}: SettingNavigationProps<'Setting'>): JSX.Element => {
   return (
     <ContentContainer>
       <View>
-        <Title text={'General Settings'} h4={true} style={styles.titleFirst} />
+        <Title text={'General Settings'} style={styles.titleFirst} />
         {settings.map((item, i) => (
           <ListItem
             key={i}
@@ -85,7 +85,7 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
           />
         ))}
 
-        <Title text={'Customer'} h4={true} style={styles.titleSecond} />
+        <Title text={'Customer'} style={styles.titleSecond} />
         {customers.map((item, i) => (
           <ListItem
             key={i}
@@ -99,4 +99,4 @@ const Settings = ({ navigation }: SettingsProps): JSX.Element => {
   );
 };
 
-export default Settings;
+export default Setting;

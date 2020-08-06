@@ -14,14 +14,10 @@ import {
   ErrorMessage,
 } from '@components';
 import { getRelativeWidth, getCircleRadiusSize } from '@util/Dimensions';
-import { Screens, SignUpStackNavigationProps } from '@navigator/types';
 import { LOCAL_SET_SELFIE } from '@api/mutation';
 import { logError } from '@util/Error';
 import { Colors } from '@constants';
-
-interface SelfieUploadProps {
-  navigation: SignUpStackNavigationProps<'SelfieUpload'>;
-}
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   imageAddIcon: {
@@ -39,7 +35,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
+const UploadSelfie = ({
+  navigation,
+}: SignUpNavigationProps<'UploadSelfie'>): JSX.Element => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [setSelie] = useMutation(LOCAL_SET_SELFIE, {
@@ -52,7 +50,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
   });
 
   useEffect(() => {
-    navigation.navigate(Screens.SelfieNotice);
+    navigation.navigate('SelfieNotice');
   }, []);
 
   const openCamera = async (): Promise<Image | Image[] | void> => {
@@ -73,7 +71,7 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
   };
 
   const goToInterestSelection = (): void => {
-    navigation.navigate(Screens.InterestSelection);
+    navigation.navigate('UserInterest');
   };
 
   const handleOnPressNext = (): void => {
@@ -134,4 +132,4 @@ const SelfieUpload = ({ navigation }: SelfieUploadProps): JSX.Element => {
   );
 };
 
-export default SelfieUpload;
+export default UploadSelfie;

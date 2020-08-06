@@ -1,12 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { Content, Title, ContentContainer, Divider } from '@components';
-import { NavigationProps, SignUpStackParamList } from '@navigator/types';
-
-type ServicePolicyDetailProps = NavigationProps<
-  SignUpStackParamList,
-  'ServicePolicyDetail'
->;
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   contentLayer: {
@@ -23,9 +18,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const ServicePolicyDetail = ({
+const PolicyDetail = ({
   navigation,
-}: ServicePolicyDetailProps): JSX.Element => {
+}: SignUpNavigationProps<'PolicyDetail'>): JSX.Element => {
   return (
     <ContentContainer>
       <Content style={styles.contentLayer}>
@@ -96,4 +91,4 @@ This document was last updated on February 22, 2020`}</Text>
   );
 };
 
-export default ServicePolicyDetail;
+export default PolicyDetail;

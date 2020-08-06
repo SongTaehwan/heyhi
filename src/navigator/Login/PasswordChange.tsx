@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { useMutation } from '@apollo/react-hooks';
+import { Input } from 'react-native-elements';
 import React, { useState, useRef } from 'react';
 import {
   Title,
@@ -8,13 +11,10 @@ import {
   ErrorMessage,
   ContentContainer,
 } from '@components';
-import { AppFlow } from '@navigator/types';
-import AsyncStorage from '@react-native-community/async-storage';
-import { useMutation } from '@apollo/react-hooks';
-import { Input } from 'react-native-elements';
+
+import { LoginNavigationProps } from '@navigator/Routes';
 import { MUTATION_RESET_PASSWORD } from '@api/mutation';
 import useText from '@hooks/useText';
-import { LoginNavigationProps } from '@navigator/Routes';
 
 interface Variables {
   data: {
@@ -68,7 +68,7 @@ const PasswordChange = ({
       ]);
 
       // move to Map
-      navigation.navigate(AppFlow.Home);
+      navigation.navigate('Home');
     } catch (error) {
       console.log('Error during update token: ', error);
       setErrorMessage(error.message);

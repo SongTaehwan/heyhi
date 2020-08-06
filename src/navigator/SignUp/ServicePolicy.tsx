@@ -10,11 +10,7 @@ import {
   CheckableListItem,
   Text,
 } from '@components';
-import { Screens, SignUpStackNavigationProps } from '@navigator/types';
-
-interface ServicePolicyProps {
-  navigation: SignUpStackNavigationProps<Screens.ServicePolicy>;
-}
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 enum Policies {
   personalInfo = 'personalInfo',
@@ -44,7 +40,9 @@ const initialState = {
   servicePolicy: false,
 };
 
-const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
+const ServicePolicy = ({
+  navigation,
+}: SignUpNavigationProps<'ServicePolicy'>): JSX.Element => {
   const [checkList, setCheckList] = useState(initialState);
 
   const handleOnCheckAll = (): void => {
@@ -71,11 +69,11 @@ const ServicePolicy = ({ navigation }: ServicePolicyProps): JSX.Element => {
 
   const goToConditionDetail = (): void => {
     // Store policy agreement
-    navigation.navigate(Screens.ServicePolicyDetail);
+    navigation.navigate('PolicyDetail');
   };
 
   const goToBestShotUpload = (): void => {
-    navigation.navigate(Screens.BestShotUpload);
+    navigation.navigate('UploadBestShot');
   };
 
   return (

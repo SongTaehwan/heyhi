@@ -1,8 +1,9 @@
 import {
   RouteProp,
-  CompositeNavigationProp,
   ParamListBase,
+  CompositeNavigationProp,
 } from '@react-navigation/native';
+import { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 export interface StackNavigationProps<
@@ -13,13 +14,27 @@ export interface StackNavigationProps<
   route: RouteProp<ParamList, RouteName>;
 }
 
+export interface HomeNavigationProps<RouteName extends keyof HomeRoutes> {
+  navigation: CompositeNavigationProp<
+    MaterialBottomTabNavigationProp<HomeRoutes, RouteName>,
+    StackNavigationProp<AppRoutes, 'Home'>
+  >;
+  route: RouteProp<HomeRoutes, RouteName>;
+}
+
 export interface LoginNavigationProps<RouteName extends keyof LoginRoutes> {
-  navigation: StackNavigationProp<LoginRoutes, RouteName>;
+  navigation: CompositeNavigationProp<
+    StackNavigationProp<LoginRoutes, RouteName>,
+    StackNavigationProp<AppRoutes, 'LoginStack'>
+  >;
   route: RouteProp<LoginRoutes, RouteName>;
 }
 
 export interface SignUpNavigationProps<RouteName extends keyof SignUpRoutes> {
-  navigation: StackNavigationProp<SignUpRoutes, RouteName>;
+  navigation: CompositeNavigationProp<
+    StackNavigationProp<SignUpRoutes, RouteName>,
+    StackNavigationProp<RootModalRoutes, 'App'>
+  >;
   route: RouteProp<SignUpRoutes, RouteName>;
 }
 
@@ -40,8 +55,6 @@ export interface SettingNavigationProps<RouteName extends keyof SettingRoutes> {
   route: RouteProp<SettingRoutes, RouteName>;
 }
 
-// TODO: Home tab props
-
 export type RootModalRoutes = {
   App: undefined;
   SelfieNotice: undefined;
@@ -49,12 +62,26 @@ export type RootModalRoutes = {
 
 export type AppRoutes = {
   Splash: undefined;
-  LoginStack: undefined;
-  SignUpStack: undefined;
-  TutorialStack: undefined;
-  Home: undefined;
+  LoginStack: {
+    screen?: string;
+  };
+  SignUpStack: {
+    screen?: string;
+  };
+  OnboardingStack: undefined;
+  Home: {
+    screen?: string;
+  };
   ChatRoom: undefined;
-  MyPageStack: undefined;
+  MyPageStack: {
+    screen?: string;
+  };
+};
+
+export type OnboardingRoutes = {
+  FirstGuide: undefined;
+  SecondGuide: undefined;
+  LastGuide: undefined;
 };
 
 export type LoginRoutes = {
@@ -70,7 +97,10 @@ export type LoginRoutes = {
 
 export type SignUpRoutes = {
   SignUp: undefined;
-  EmailAuth: undefined;
+  EmailAuth: {
+    email?: string;
+    to?: keyof SignUpRoutes;
+  };
   UploadBestShot: undefined;
   UploadSelfie: undefined;
   ServicePolicy: undefined;
@@ -79,10 +109,27 @@ export type SignUpRoutes = {
   UserLanguage: undefined;
 };
 
-export type OnboardingRoutes = {};
+export type MyPageRoutes = {
+  EditAlbum: undefined;
+  ChangeEmail: undefined;
+  ChangeLanguage: undefined;
+  MyReview: undefined;
+  ReviewDetail: {
+    id: number;
+  };
+};
 
-export type MyPageRoutes = {};
+export type SettingRoutes = {
+  ChangePassword: undefined;
+  History: undefined;
+  Location: undefined;
+  NotificationControl: undefined;
+  Payment: undefined;
+  Setting: undefined;
+};
 
-export type SettingRoutes = {};
-
-export type HomeRoutes = {};
+export type HomeRoutes = {
+  Map: undefined;
+  Chat: undefined;
+  MyPage: undefined;
+};

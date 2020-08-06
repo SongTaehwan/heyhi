@@ -12,14 +12,10 @@ import {
   CheckableButton,
   ContentContainer,
 } from '@components';
-import { Screens, SignUpStackNavigationProps } from '@navigator/types';
 import { MUTATION_CREATE_MEMBER } from '@api/mutation';
 import { LOCAL_QUERY_PERSONAL_INFO } from '@api/query';
 import { logError } from '@util/Error';
-
-interface InterestSelectionProps {
-  navigation: SignUpStackNavigationProps<Screens.InterestSelection>;
-}
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 enum Interests {
   short = 'short',
@@ -42,9 +38,9 @@ const initialState = {
   reallyLong: false,
 };
 
-const InterestSelection = ({
+const UserInterest = ({
   navigation,
-}: InterestSelectionProps): JSX.Element => {
+}: SignUpNavigationProps<'UserInterest'>): JSX.Element => {
   const [interests, setInterest] = useState(initialState);
   const totalInterests = Object.keys(interests).length;
   const intersetCount = Object.values(interests).filter((v) => v).length;
@@ -143,11 +139,11 @@ const InterestSelection = ({
       <BarButton
         title={`DONE (${intersetCount}/${totalInterests})`}
         disabled={intersetCount === 0}
-        // onPress={(): void => navigation.navigate(AppFlow.MainTab)}
+        // onPress={(): void => navigation.navigate("Home")}
         onPress={handleOnSubmit}
       />
     </ContentContainer>
   );
 };
 
-export default InterestSelection;
+export default UserInterest;

@@ -1,8 +1,7 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { useQuery } from '@apollo/react-hooks';
+import React from 'react';
+
 import {
   ContentContainer,
   HSpace,
@@ -11,15 +10,10 @@ import {
   HeadDivider,
   Loading,
 } from '@components';
-import { Colors } from '@constants';
-import { MyPageStackParamList, Screens } from '@navigator/types';
+import { MyPageNavigationProps } from '@navigator/Routes';
 import { QUERY_REVIEWS } from '@api/query';
+import { Colors } from '@constants';
 import { getAge } from '@util/age';
-
-export interface MyReviewProps {
-  navigation: StackNavigationProp<MyPageStackParamList, 'MyReviews'>;
-  route: RouteProp<MyPageStackParamList, 'MyReviewDetail'>;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -64,7 +58,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
+const MyReview = ({
+  navigation,
+}: MyPageNavigationProps<'MyReview'>): JSX.Element => {
   const { loading, data } = useQuery(QUERY_REVIEWS);
   const reviews = data?.reviews ?? [];
 
@@ -82,7 +78,7 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
                   key={i}
                   style={styles.reviewWrap}
                   onPress={(): void =>
-                    navigation.navigate(Screens.MyReviewDetail, {
+                    navigation.navigate('ReviewDetail', {
                       id: review.id,
                     })
                   }>
@@ -121,4 +117,4 @@ const MyReviews = ({ navigation }: MyReviewProps): JSX.Element => {
   );
 };
 
-export default MyReviews;
+export default MyReview;

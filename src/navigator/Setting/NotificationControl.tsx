@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Notification = (): JSX.Element => {
+const NotificationControl = (): JSX.Element => {
   const [notifications, setNotifications] = useState({
     newMatch: true,
     messages: true,
@@ -109,4 +109,4 @@ const Notification = (): JSX.Element => {
   );
 };
 
-export default Notification;
+export default NotificationControl;

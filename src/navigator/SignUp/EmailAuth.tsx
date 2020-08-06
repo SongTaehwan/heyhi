@@ -11,11 +11,9 @@ import {
   ContentContainer,
 } from '@components';
 import { MUTATION_SEND_EMAIL, MUTATION_VERIFY_CODE } from '@api/mutation';
-import { Screens, ReuseablePageProps } from '@navigator/types';
 import { TextFieldProps } from '@components/types';
 import useText from '@hooks/useText';
-
-type EmailVerificationProps = ReuseablePageProps<Screens.EmailVerification>;
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 const initialErrorState = {
   message: '',
@@ -23,10 +21,10 @@ const initialErrorState = {
   fromCode: false,
 };
 
-const EmailVerification = ({
+const EmailAuth = ({
   navigation,
   route,
-}: EmailVerificationProps): JSX.Element => {
+}: SignUpNavigationProps<'EmailAuth'>): JSX.Element => {
   const userEmail = route.params?.email ?? '';
   const [email, setEmail, isValidEmail] = useText(userEmail, {
     isEmail: true,
@@ -219,4 +217,4 @@ const VertificationCode = ({
   );
 };
 
-export default EmailVerification;
+export default EmailAuth;

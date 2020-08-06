@@ -14,7 +14,7 @@ import {
 import { Colors } from '@constants';
 import { QUERY_REVIEW } from '@api/query';
 import { getAge } from '@util/age';
-import { MyReviewProps } from './MyReviews';
+import { MyPageNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +46,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
+const ReviewDetail = ({
+  route,
+}: MyPageNavigationProps<'ReviewDetail'>): JSX.Element => {
   const { id } = route.params;
   const { loading, data } = useQuery(QUERY_REVIEW, {
     variables: { id },
@@ -94,4 +96,4 @@ const MyReviewDetail = ({ route }: MyReviewProps): JSX.Element => {
   );
 };
 
-export default MyReviewDetail;
+export default ReviewDetail;

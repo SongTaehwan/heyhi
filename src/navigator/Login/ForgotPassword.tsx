@@ -1,8 +1,10 @@
 import { useMutation } from '@apollo/react-hooks';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import { Screens } from '@navigator/types';
+
+import { LoginNavigationProps } from '@navigator/Routes';
 import { MUTATION_SEND_EMAIL } from '@api/mutation';
+import { logError } from '@util/Error';
 import useText from '@hooks/useText';
 import {
   ContentContainer,
@@ -14,8 +16,6 @@ import {
   Text,
   ErrorMessage,
 } from '@components';
-import { logError } from '@util/Error';
-import { LoginNavigationProps } from '@navigator/Routes';
 
 interface MutationVariable {
   data: {
@@ -46,7 +46,7 @@ const ForgotPassword = ({
       notifyOnNetworkStatusChange: false,
       fetchPolicy: 'no-cache',
       onCompleted: (): void => {
-        navigation.navigate(Screens.EmailAuth, { email });
+        navigation.navigate('EmailAuth', { email });
       },
       onError: logError(setErrorMessage),
     },
@@ -89,7 +89,7 @@ const ForgotPassword = ({
         loading={loading}
         disabled={!isValid || loading}
         onPress={sendAuthEmail}
-        // onPress={() => navigation.navigate(Screens.EmailAuth, { email })} // dev
+        // onPress={() => navigation.navigate("EmailAuth", { email })} // dev
       />
     </ContentContainer>
   );

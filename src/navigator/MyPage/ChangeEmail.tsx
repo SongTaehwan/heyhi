@@ -1,8 +1,9 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import { useMutation } from '@apollo/react-hooks';
 import React, { useState, useRef } from 'react';
-import { Input } from 'react-native-elements';
 import { Keyboard, Alert } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { Input } from 'react-native-elements';
+
 import {
   Title,
   VSpace,
@@ -12,12 +13,11 @@ import {
   ErrorMessage,
   ContentContainer,
 } from '@components';
-
-import { TextFieldProps } from '@components/types';
 import {
   MUTATION_SEND_EMAIL,
   MUTATION_UPDATE_MEMBER_EMAIL,
 } from '@api/mutation';
+import { TextFieldProps } from '@components/types';
 import useText from '@hooks/useText';
 
 const initialErrorState = {
@@ -26,7 +26,7 @@ const initialErrorState = {
   fromCode: false,
 };
 
-const EditEmail = (): JSX.Element => {
+const ChangeEmail = (): JSX.Element => {
   const [email, setEmail, isValidEmail] = useText('', {
     isEmail: true,
     delayTime: 0,
@@ -206,4 +206,4 @@ const VertificationCode = ({
   );
 };
 
-export default EditEmail;
+export default ChangeEmail;

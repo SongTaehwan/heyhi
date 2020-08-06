@@ -8,18 +8,10 @@ import {
   ImageView,
   ContentContainer,
 } from '@components';
-import {
-  Screens,
-  AppFlow,
-  TutorialStackNavigationProps,
-} from '@navigator/types';
 import LastGuidImage from './assets/tuto3.png';
 import { StyleSheets } from '@constants';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-interface TutorialLastProps {
-  navigation: TutorialStackNavigationProps<Screens.TutorialFirst>;
-}
+import { OnboardingNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   content: {
@@ -31,10 +23,12 @@ const styles = StyleSheet.create({
   boldText: StyleSheets.text.subTitle(true, Colors.black, 'center'),
 });
 
-const TutorialLast = ({ navigation }: TutorialLastProps): JSX.Element => {
+const LastGuide = ({
+  navigation,
+}: OnboardingNavigationProps<'LastGuide'>): JSX.Element => {
   const goToSignIn = (): void => {
     // NOTE: API reference: https://reactnavigation.org/docs/nesting-navigators/
-    navigation.navigate(AppFlow.LoginStack, { screen: Screens.SignIn });
+    navigation.navigate('Login');
   };
 
   return (
@@ -58,4 +52,4 @@ const TutorialLast = ({ navigation }: TutorialLastProps): JSX.Element => {
   );
 };
 
-export default TutorialLast;
+export default LastGuide;

@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { Content, Title, BarButton, ContentContainer } from '@components';
+import { SignUpNavigationProps } from '@navigator/Routes';
 
-const LanguageSelect = (): JSX.Element => {
+const UserLanguage = ({
+  navigation,
+}: SignUpNavigationProps<'UserLanguage'>): JSX.Element => {
   return (
     <ContentContainer>
       <Content>
@@ -13,4 +15,4 @@ const LanguageSelect = (): JSX.Element => {
   );
 };
 
-export default LanguageSelect;
+export default UserLanguage;

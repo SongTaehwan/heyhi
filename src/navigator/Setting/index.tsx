@@ -1,33 +1,30 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+
+import { SettingRoutes } from '@navigator/Routes';
 import { Container } from '@components';
-import { Screens } from '@navigator/types';
-
-import Settings from './Setting';
+import NotificationControl from './NotificationControl';
 import ChangePassword from './ChangePassword';
-import History from './History';
 import Location from './Location';
-import Notification from './Notification';
-import PaymentsMethods from './PaymentsMethods';
+import Setting from './Setting';
+import History from './History';
+import Payment from './Payment';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<SettingRoutes>();
 
 export const SettingNavigator = (): JSX.Element => {
   return (
     <Container topless>
-      <Stack.Navigator initialRouteName={Screens.Settings}>
-        <Stack.Screen name={Screens.Settings} component={Settings} />
+      <Stack.Navigator initialRouteName={'Setting'}>
+        <Stack.Screen name={'Setting'} component={Setting} />
+        <Stack.Screen name={'ChangePassword'} component={ChangePassword} />
+        <Stack.Screen name={'History'} component={History} />
+        <Stack.Screen name={'Location'} component={Location} />
         <Stack.Screen
-          name={Screens.ChangePassword}
-          component={ChangePassword}
+          name={'NotificationControl'}
+          component={NotificationControl}
         />
-        <Stack.Screen name={Screens.History} component={History} />
-        <Stack.Screen name={Screens.Location} component={Location} />
-        <Stack.Screen name={Screens.Notification} component={Notification} />
-        <Stack.Screen
-          name={Screens.PaymentsMethods}
-          component={PaymentsMethods}
-        />
+        <Stack.Screen name={'Payment'} component={Payment} />
       </Stack.Navigator>
     </Container>
   );

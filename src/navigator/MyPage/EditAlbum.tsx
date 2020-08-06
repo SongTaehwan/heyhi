@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { View, StyleSheet } from 'react-native';
+import React from 'react';
 
 import { ContentContainer, Title, VSpace, BarButton } from '@components';
 import { Colors } from '@constants';
@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const EditAlbums = (): JSX.Element => {
+const EditAlbum = (): JSX.Element => {
   return (
     <ContentContainer>
       <View style={styles.container}>
         <View style={styles.noticeWrap}>
           <Title title>Click to upload images</Title>
           <VSpace space={14} />
-          <Title h4={true} style={styles.warnText}>
+          <Title style={styles.warnText}>
             You cannot upload face pictures!
           </Title>
         </View>
@@ -74,4 +74,4 @@ const EditAlbums = (): JSX.Element => {
   );
 };
 
-export default EditAlbums;
+export default EditAlbum;

@@ -17,15 +17,11 @@ import {
   HorizontalView,
   ContentContainer,
 } from '@components';
-import { SignUpStackNavigationProps, Screens } from '@navigator/types';
 import { LOCAL_SET_PERSONAL_INFO } from '@api/mutation/local';
 import { Countries, Colors } from '@constants';
 import useText from '@hooks/useText';
 import { logError } from '@util/Error';
-
-interface AccountCreationProps {
-  navigation: SignUpStackNavigationProps<Screens.AccountCreation>;
-}
+import { SignUpNavigationProps } from '@navigator/Routes';
 
 enum FORM_DATA_TYPE {
   EMAIL = 'Email',
@@ -75,8 +71,10 @@ const initialErrorState = {
   fromName: false,
 };
 
-const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
-  const [email, setEmail, isValidEmail] = useText('xoghks167@naver.com', {
+const SignUp = ({
+  navigation,
+}: SignUpNavigationProps<'SignUp'>): JSX.Element => {
+  const [email, setEmail, isValidEmail] = useText('', {
     isEmail: true,
   });
   const [lastName, setSecondName] = useText('');
@@ -121,7 +119,7 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
   };
 
   const goToEmailVerification = (): void => {
-    navigation.navigate(Screens.EmailVerification, {
+    navigation.navigate('EmailAuth', {
       email,
     });
   };
@@ -384,4 +382,4 @@ const AccountCreation = ({ navigation }: AccountCreationProps): JSX.Element => {
   );
 };
 
-export default AccountCreation;
+export default SignUp;

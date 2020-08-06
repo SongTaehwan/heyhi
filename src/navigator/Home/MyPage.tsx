@@ -1,12 +1,9 @@
 import { View, StyleSheet, ImageSourcePropType } from 'react-native';
 import { ListItem, Avatar, Button, Icon } from 'react-native-elements';
-import { MyPageStackParamList, Screens, AppFlow } from '@navigator/types';
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
 import GeoLocation from 'react-native-geolocation-service';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 import {
   Text,
   Chip,
@@ -20,11 +17,7 @@ import {
 } from '@components';
 import { Grades, Colors } from '@constants';
 import Logo from '@images/logoSmallWhiteHalf.png';
-
-interface MyPageProps {
-  navigation: StackNavigationProp<MyPageStackParamList, 'MyPage'>;
-  route: RouteProp<MyPageStackParamList, 'MyPage'>;
-}
+import { HomeNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   container: {
@@ -99,7 +92,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
+const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
   const [location, setLocation] = useState('');
   const setAddress = (): void => {
     GeoLocation.getCurrentPosition(
@@ -178,7 +171,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
   ];
 
   const goToSettings = (): void => {
-    navigation.navigate(AppFlow.MyPageStack, { screen: Screens.Settings });
+    navigation.navigate('MyPageStack', { screen: 'Setting' });
   };
 
   return (
@@ -232,7 +225,7 @@ const MyPage = ({ navigation }: MyPageProps): JSX.Element => {
             onPress={
               item.routeName
                 ? (): void =>
-                    navigation.navigate(AppFlow.MyPageStack, {
+                    navigation.navigate('MyPageStack', {
                       screen: item.routeName,
                     })
                 : item.onpress

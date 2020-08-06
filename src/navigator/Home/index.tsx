@@ -1,19 +1,14 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { RouteProp } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import React from 'react';
+
+import { HomeRoutes, StackNavigationProps, AppRoutes } from '@navigator/Routes';
 import HomeIconActive from '@images/home_active.png';
 import ChatIconActive from '@images/chat_active.png';
 import MeIconActive from '@images/me_active.png';
 import HomeIcon from '@images/home.png';
 import ChatIcon from '@images/chat.png';
 import MeIcon from '@images/me.png';
-import {
-  MainTabParamList,
-  AppFlow,
-  AppStackNavigationProps,
-  AppStackParamList,
-} from '@navigator/types';
 import { ImageView, Container } from '@components';
 import { isFirstScene } from '@util/navigation';
 import Chat from './Chat';
@@ -22,26 +17,23 @@ import Map from './Main';
 
 type TabBarIconProps = { focused: boolean; color: string };
 
-interface HomeNavigatorProps {
-  navigation: AppStackNavigationProps<AppFlow.Home>;
-  route: RouteProp<AppStackParamList, AppFlow.Home>;
-}
+const BottomTab = createMaterialBottomTabNavigator<HomeRoutes>();
 
-const BottomTab = createMaterialBottomTabNavigator<MainTabParamList>();
-
-export const HomeNavigator = ({ route }: HomeNavigatorProps): JSX.Element => {
+export const HomeNavigator = ({
+  route,
+}: StackNavigationProps<AppRoutes, 'Home'>): JSX.Element => {
   const isFirstScreen = isFirstScene(route);
   return (
     <Container bottomless topless={isFirstScreen}>
       <BottomTab.Navigator
-        initialRouteName={AppFlow.Map}
+        initialRouteName={'Map'}
         labeled={false}
         sceneAnimationEnabled
         keyboardHidesNavigationBar
         style={styles.navigator}
         barStyle={styles.bar}>
         <BottomTab.Screen
-          name={AppFlow.Map}
+          name={'Map'}
           component={Map}
           options={{
             tabBarIcon: ({ focused }: TabBarIconProps): React.ReactNode => (
@@ -53,7 +45,7 @@ export const HomeNavigator = ({ route }: HomeNavigatorProps): JSX.Element => {
           }}
         />
         <BottomTab.Screen
-          name={AppFlow.Chat}
+          name={'Chat'}
           component={Chat}
           options={{
             tabBarIcon: ({ focused }: TabBarIconProps): React.ReactNode => (
@@ -65,7 +57,7 @@ export const HomeNavigator = ({ route }: HomeNavigatorProps): JSX.Element => {
           }}
         />
         <BottomTab.Screen
-          name={AppFlow.MyPage}
+          name={'MyPage'}
           component={MyPage}
           options={{
             tabBarIcon: ({ focused }: TabBarIconProps): React.ReactNode => (

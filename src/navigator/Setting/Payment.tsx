@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentsMethods = (): JSX.Element => {
+const Payment = (): JSX.Element => {
   const [selectedPrice, setPrice] = useState({});
   const [priceList, setPriceList] = useState([
     {
@@ -247,4 +247,4 @@ const PaymentsMethods = (): JSX.Element => {
   );
 };
 
-export default PaymentsMethods;
+export default Payment;

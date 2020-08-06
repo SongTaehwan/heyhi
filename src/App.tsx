@@ -9,7 +9,7 @@ import {
   CardStyleInterpolators,
   StackCardInterpolatedStyle,
 } from '@react-navigation/stack';
-import { TutorialNavigator } from '@navigator/Tutorial';
+import { OnboaddingNavigator } from '@navigator/Onboarding';
 import { LoginNavigator } from '@navigator/Login';
 import { SignUpNavigator } from '@navigator/SignUp';
 import { HomeNavigator } from '@navigator/Home';
@@ -93,8 +93,8 @@ const AppStack = (): JSX.Element => {
       <Stack.Screen name={'LoginStack'} component={LoginNavigator} />
       <Stack.Screen name={'SignUpStack'} component={SignUpNavigator} />
       <Stack.Screen
-        name={'TutorialStack'}
-        component={TutorialNavigator}
+        name={'OnboardingStack'}
+        component={OnboaddingNavigator}
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}

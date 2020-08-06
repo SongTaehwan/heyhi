@@ -6,27 +6,26 @@ import React, { useRef } from 'react';
 import _isEqual from 'lodash/isEqual';
 import validator from 'validator';
 
-import { Screens, AppFlow } from '@navigator/types';
 import {
-  TextField,
-  BarButton,
-  VSpace,
-  ImageView,
-  ContentContainer,
-  Divider,
-  TextButton,
   Title,
   Text,
+  VSpace,
+  Divider,
   Content,
+  ImageView,
+  TextField,
+  BarButton,
+  TextButton,
   ErrorMessage,
+  ContentContainer,
 } from '@components';
+import { LoginNavigationProps } from '@navigator/Routes';
 import { MUTATION_SIGN_IN } from '@api/mutation';
+import { logError } from '@util/Error';
 import useValue from '@hooks/useValue';
 import useText from '@hooks/useText';
 import Logo from '@images/logo.png';
 import { Colors } from '@constants';
-import { logError } from '@util/Error';
-import { LoginNavigationProps } from '@navigator/Routes';
 
 interface LoginData {
   data: {
@@ -73,7 +72,7 @@ const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: AppFlow.Home }],
+        routes: [{ name: 'Home' }],
       }),
     );
   };
@@ -226,13 +225,13 @@ const Hero = (): JSX.Element => {
 
 const NavigationButtons = ({
   navigation,
-}: Pick<SignInProps, 'navigation'>): JSX.Element => {
+}: LoginNavigationProps<'Login'>): JSX.Element => {
   const goToPasswordRestoration = (): void => {
-    navigation.navigate(Screens.ForgotPassword);
+    navigation.navigate('ForgotPassword');
   };
 
   const goToSignUp = (): void => {
-    navigation.navigate(AppFlow.SignUpStack);
+    navigation.navigate('SignUpStack');
   };
 
   return (

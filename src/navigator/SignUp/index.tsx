@@ -3,34 +3,30 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import React, { useLayoutEffect } from 'react';
-import {
-  Screens,
-  SignUpStackParamList,
-  AppStackNavigationProps,
-  AppFlow,
-} from '../types';
 import { StackNavigationOptions } from '@react-navigation/stack/lib/typescript/src/types';
 import { useNavigationState } from '@react-navigation/native';
-import ServicePolicyDetail from './ServicePolicyDetail';
-import EmailVerification from './EmailVerification';
-import InterestSelection from './InterestSelection';
-import AccountCreation from './AccountCreation';
-import BestShotUpload from './BestShotUpload';
+import PolicyDetail from './PolicyDetail';
+import EmailAuth from './EmailAuth';
+import UserInterest from './UserInterest';
+import SignUp from './SignUp';
+import UploadBestShot from './UploadBestShot';
 import ServicePolicy from './ServicePolicy';
-import SelfieUpload from './SelfieUpload';
+import UploadSelfie from './UploadSelfie';
 import { isFirstScene } from '@util/navigation';
 import { StyleSheets, Colors } from '@constants';
 import { Container } from '@components';
+import {
+  SignUpRoutes,
+  StackNavigationProps,
+  AppRoutes,
+} from '@navigator/Routes';
 
-interface SignUpNavigatorProps {
-  navigation: AppStackNavigationProps<AppFlow.SignUpStack>;
-}
-
-const Stack = createStackNavigator<SignUpStackParamList>();
+const Stack = createStackNavigator<SignUpRoutes>();
 
 export const SignUpNavigator = ({
   navigation,
-}: SignUpNavigatorProps): JSX.Element => {
+}: StackNavigationProps<AppRoutes, 'LoginStack'>): JSX.Element => {
+  console.log(navigation);
   const currentNavRoute = useNavigationState(
     (state) => state.routes[state.index],
   );
@@ -51,7 +47,7 @@ export const SignUpNavigator = ({
   return (
     <Container topless>
       <Stack.Navigator
-        initialRouteName={Screens.AccountCreation}
+        initialRouteName={'SignUp'}
         screenOptions={(): StackNavigationOptions => {
           if (isFirstScene(currentNavRoute)) {
             return {
@@ -61,19 +57,16 @@ export const SignUpNavigator = ({
 
           return StyleSheets.header.withBackButton;
         }}>
+        <Stack.Screen name={'SignUp'} component={SignUp} />
         <Stack.Screen
-          name={Screens.AccountCreation}
-          component={AccountCreation}
+          name={'EmailAuth'}
+          component={EmailAuth}
+          initialParams={{ to: 'ServicePolicy' }}
         />
+        <Stack.Screen name={'ServicePolicy'} component={ServicePolicy} />
         <Stack.Screen
-          name={Screens.EmailVerification}
-          component={EmailVerification}
-          initialParams={{ to: Screens.ServicePolicy }}
-        />
-        <Stack.Screen name={Screens.ServicePolicy} component={ServicePolicy} />
-        <Stack.Screen
-          name={Screens.ServicePolicyDetail}
-          component={ServicePolicyDetail}
+          name={'PolicyDetail'}
+          component={PolicyDetail}
           options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             title: 'Terms & Conditions',
@@ -83,15 +76,9 @@ export const SignUpNavigator = ({
             ),
           }}
         />
-        <Stack.Screen
-          name={Screens.BestShotUpload}
-          component={BestShotUpload}
-        />
-        <Stack.Screen name={Screens.SelfieUpload} component={SelfieUpload} />
-        <Stack.Screen
-          name={Screens.InterestSelection}
-          component={InterestSelection}
-        />
+        <Stack.Screen name={'UploadBestShot'} component={UploadBestShot} />
+        <Stack.Screen name={'UploadSelfie'} component={UploadSelfie} />
+        <Stack.Screen name={'UserInterest'} component={UserInterest} />
       </Stack.Navigator>
     </Container>
   );

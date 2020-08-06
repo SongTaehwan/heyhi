@@ -1,4 +1,6 @@
+import { useMutation } from '@apollo/react-hooks';
 import React, { useState } from 'react';
+
 import {
   Title,
   VSpace,
@@ -10,8 +12,7 @@ import {
   ErrorMessage,
   ContentContainer,
 } from '@components';
-import { useMutation } from '@apollo/react-hooks';
-import { Screens } from '@navigator/types';
+
 import { MUTATION_SEND_EMAIL, MUTATION_VERIFY_CODE } from '@api/mutation';
 import { LoginNavigationProps } from '@navigator/Routes';
 
@@ -69,7 +70,7 @@ const EmailAuth = ({
     notifyOnNetworkStatusChange: false,
     fetchPolicy: 'no-cache',
     onCompleted: ({ verifyCode: { id } }) => {
-      navigation.navigate(Screens.NewPassword, {
+      navigation.navigate('PasswordChange', {
         userId: id,
       });
     },
@@ -117,7 +118,7 @@ const EmailAuth = ({
         loading={loading}
         disabled={verificationCode.length !== 6 || loading}
         onPress={onSubmitButton}
-        // onPress={() => navigation.navigate(Screens.NewPassword, { userId: 1 })}
+        // onPress={() => navigation.navigate("ForgotPassword", { userId: 1 })}
       />
     </ContentContainer>
   );

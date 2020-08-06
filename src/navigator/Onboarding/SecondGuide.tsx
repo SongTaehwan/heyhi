@@ -8,13 +8,9 @@ import {
   ImageView,
   ContentContainer,
 } from '@components';
-import { Screens, TutorialStackNavigationProps } from '@navigator/types';
 import SecondGuidImage from './assets/tuto2.png';
 import { StyleSheets, Colors } from '@constants';
-
-interface TutorialSecondProps {
-  navigation: TutorialStackNavigationProps<Screens.TutorialSecond>;
-}
+import { OnboardingNavigationProps } from '@navigator/Routes';
 
 const styles = StyleSheet.create({
   content: {
@@ -26,9 +22,11 @@ const styles = StyleSheet.create({
   boldText: StyleSheets.text.subTitle(true),
 });
 
-const TutorialSecond = ({ navigation }: TutorialSecondProps): JSX.Element => {
+const SecondGuide = ({
+  navigation,
+}: OnboardingNavigationProps<'SecondGuide'>): JSX.Element => {
   const goToSecondStep = (): void => {
-    navigation.navigate(Screens.TutorialLast);
+    navigation.navigate('LastGuide');
   };
 
   return (
@@ -53,4 +51,4 @@ const TutorialSecond = ({ navigation }: TutorialSecondProps): JSX.Element => {
   );
 };
 
-export default TutorialSecond;
+export default SecondGuide;

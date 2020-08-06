@@ -1,13 +1,11 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
-import { ContentContainer, Content, HSpace, VSpace } from '@components';
+import { View, Dimensions, Image } from 'react-native';
+import { Content, HSpace } from '@components';
 import { FlatList } from 'react-native-gesture-handler';
-import { ListItem, Image } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
-import { getRelativeHeight } from '@util/Dimensions';
-import { Colors, StyleSheets } from '@constants';
+import { Colors } from '@constants';
 import { Text } from '@components';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { HomeNavigationProps } from '@navigator/Routes';
 
 const list = [
   {
@@ -64,11 +62,7 @@ const list = [
   },
 ];
 
-const Chat = ({
-  navigation,
-}: {
-  navigation: StackNavigationProp<{ Chat: undefined }, 'Chat'>;
-}): JSX.Element => {
+const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
   const renderChatListItem = ({
     item,
   }: {
