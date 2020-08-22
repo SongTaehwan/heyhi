@@ -6,7 +6,7 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    setSelfie(data: String!): PersonalInformation
+    setSelfie(data: String!): String
     setBestPictures(data: [String]!): PersonalInformation
     setPersonalInfo(data: PersonalInformation!): PersonalInformation
   }
@@ -19,7 +19,8 @@ export const typeDefs = gql`
     nationality: Nationality!
     password: String!
     birthDate: DateTime!
+
     thumbnail: String!
-    bestShots: [MemberPhoto!]
+    photos: [MemberPhoto!]!
   }
 `;

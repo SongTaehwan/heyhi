@@ -151,7 +151,7 @@ cache.writeData({
       password: null,
       birthDate: null,
       thumbnail: null,
-      bestShots: [],
+      photos: [],
       __typename: 'Member',
     },
   },

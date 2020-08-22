@@ -11,7 +11,7 @@ export const LOCAL_QUERY_PERSONAL_INFO = gql`
       password
       birthDate
       thumbnail
-      bestShots
+      photos
     }
   }
 `;

@@ -36,7 +36,7 @@ const Mutation: Resolvers = {
 
     const updatedUser = {
       ...prev.user,
-      bestShots: [...prev.user.bestShots, ...data],
+      photos: [...prev.user.photos, ...data],
     };
 
     cache.writeQuery({
@@ -65,7 +65,7 @@ const Mutation: Resolvers = {
       },
     });
 
-    return updatedUser;
+    return data;
   },
 };
 

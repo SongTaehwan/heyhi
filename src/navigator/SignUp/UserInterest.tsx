@@ -23,6 +23,20 @@ enum Interests {
   reallyLoing = 'reallyLong',
 }
 
+interface UserResult {
+  user: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    gender: string;
+    nationality: 'MALE' | 'FEMALE';
+    password: string;
+    birthDate: Date;
+    thumbnail: string;
+    photos: string;
+  };
+}
+
 const styles = StyleSheet.create({
   shorButton: {
     flex: 0.35,
@@ -66,37 +80,24 @@ const UserInterest = ({
   };
 
   const handleOnSubmit = (): void => {
-    const { user } = client.readQuery({ query: LOCAL_QUERY_PERSONAL_INFO });
-    const { __typename, ...personalInfo } = user;
+    const { user } = client.readQuery<UserResult>({
+      query: LOCAL_QUERY_PERSONAL_INFO,
+    })!;
+
+    console.log(user);
+    const { photos, nationality, gender, ...userInfo } = user;
 
     createUser({
       variables: {
         data: {
-          ...personalInfo,
-          gender: personalInfo.gender.toUpperCase(),
-          state: 'APPROVED',
-          photos: {
-            create: {
-              id: 0,
-              photo: '',
-              type: 'enum',
-            },
-          },
-          role: {
-            connect: {
-              id: 0,
-            },
-          },
-          nationality: {
-            connect: {
-              id: 0,
-            },
-          },
-          payment: {
-            connect: {
-              id: 0,
-            },
-          },
+          ...userInfo,
+          gender: gender.toUpperCase(),
+          withdrawalMessage: '',
+          role: { connect: { id: 1 } },
+          nationality: { connect: { id: nationality } },
+          photos: { create: photos },
+          refreshToken: { create: { token: '' } },
+          payment: { create: { paymentType: 'NO_CHARGE' } },
         },
       },
     });

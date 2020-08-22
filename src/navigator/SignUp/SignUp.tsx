@@ -71,28 +71,51 @@ const initialErrorState = {
   fromName: false,
 };
 
+interface UserResult {
+  setPersonalInfo: PersonalInfo;
+}
+
+interface PersonalInfo {
+  email: string;
+  firstName: string;
+  lastName: string;
+  gender: 'MALE' | 'FEMALE';
+  nationality: string;
+  password: string;
+  birthDate: Date;
+}
+
+enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
+
+// TODO: 국가 정보 쿼리
 const SignUp = ({
   navigation,
 }: SignUpNavigationProps<'SignUp'>): JSX.Element => {
-  const [email, setEmail, isValidEmail] = useText('', {
+  const [email, setEmail, isValidEmail] = useText('axoghks@gmail.com', {
     isEmail: true,
   });
-  const [lastName, setSecondName] = useText('');
-  const [firstName, setFirstName] = useText('');
-  const [password, setPassword] = useText('');
+  const [lastName, setSecondName] = useText('Taehwan');
+  const [firstName, setFirstName] = useText('Song');
+  const [password, setPassword] = useText('123123');
   const [birthDate, setBirthDate] = useState<Date>(() => new Date());
   const [birthCountry, setCountry] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('Male');
 
   const [passwordConfirmed, setPasswordEquality] = useState(true);
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [error, setError] = useState(initialErrorState);
   const inputRefs = useRef<{ ref: Input; id: any }[]>([]);
 
-  const [setPersonalInfo, { loading }] = useMutation(LOCAL_SET_PERSONAL_INFO, {
+  const [setPersonalInfo, { loading }] = useMutation<
+    UserResult,
+    { user: PersonalInfo }
+  >(LOCAL_SET_PERSONAL_INFO, {
     notifyOnNetworkStatusChange: false,
     onCompleted: ({ setPersonalInfo: personalInfo }) => {
-      // console.log(personalInfo);
+      console.log(personalInfo);
       goToEmailVerification();
     },
     onError: logError(setServerErrorMessage),
@@ -251,7 +274,7 @@ const SignUp = ({
             email,
             firstName,
             lastName,
-            gender,
+            gender: gender.toUpperCase() as Gender,
             nationality: birthCountry,
             password,
             birthDate,

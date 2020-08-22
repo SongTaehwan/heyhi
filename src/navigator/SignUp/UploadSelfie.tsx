@@ -35,18 +35,27 @@ const styles = StyleSheet.create({
   },
 });
 
+interface SelfieResult {
+  setSelfie: string;
+}
+
 const UploadSelfie = ({
   navigation,
 }: SignUpNavigationProps<'UploadSelfie'>): JSX.Element => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [serverErrorMessage, setServerErrorMessage] = useState('');
-  const [setSelie] = useMutation(LOCAL_SET_SELFIE, {
-    notifyOnNetworkStatusChange: false,
-    onCompleted: ({ setSelfie }) => {
-      goToInterestSelection();
+
+  const [setSelfie] = useMutation<SelfieResult, { thumbnail: string }>(
+    LOCAL_SET_SELFIE,
+    {
+      notifyOnNetworkStatusChange: false,
+      onCompleted: ({ setSelfie: selfieURL }) => {
+        console.log('SELFIE: ', selfieURL);
+        goToInterestSelection();
+      },
+      onError: logError(setServerErrorMessage),
     },
-    onError: logError(setServerErrorMessage),
-  });
+  );
 
   useEffect(() => {
     navigation.navigate('SelfieNotice');
@@ -74,9 +83,9 @@ const UploadSelfie = ({
   };
 
   const handleOnPressNext = (): void => {
-    setSelie({
+    setSelfie({
       variables: {
-        thumbnail: imageUrl ?? 'dummy',
+        thumbnail: imageUrl as string,
       },
     });
   };

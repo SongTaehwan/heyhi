@@ -31,12 +31,14 @@ import RNFS from 'react-native-fs';
 import { SignUpNavigationProps } from '@navigator/Routes';
 
 interface ImageSlot {
-  imageUrl: string;
+  photo: string;
+  type: 'PHOTO';
 }
 
 const getEmptyImageSlot = (count: number): ImageSlot[] => {
   const slot: ImageSlot = {
-    imageUrl: '',
+    photo: '',
+    type: 'PHOTO',
   };
 
   return Array(count).fill(slot);
@@ -58,7 +60,8 @@ const convertToImageSlot = (
   const images = result as PickerImage[];
   return images.map(
     (image): ImageSlot => ({
-      imageUrl: getBase64Url({ mime: image.mime, data: image.data! }),
+      photo: getBase64Url({ mime: image.mime, data: image.data! }),
+      type: 'PHOTO',
     }),
   );
 };
@@ -76,6 +79,7 @@ const BestShotUpload = ({
   const [setBestShots] = useMutation(LOCAL_SET_BEST_PICTURES, {
     notifyOnNetworkStatusChange: false,
     onCompleted: ({ setBestPictures }) => {
+      console.log(setBestPictures);
       goToSelfieUpload();
     },
     onError: logError(setServerErrorMessage),
@@ -108,13 +112,14 @@ const BestShotUpload = ({
       const { mime, data } = newSlot as PickerImage;
       const imageUrl = getBase64Url({ mime, data: data! });
       const isDulpicated = imageSlots.some(
-        (prevSlot) => prevSlot.imageUrl === imageUrl,
+        (prevSlot) => prevSlot.photo === imageUrl,
       );
       const newImageSlots = imageSlots.slice();
 
       if (!isDulpicated) {
         newImageSlots[index] = {
-          imageUrl,
+          photo: imageUrl,
+          type: newImageSlots[index].type,
         };
       }
 
@@ -152,18 +157,21 @@ const BestShotUpload = ({
     try {
       const resizedImages: Promise<ImageSlot>[] = [];
 
-      images.forEach(({ imageUrl }) => {
+      images.forEach(({ photo }) => {
         const resizedImage = ImageResizer.createResizedImage(
-          imageUrl,
+          photo,
           600,
           600,
           'JPEG',
           100,
         )
           .then(({ uri }): Promise<string> => RNFS.readFile(uri, 'base64'))
-          .then((base64Str) => ({
-            imageUrl: getBase64Url({ mime: 'image/png', data: base64Str }),
-          }));
+          .then(
+            (base64Str): ImageSlot => ({
+              photo: getBase64Url({ mime: 'image/png', data: base64Str }),
+              type: 'PHOTO',
+            }),
+          );
 
         resizedImages.push(resizedImage);
       });
@@ -180,7 +188,7 @@ const BestShotUpload = ({
   };
 
   const handleOnPressButton = (): void => {
-    const userImages = imageSlots.filter(({ imageUrl }) => imageUrl.length > 0);
+    const userImages = imageSlots.filter(({ photo }) => photo.length > 0);
 
     if (userImages.length > 0) {
       setBestShots({
@@ -198,16 +206,16 @@ const BestShotUpload = ({
 
   const renderImageBox = (): JSX.Element[] => {
     return imageSlots.map(
-      ({ imageUrl }: ImageSlot, i): JSX.Element => {
+      ({ photo }: ImageSlot, i): JSX.Element => {
         return (
           <TouchableOpacity
-            key={imageUrl || i}
+            key={photo || i}
             onPress={(): Promise<void> => openPhotoLibrary(i)}
             style={styles.imageViewStyle}>
-            {imageUrl.length !== 0 ? (
+            {photo.length !== 0 ? (
               <ImageView
                 resizeMode={'stretch'}
-                source={{ uri: imageUrl }}
+                source={{ uri: photo }}
                 style={styles.image}
               />
             ) : (
