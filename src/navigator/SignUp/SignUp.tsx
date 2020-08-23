@@ -1,7 +1,7 @@
-import { View, StyleSheet, Platform, Keyboard } from 'react-native';
+import { View, StyleSheet, Platform, Keyboard, Animated } from 'react-native';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import DatePicker from 'react-native-date-picker';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import React, { useState, useRef } from 'react';
 import { Input } from 'react-native-elements';
 import moment from 'moment';
@@ -18,10 +18,11 @@ import {
   ContentContainer,
 } from '@components';
 import { LOCAL_SET_PERSONAL_INFO } from '@api/mutation/local';
-import { Countries, Colors } from '@constants';
+import { Colors } from '@constants';
 import useText from '@hooks/useText';
 import { logError } from '@util/Error';
 import { SignUpNavigationProps } from '@navigator/Routes';
+import { QUERY_COUNTRY } from '@api/query';
 
 enum FORM_DATA_TYPE {
   EMAIL = 'Email',
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
 });
 
 const GENDERS = ['Choose your Gender', 'Male', 'Female'];
-Countries.unshift('Choose your country');
 
 const initialErrorState = {
   message: '',
@@ -75,12 +75,12 @@ interface UserResult {
   setPersonalInfo: PersonalInfo;
 }
 
-interface PersonalInfo {
+export interface PersonalInfo {
   email: string;
   firstName: string;
   lastName: string;
   gender: 'MALE' | 'FEMALE';
-  nationality: string;
+  nationality: number;
   password: string;
   birthDate: Date;
 }
@@ -90,11 +90,20 @@ enum Gender {
   FEMALE = 'FEMALE',
 }
 
-// TODO: 국가 정보 쿼리
+interface CountrySchema {
+  [key: string]: Country;
+}
+
+interface Country {
+  id: number;
+  name: string;
+  code: string;
+}
+
 const SignUp = ({
   navigation,
 }: SignUpNavigationProps<'SignUp'>): JSX.Element => {
-  const [email, setEmail, isValidEmail] = useText('axoghks@gmail.com', {
+  const [email, setEmail, isValidEmail] = useText('taehwan@heyhi.online', {
     isEmail: true,
   });
   const [lastName, setSecondName] = useText('Taehwan');
@@ -109,6 +118,30 @@ const SignUp = ({
   const [error, setError] = useState(initialErrorState);
   const inputRefs = useRef<{ ref: Input; id: any }[]>([]);
 
+  const [countryList, setCountryList] = useState<string[]>([
+    'Choose your nationality',
+  ]);
+  const countrySchema = useRef<CountrySchema>({});
+
+  useQuery(QUERY_COUNTRY, {
+    onCompleted: ({ nationalities }) => {
+      console.log(nationalities);
+      const countryContainer: CountrySchema = {};
+      const countryNameList = nationalities.map((country: Country) => {
+        countryContainer[country.name] = country;
+        return country.name;
+      }) as string[];
+
+      countrySchema.current = countryContainer;
+      setCountryList((prev) => prev.concat(countryNameList));
+    },
+    onError: () => {
+      setError(() => ({
+        ...initialErrorState,
+        message: 'Country fetching error',
+      }));
+    },
+  });
   const [setPersonalInfo, { loading }] = useMutation<
     UserResult,
     { user: PersonalInfo }
@@ -129,7 +162,7 @@ const SignUp = ({
 
   const handleOnSelectNationality = (index: number): void => {
     if (index === 0) return;
-    setCountry(Countries[index]);
+    setCountry(countryList[index]);
   };
 
   const handleOnChangeDate = (newDate: Date): void => {
@@ -275,7 +308,7 @@ const SignUp = ({
             firstName,
             lastName,
             gender: gender.toUpperCase() as Gender,
-            nationality: birthCountry,
+            nationality: countrySchema.current[birthCountry].id,
             password,
             birthDate,
           },
@@ -362,8 +395,8 @@ const SignUp = ({
         <Picker value={birthCountry} placeholder={FORM_DATA_TYPE.COUNTRY}>
           <WheelPicker
             indicatorColor={Colors.veryLightPink}
-            selectedItem={Countries.findIndex((v) => v === birthCountry)}
-            data={Countries}
+            selectedItem={countryList.findIndex((v) => v === birthCountry)}
+            data={countryList}
             style={styles.pickerContainer}
             onItemSelected={handleOnSelectNationality}
           />

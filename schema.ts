@@ -16,7 +16,7 @@ export const typeDefs = gql`
     firstName: String!
     lastName: String!
     gender: GenderEnum!
-    nationality: Nationality!
+    nationality: Number!
     password: String!
     birthDate: DateTime!
 
