@@ -103,12 +103,12 @@ interface Country {
 const SignUp = ({
   navigation,
 }: SignUpNavigationProps<'SignUp'>): JSX.Element => {
-  const [email, setEmail, isValidEmail] = useText('taehwan@heyhi.online', {
+  const [email, setEmail, isValidEmail] = useText('', {
     isEmail: true,
   });
-  const [lastName, setSecondName] = useText('Taehwan');
-  const [firstName, setFirstName] = useText('Song');
-  const [password, setPassword] = useText('123123');
+  const [lastName, setSecondName] = useText('');
+  const [firstName, setFirstName] = useText('');
+  const [password, setPassword] = useText('');
   const [birthDate, setBirthDate] = useState<Date>(() => new Date());
   const [birthCountry, setCountry] = useState('');
   const [gender, setGender] = useState('Male');

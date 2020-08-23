@@ -13,153 +13,150 @@ export const MUTATION_CREATE_MEMBER = gql`
       status
       thumbnail
       withdrawalMessage
-      createdAt
-      updatedAt
-      deletedAt
-      loginAt
-      role {
-        id
-        role
-      }
-      nationality {
-        id
-        code
-        name
-      }
-      photos {
-        id
-        photo
-        type
-      }
-      refreshToken {
-        id
-        token
-      }
-      requestMatchings {
-        id
-        requestMessage
-        acceptMessage
-        rejectMessage
-        state
-        createdAt
-        updatedAt
-        deletedAt
-        requestMember {
-          id
-          email
-          firstName
-          lastName
-        }
-        requestedMember {
-          id
-          email
-          firstName
-          lastName
-        }
-        chatRoom {
-          id
-          title
-          messages {
-            id
-            messages
-          }
-          createdAt
-          updatedAt
-          deletedAt
-        }
-      }
-      requestedMatchings {
-        id
-        requestMessage
-        acceptMessage
-        rejectMessage
-        state
-        createdAt
-        updatedAt
-        deletedAt
-        requestMember {
-          id
-          email
-          firstName
-          lastName
-        }
-        requestedMember {
-          id
-          email
-          firstName
-          lastName
-        }
-        chatRoom {
-          id
-          title
-          messages {
-            id
-            messages
-          }
-          createdAt
-          updatedAt
-          deletedAt
-        }
-      }
-      writeReviews {
-        id
-        contents
-        rate
-        reviewer {
-          id
-          email
-          firstName
-          lastName
-        }
-        reviewee {
-          id
-          email
-          firstName
-          lastName
-        }
-      }
-      reviews {
-        id
-        contents
-        rate
-        reviewer {
-          id
-          email
-          firstName
-          lastName
-        }
-        reviewee {
-          id
-          email
-          firstName
-          lastName
-        }
-      }
-      reports {
-        id
-        contents
-        category
-        writerId
-        target {
-          id
-        }
-        targetMatching {
-          id
-          requestMessage
-          rejectMessage
-          state
-        }
-      }
-      payment {
-        id
-        paymentType
-      }
-      location {
-        id
-        distance
-        latitude
-        longitude
-      }
+      # createdAt
+      # updatedAt
+      # deletedAt
+      # loginAt
+      # role {
+      #   id
+      #   role
+      # }
+      # nationality {
+      #   id
+      #   code
+      #   name
+      # }
+      # photos {
+      #   id
+      #   photo
+      #   type
+      # }
+      # refreshToken {
+      #   token
+      # }
+      # requestMatchings {
+      #   id
+      #   requestMessage
+      #   acceptMessage
+      #   rejectMessage
+      #   state
+      #   createdAt
+      #   updatedAt
+      #   deletedAt
+      #   requestMember {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      #   requestedMember {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      #   chatRoom {
+      #     id
+      #     title
+      #     messages {
+      #       id
+      #     }
+      #     createdAt
+      #     updatedAt
+      #     deletedAt
+      #   }
+      # }
+      # requestedMatchings {
+      #   id
+      #   requestMessage
+      #   acceptMessage
+      #   rejectMessage
+      #   state
+      #   createdAt
+      #   updatedAt
+      #   deletedAt
+      #   requestMember {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      #   requestedMember {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      #   chatRoom {
+      #     id
+      #     title
+      #     messages {
+      #       id
+      #     }
+      #     createdAt
+      #     updatedAt
+      #     deletedAt
+      #   }
+      # }
+      # writeReviews {
+      #   id
+      #   contents
+      #   rate
+      #   reviewer {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      #   reviewee {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      # }
+      # reviews {
+      #   id
+      #   contents
+      #   rate
+      #   reviewer {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      #   reviewee {
+      #     id
+      #     email
+      #     firstName
+      #     lastName
+      #   }
+      # }
+      # reports {
+      #   id
+      #   contents
+      #   category
+      #   writerId
+      #   target {
+      #     id
+      #   }
+      #   targetMatching {
+      #     id
+      #     requestMessage
+      #     rejectMessage
+      #     state
+      #   }
+      # }
+      # payment {
+      #   id
+      #   paymentType
+      # }
+      # location {
+      #   id
+      #   distance
+      #   latitude
+      #   longitude
+      # }
     }
   }
 `;

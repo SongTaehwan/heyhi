@@ -160,8 +160,8 @@ const BestShotUpload = ({
       images.forEach(({ photo }) => {
         const resizedImage = ImageResizer.createResizedImage(
           photo,
-          600,
-          600,
+          200,
+          200,
           'JPEG',
           100,
         )
