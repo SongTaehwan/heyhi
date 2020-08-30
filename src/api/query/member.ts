@@ -33,6 +33,14 @@ export const QUERY_MEMBER_AROUND_ME = gql`
       birthday
       status
       thumbnail
+      # nationality {
+      #   code
+      # }
+      location {
+        distance
+        latitude
+        longitude
+      }
       withdrawalMessage
       role {
         id

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Dimensions, Image } from 'react-native';
 import { Content, HSpace } from '@components';
 import { FlatList } from 'react-native-gesture-handler';
@@ -6,6 +6,9 @@ import TouchableScale from 'react-native-touchable-scale';
 import { Colors } from '@constants';
 import { Text } from '@components';
 import { HomeNavigationProps } from '@navigator/Routes';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
+import { QUERY_CHAT_LIST } from '@api/query';
+import moment from 'moment';
 
 const list = [
   {
@@ -63,21 +66,52 @@ const list = [
 ];
 
 const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
+  const [chatList, setChatList] = useState([]);
+
+  const { loading } = useQuery(QUERY_CHAT_LIST, {
+    variables: {
+      email: 'axoghks@gmail.com',
+    },
+    notifyOnNetworkStatusChange: false,
+    onCompleted: ({ matchings }) => {
+      if (matchings.length > 0) {
+        console.log(matchings);
+        const list = matchings.map((chat) => ({
+          id: chat.chatRoom.id,
+          state: chat.state[0] + chat.state.slice(1).toLowerCase(),
+          participant: `${chat.requestedMember.firstName} ${chat.requestedMember.lastName}`,
+          message: chat.chatRoom?.title,
+          thumbnail:
+            chat.requestedMember.thumbnail.length > 0
+              ? chat.requestedMember.thumbnail
+              : 'https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png',
+          date: moment(chat.chatRoom?.updatedAt).startOf('hour').fromNow(),
+        }));
+        setChatList(list);
+      }
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+
   const renderChatListItem = ({
     item,
   }: {
     item: {
       id: number;
-      name: string;
+      participant: string;
       message: string;
-      status: string;
-      uri: string;
+      state: string;
+      thumbnail: string;
       date: string;
     };
   }): JSX.Element => {
     return (
       <TouchableScale
-        onPress={(): void => navigation.navigate('ChatRoom')}
+        onPress={(): void =>
+          navigation.navigate('ChatRoom', { roomId: item.id })
+        }
         activeScale={0.95}
         tension={50}
         style={{
@@ -100,7 +134,7 @@ const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
           elevation: 6,
         }}>
         <Image
-          source={{ uri: item.uri }}
+          source={{ uri: item.thumbnail }}
           style={{
             width: 50,
             height: 50,
@@ -111,7 +145,7 @@ const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
         <HSpace space={15} />
         <View>
           <Text bold style={{ lineHeight: 19 }}>
-            {item.name}
+            {item.participant}
           </Text>
           <Text smallText style={{ lineHeight: 17 }}>
             {item.message}
@@ -126,11 +160,11 @@ const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
             <Text
               style={{
                 fontSize: 11,
-                color: item.status === 'Active' ? Colors.brightSkyBlue : 'red',
+                color: item.state === 'Active' ? Colors.brightSkyBlue : 'red',
                 lineHeight: 17,
               }}>
               {' '}
-              {item.status}
+              {item.state}
             </Text>
           </Text>
         </View>
@@ -142,7 +176,7 @@ const Chat = ({ navigation }: HomeNavigationProps<'Chat'>): JSX.Element => {
     <Content style={{ paddingHorizontal: 0, paddingTop: 20 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={list}
+        data={chatList}
         style={{ paddingHorizontal: 20 }}
         renderItem={renderChatListItem}
         keyExtractor={(item): string => item.id.toString()}

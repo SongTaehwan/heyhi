@@ -16,6 +16,7 @@ import {
 import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
 import { QUERY_MEMBER_AROUND_ME } from '@api/query';
 import { StyleSheets, Colors } from '@constants';
+import { getApproxAge } from '@util/age';
 
 interface Item {
   id: number;
@@ -28,74 +29,109 @@ interface Item {
   uri: string;
 }
 
-const DATA = [
-  {
-    id: 1,
-    firstName: 'Jay',
-    lastName: 'Lim',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 100,
-    uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
-  },
-  {
-    id: 2,
-    firstName: 'June',
-    lastName: 'Park',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 470,
-    uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
-  },
-  {
-    id: 3,
-    firstName: 'Yeong',
-    lastName: 'Park',
-    age: 30,
-    gender: 'FEMALE',
-    country: 'Korea',
-    distance: 500,
-    uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg',
-  },
-  {
-    id: 4,
-    firstName: 'Suyeon',
-    lastName: 'Kim',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 259,
-    uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg',
-  },
-  {
-    id: 5,
-    firstName: 'Lee',
-    lastName: 'Kim',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 840,
-    uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
-  },
-  {
-    id: 6,
-    firstName: 'Hong',
-    lastName: 'Lim',
-    age: 30,
-    gender: 'MALE',
-    country: 'USA',
-    distance: 980,
-    uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
-  },
-];
+// const DATA = [
+//   {
+//     id: 1,
+//     firstName: 'Jay',
+//     lastName: 'Lim',
+//     age: 30,
+//     gender: 'MALE',
+//     country: 'USA',
+//     distance: 100,
+//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
+//   },
+//   {
+//     id: 2,
+//     firstName: 'June',
+//     lastName: 'Park',
+//     age: 30,
+//     gender: 'MALE',
+//     country: 'USA',
+//     distance: 470,
+//     uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
+//   },
+//   {
+//     id: 3,
+//     firstName: 'Yeong',
+//     lastName: 'Park',
+//     age: 30,
+//     gender: 'FEMALE',
+//     country: 'Korea',
+//     distance: 500,
+//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg',
+//   },
+//   {
+//     id: 4,
+//     firstName: 'Suyeon',
+//     lastName: 'Kim',
+//     age: 30,
+//     gender: 'MALE',
+//     country: 'USA',
+//     distance: 259,
+//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg',
+//   },
+//   {
+//     id: 5,
+//     firstName: 'Lee',
+//     lastName: 'Kim',
+//     age: 30,
+//     gender: 'MALE',
+//     country: 'USA',
+//     distance: 840,
+//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
+//   },
+//   {
+//     id: 6,
+//     firstName: 'Hong',
+//     lastName: 'Lim',
+//     age: 30,
+//     gender: 'MALE',
+//     country: 'USA',
+//     distance: 980,
+//     uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
+//   },
+// ];
 
 const Main = (): JSX.Element => {
   const [pageIndex, setPageIndex] = useState(0);
-  const [currentItem, setItem] = useState(DATA[0]);
+  const [currentItem, setItem] = useState([]);
+  const [nearUserList, setNearUserList] = useState([]);
 
-  const { loading, data } = useQuery(QUERY_MEMBER_AROUND_ME, {
+  const { loading } = useQuery(QUERY_MEMBER_AROUND_ME, {
+    notifyOnNetworkStatusChange: false,
+    onCompleted: ({ getAroundPeople }) => {
+      if (getAroundPeople.length > 0) {
+        console.log(getAroundPeople);
+        const nearUsers = getAroundPeople.map(
+          ({
+            id,
+            firstName,
+            lastName,
+            nationality,
+            gender,
+            birthday,
+            photos,
+            distance,
+          }) => {
+            return {
+              id,
+              firstName,
+              lastName,
+              country: nationality?.code ?? 'KR',
+              gender,
+              age: getApproxAge(birthday),
+              uri:
+                photos?.map((pic) => pic.photo)[0] ??
+                'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
+              distance: distance ?? '100',
+            };
+          },
+        );
+
+        setNearUserList(nearUsers);
+        setItem(nearUsers[0]);
+      }
+    },
     onError: (e) => {
       console.log(e);
     },
@@ -108,12 +144,13 @@ const Main = (): JSX.Element => {
     index: number;
     item: Item;
   }): JSX.Element => {
+    console.log(item.uri);
     return <Image containerStyle={styles.image} source={{ uri: item.uri }} />;
   };
 
   const onChangeIndex = (slideIndex: number): void => {
     setPageIndex(slideIndex);
-    setItem(DATA[slideIndex]);
+    setItem(nearUserList[slideIndex]);
   };
 
   return (
@@ -131,7 +168,7 @@ const Main = (): JSX.Element => {
           <View style={styles.carouselWrapper}>
             <Carousel
               loop
-              data={DATA}
+              data={nearUserList}
               renderItem={renderItem}
               sliderWidth={Dimensions.get('screen').width}
               itemWidth={getRelativeWidth(300)}
@@ -142,11 +179,12 @@ const Main = (): JSX.Element => {
           <VSpace space={getRelativeHeight(20)} />
           <View style={styles.profileWrapper}>
             <Text style={StyleSheets.text.nameText} center>
-              {`${currentItem.firstName} ${currentItem.lastName}`}
+              {`${currentItem?.firstName} ${currentItem?.lastName}`}
             </Text>
             <VSpace space={getRelativeHeight(15)} />
-            <Text
-              center>{`${currentItem.age}  ${currentItem.gender}  ${currentItem.country}`}</Text>
+            <Text center>
+              {`${currentItem?.age}  ${currentItem?.gender}  ${currentItem?.country}`}
+            </Text>
             <VSpace space={getRelativeHeight(15)} />
             <HorizontalView horizontalAlign={'center'}>
               <Icon
@@ -155,13 +193,13 @@ const Main = (): JSX.Element => {
                 size={15}
                 containerStyle={{ paddingTop: 1 }}
               />
-              <Text center>{` ${currentItem.distance}m`}</Text>
+              <Text center>{` ${currentItem?.distance}m`}</Text>
             </HorizontalView>
           </View>
         </View>
         <Pagination
           activeDotIndex={pageIndex}
-          dotsLength={DATA.length}
+          dotsLength={nearUserList.length}
           containerStyle={{
             paddingVertical: getRelativeHeight(20),
           }}
@@ -170,7 +208,11 @@ const Main = (): JSX.Element => {
           inactiveDotColor={Colors.brownGrey}
           dotColor={Colors.black}
         />
-        <BarButton round containerStyle={{ paddingHorizontal: '10%' }} />
+        <BarButton
+          round
+          containerStyle={{ paddingHorizontal: '10%' }}
+          title="Send Hey!"
+        />
         <VSpace space={getRelativeHeight(20)} />
       </LinearGradient>
     </ContentContainer>

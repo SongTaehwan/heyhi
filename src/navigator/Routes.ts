@@ -75,7 +75,9 @@ export type AppRoutes = {
   Home: {
     screen?: string;
   };
-  ChatRoom: undefined;
+  ChatRoom: {
+    roomId: number;
+  };
   MyPageStack: {
     screen?: string;
   };
