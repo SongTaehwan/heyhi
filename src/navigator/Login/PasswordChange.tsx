@@ -21,8 +21,7 @@ interface Variables {
     password: string;
   };
   where: {
-    id: number;
-    email?: string;
+    email: string;
   };
 }
 
@@ -38,7 +37,7 @@ const PasswordChange = ({
   navigation,
   route,
 }: LoginNavigationProps<'PasswordChange'>): JSX.Element => {
-  const { userId = 0 } = route.params;
+  const { email = '' } = route.params;
   const [password, setPassword] = useText('');
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -93,7 +92,7 @@ const PasswordChange = ({
           password,
         },
         where: {
-          id: userId,
+          email,
         },
       },
     });

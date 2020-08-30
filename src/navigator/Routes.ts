@@ -90,7 +90,7 @@ export type OnboardingRoutes = {
 export type LoginRoutes = {
   Login: undefined;
   PasswordChange: {
-    userId: number;
+    email: string;
   };
   EmailAuth: {
     email?: string;

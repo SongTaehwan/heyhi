@@ -33,7 +33,7 @@ const EmailAuth = ({
   navigation,
   route,
 }: LoginNavigationProps<'EmailAuth'>): JSX.Element => {
-  const { email } = route.params;
+  const { email = '' } = route.params;
   const [verificationCode, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -69,10 +69,12 @@ const EmailAuth = ({
     },
     notifyOnNetworkStatusChange: false,
     fetchPolicy: 'no-cache',
-    onCompleted: ({ verifyCode: { id } }) => {
-      navigation.navigate('PasswordChange', {
-        userId: id,
-      });
+    onCompleted: ({ verifyCode: { verified } }) => {
+      if (verified) {
+        navigation.navigate('PasswordChange', {
+          email,
+        });
+      }
     },
     onError: (error) => {
       console.log('Error while Sending verification code: ', error);
