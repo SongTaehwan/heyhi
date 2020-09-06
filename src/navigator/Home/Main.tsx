@@ -1,11 +1,19 @@
+import { CommonActions, useFocusEffect } from '@react-navigation/native';
+import { checkMultiple, PERMISSIONS } from 'react-native-permissions';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import AsyncStorage from '@react-native-community/async-storage';
+import { GeoPosition } from 'react-native-geolocation-service';
 import { View, Dimensions, StyleSheet } from 'react-native';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import LinearGradient from 'react-native-linear-gradient';
 import { BlurView } from '@react-native-community/blur';
+import { ActivityIndicator } from 'react-native-paper';
+import React, { useState, useCallback } from 'react';
 import { Image, Icon } from 'react-native-elements';
-import { useQuery } from '@apollo/react-hooks';
+import RNExitApp from 'react-native-exit-app';
 import MapView from 'react-native-maps';
-import React, { useState } from 'react';
+import _ from 'lodash';
+
 import {
   Text,
   VSpace,
@@ -17,6 +25,9 @@ import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
 import { QUERY_MEMBER_AROUND_ME } from '@api/query';
 import { StyleSheets, Colors } from '@constants';
 import { getApproxAge } from '@util/age';
+import { HomeNavigationProps } from '@navigator/Routes';
+import useLocation from '@hooks/useLocation';
+import { MUTATION_LOCATION } from '@api/mutation';
 
 interface Item {
   id: number;
@@ -29,113 +40,159 @@ interface Item {
   uri: string;
 }
 
-// const DATA = [
-//   {
-//     id: 1,
-//     firstName: 'Jay',
-//     lastName: 'Lim',
-//     age: 30,
-//     gender: 'MALE',
-//     country: 'USA',
-//     distance: 100,
-//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
-//   },
-//   {
-//     id: 2,
-//     firstName: 'June',
-//     lastName: 'Park',
-//     age: 30,
-//     gender: 'MALE',
-//     country: 'USA',
-//     distance: 470,
-//     uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
-//   },
-//   {
-//     id: 3,
-//     firstName: 'Yeong',
-//     lastName: 'Park',
-//     age: 30,
-//     gender: 'FEMALE',
-//     country: 'Korea',
-//     distance: 500,
-//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg',
-//   },
-//   {
-//     id: 4,
-//     firstName: 'Suyeon',
-//     lastName: 'Kim',
-//     age: 30,
-//     gender: 'MALE',
-//     country: 'USA',
-//     distance: 259,
-//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg',
-//   },
-//   {
-//     id: 5,
-//     firstName: 'Lee',
-//     lastName: 'Kim',
-//     age: 30,
-//     gender: 'MALE',
-//     country: 'USA',
-//     distance: 840,
-//     uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg',
-//   },
-//   {
-//     id: 6,
-//     firstName: 'Hong',
-//     lastName: 'Lim',
-//     age: 30,
-//     gender: 'MALE',
-//     country: 'USA',
-//     distance: 980,
-//     uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
-//   },
-// ];
-
-const Main = (): JSX.Element => {
+const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
   const [pageIndex, setPageIndex] = useState(0);
-  const [currentItem, setItem] = useState([]);
+  const [currentItem, setItem] = useState({});
   const [nearUserList, setNearUserList] = useState([]);
+  const [shouldFetch, setShouldFetch] = useState(false);
+  const [trackingLocation, setTrackingLocation] = useState(false);
+  const [permisstionGranted, getPermissionGranted] = useState(false);
 
-  const { loading } = useQuery(QUERY_MEMBER_AROUND_ME, {
-    notifyOnNetworkStatusChange: false,
-    onCompleted: ({ getAroundPeople }) => {
-      if (getAroundPeople.length > 0) {
-        console.log(getAroundPeople);
-        const nearUsers = getAroundPeople.map(
-          ({
-            id,
-            firstName,
-            lastName,
-            nationality,
-            gender,
-            birthday,
-            photos,
-            distance,
-          }) => {
-            return {
-              id,
-              firstName,
-              lastName,
-              country: nationality?.code ?? 'KR',
-              gender,
-              age: getApproxAge(birthday),
-              uri:
-                photos?.map((pic) => pic.photo)[0] ??
-                'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
-              distance: distance ?? '100',
-            };
-          },
-        );
+  useFocusEffect(
+    useCallback(() => {
+      if (permisstionGranted === false) {
+        (async (): Promise<any> => {
+          try {
+            const result = await checkMultiple([
+              PERMISSIONS.IOS.LOCATION_ALWAYS,
+              PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+              PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+              PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+            ]);
 
-        setNearUserList(nearUsers);
-        setItem(nearUsers[0]);
+            if (
+              result[PERMISSIONS.IOS.LOCATION_ALWAYS] === 'granted' ||
+              result[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted'
+            ) {
+              getPermissionGranted(true);
+              setTrackingLocation(true);
+            }
+
+            if (
+              result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === 'granted' ||
+              result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === 'granted'
+            ) {
+              getPermissionGranted(true);
+              setTrackingLocation(true);
+            }
+
+            RNExitApp.exitApp();
+          } catch (error) {
+            console.log(error.message);
+          }
+        })();
+      } else {
+        setTrackingLocation(true);
       }
-    },
+
+      return (): void => {
+        stopPolling();
+        setTrackingLocation(false);
+        setShouldFetch(false);
+      };
+    }, [permisstionGranted]),
+  );
+
+  const [updateLocation] = useMutation(MUTATION_LOCATION, {
+    notifyOnNetworkStatusChange: false,
+    onCompleted: useCallback(
+      ({ updateMyLocation }) => {
+        console.log(updateMyLocation);
+
+        if (shouldFetch === false) {
+          setShouldFetch(true);
+          startPolling(60000); // 1 min
+        }
+      },
+      [shouldFetch],
+    ),
     onError: (e) => {
-      console.log(e);
+      console.log('UPDATE_LOCATION: ', e);
     },
   });
+
+  const sendLocation = useCallback(
+    ({ coords: { latitude, longitude } }: GeoPosition) => {
+      updateLocation({
+        variables: {
+          data: {
+            distance: 1000,
+            latitude,
+            longitude,
+          },
+        },
+      });
+    },
+    [updateLocation],
+  );
+
+  const [err] = useLocation(trackingLocation, sendLocation, {
+    enableHighAccuracy: true,
+    distanceFilter: 1000, // 1KM
+    interval: 180000, // 3 min
+    fastestInterval: 90000,
+  });
+
+  const { loading, startPolling, stopPolling } = useQuery(
+    QUERY_MEMBER_AROUND_ME,
+    {
+      skip: !shouldFetch,
+      notifyOnNetworkStatusChange: false,
+      onCompleted: useCallback(
+        ({ getAroundPeople }) => {
+          if (getAroundPeople.length > 0) {
+            console.log(getAroundPeople);
+            const nearUsers = getAroundPeople.map(
+              ({
+                id,
+                firstName,
+                lastName,
+                nationality,
+                gender,
+                birthday,
+                photos,
+                distance,
+              }) => {
+                return {
+                  id,
+                  firstName,
+                  lastName,
+                  country: nationality?.code ?? 'KR',
+                  gender,
+                  age: getApproxAge(birthday),
+                  uri:
+                    photos?.map((pic) => pic.photo)[0] ??
+                    'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
+                  distance: distance ?? '100',
+                };
+              },
+            );
+
+            setNearUserList(nearUsers);
+            setItem(nearUsers[0]);
+          }
+        },
+        [shouldFetch],
+      ),
+      onError: useCallback(
+        (e) => {
+          const message = e.message.split(': ').pop() as string;
+
+          if (message === 'Unauthorized') {
+            AsyncStorage.removeItem('ACCESS_TOKEN').then(() => {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'LoginStack' }, { name: 'OnboardingStack' }],
+                }),
+              );
+            });
+          }
+        },
+        [shouldFetch],
+      ),
+    },
+  );
 
   const renderItem = ({
     item,
@@ -152,6 +209,10 @@ const Main = (): JSX.Element => {
     setPageIndex(slideIndex);
     setItem(nearUserList[slideIndex]);
   };
+
+  if (_.isEmpty(currentItem)) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <ContentContainer>

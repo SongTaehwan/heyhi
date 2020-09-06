@@ -349,6 +349,8 @@ PODS:
     - React
   - RNCMaskedView (0.1.10):
     - React
+  - RNExitApp (1.1.0):
+    - React
   - RNFS (2.16.6):
     - React
   - RNGestureHandler (1.6.1):
@@ -443,6 +445,7 @@ DEPENDENCIES:
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - RNExitApp (from `../node_modules/react-native-exit-app`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -554,6 +557,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNExitApp:
+    :path: "../node_modules/react-native-exit-app"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -628,6 +633,7 @@ SPEC CHECKSUMS:
   RNBootSplash: c3cdf87277e3d6a1c77b152671d3dffd976670b1
   RNCAsyncStorage: f640ddf9266df777c38e112ea5881ead7188b59c
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNExitApp: 7d81855142a4d11eb75f4f06fdebf5a950d7aef2
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNImageCropPicker: 38865ab4af1b0b2146ad66061196bc0184946855

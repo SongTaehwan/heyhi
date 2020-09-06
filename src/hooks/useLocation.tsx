@@ -1,9 +1,18 @@
-import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
+import Geolocation, {
+  GeoPosition,
+  GeoWatchOptions,
+} from 'react-native-geolocation-service';
 import { useState, useEffect } from 'react';
 
 const useLocation = (
   shouldTrack: boolean,
   callback: (location: GeoPosition) => void,
+  options: GeoWatchOptions = {
+    enableHighAccuracy: true,
+    distanceFilter: 1,
+    interval: 1000,
+    fastestInterval: 500,
+  },
 ): [string] => {
   const [err, setErr] = useState<string>('');
 
@@ -22,12 +31,7 @@ const useLocation = (
             console.log('error: ', error);
             setErr(error.message);
           },
-          {
-            enableHighAccuracy: true,
-            distanceFilter: 1,
-            interval: 1000,
-            fastestInterval: 500,
-          },
+          options,
         );
 
         watchId = id;

@@ -16,3 +16,5 @@ export {
   LOCAL_SET_BEST_PICTURES,
   LOCAL_SET_PERSONAL_INFO,
 } from './local';
+
+export { MUTATION_LOCATION } from './location';
