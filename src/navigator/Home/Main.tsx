@@ -1,9 +1,13 @@
 import { CommonActions, useFocusEffect } from '@react-navigation/native';
-import { checkMultiple, PERMISSIONS } from 'react-native-permissions';
+import {
+  requestMultiple,
+  checkMultiple,
+  PERMISSIONS,
+} from 'react-native-permissions';
+import { View, Dimensions, StyleSheet, Platform } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import AsyncStorage from '@react-native-community/async-storage';
 import { GeoPosition } from 'react-native-geolocation-service';
-import { View, Dimensions, StyleSheet } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import LinearGradient from 'react-native-linear-gradient';
 import { BlurView } from '@react-native-community/blur';
@@ -22,12 +26,12 @@ import {
   ContentContainer,
 } from '@components';
 import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
-import { QUERY_MEMBER_AROUND_ME } from '@api/query';
-import { StyleSheets, Colors } from '@constants';
-import { getApproxAge } from '@util/age';
 import { HomeNavigationProps } from '@navigator/Routes';
-import useLocation from '@hooks/useLocation';
+import { QUERY_MEMBER_AROUND_ME } from '@api/query';
 import { MUTATION_LOCATION } from '@api/mutation';
+import { StyleSheets, Colors } from '@constants';
+import useLocation from '@hooks/useLocation';
+import { getApproxAge } from '@util/age';
 
 interface Item {
   id: number;
@@ -50,9 +54,13 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
 
   useFocusEffect(
     useCallback(() => {
+      console.log('PERMISSION');
       if (permisstionGranted === false) {
         (async (): Promise<any> => {
           try {
+            const isIOS = Platform.OS === 'ios';
+            const isAndroid = Platform.OS === 'android';
+
             const result = await checkMultiple([
               PERMISSIONS.IOS.LOCATION_ALWAYS,
               PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
@@ -61,22 +69,48 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
             ]);
 
             if (
-              result[PERMISSIONS.IOS.LOCATION_ALWAYS] === 'granted' ||
-              result[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted'
+              isIOS &&
+              (result[PERMISSIONS.IOS.LOCATION_ALWAYS] === 'granted' ||
+                result[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted')
             ) {
               getPermissionGranted(true);
-              setTrackingLocation(true);
+              return setTrackingLocation(true);
             }
 
             if (
-              result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === 'granted' ||
-              result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === 'granted'
+              isAndroid &&
+              (result[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === 'granted' ||
+                result[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] ===
+                  'granted')
             ) {
               getPermissionGranted(true);
-              setTrackingLocation(true);
+              return setTrackingLocation(true);
             }
 
-            RNExitApp.exitApp();
+            const response = await requestMultiple([
+              PERMISSIONS.IOS.LOCATION_ALWAYS,
+              PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+              PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+              PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+            ]);
+
+            if (
+              isIOS &&
+              (response[PERMISSIONS.IOS.LOCATION_ALWAYS] !== 'granted' ||
+                response[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] !== 'granted')
+            ) {
+              RNExitApp.exitApp();
+            }
+
+            if (
+              isAndroid &&
+              (response[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] !==
+                'granted' ||
+                response[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] !==
+                  'granted')
+            ) {
+              RNExitApp.exitApp();
+            }
           } catch (error) {
             console.log(error.message);
           }
@@ -97,6 +131,7 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
     notifyOnNetworkStatusChange: false,
     onCompleted: useCallback(
       ({ updateMyLocation }) => {
+        console.log('UPDATE_LOCATION');
         console.log(updateMyLocation);
 
         if (shouldFetch === false) {
@@ -113,6 +148,7 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
 
   const sendLocation = useCallback(
     ({ coords: { latitude, longitude } }: GeoPosition) => {
+      console.log('GET_POSITION');
       updateLocation({
         variables: {
           data: {
@@ -129,8 +165,8 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
   const [err] = useLocation(trackingLocation, sendLocation, {
     enableHighAccuracy: true,
     distanceFilter: 1000, // 1KM
-    interval: 180000, // 3 min
-    fastestInterval: 90000,
+    interval: 60000, // 3 min
+    fastestInterval: 30000,
   });
 
   const { loading, startPolling, stopPolling } = useQuery(
@@ -139,7 +175,11 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
       skip: !shouldFetch,
       notifyOnNetworkStatusChange: false,
       onCompleted: useCallback(
-        ({ getAroundPeople }) => {
+        ({ getAroundPeople } = { getAroundPeople: [] }) => {
+          if (!shouldFetch) {
+            return;
+          }
+
           if (getAroundPeople.length > 0) {
             console.log(getAroundPeople);
             const nearUsers = getAroundPeople.map(
@@ -201,7 +241,6 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
     index: number;
     item: Item;
   }): JSX.Element => {
-    console.log(item.uri);
     return <Image containerStyle={styles.image} source={{ uri: item.uri }} />;
   };
 

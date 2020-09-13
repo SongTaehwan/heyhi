@@ -44,11 +44,13 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access permission required for taking your picture</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location information required to indicate your current position on the map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>YOUR TEXT</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Location information required to indicate your current position on the map</string>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library access permission required for uploading pictures</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Photo Library access permission required for uploading pictures</string>
 	<key>UIAppFonts</key>
 	<array>
