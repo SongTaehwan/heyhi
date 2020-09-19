@@ -173,6 +173,11 @@ const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
     navigation.navigate('MyPageStack', { screen: 'Setting' });
   };
 
+  const logout = async (): Promise<void> => {
+    await AsyncStorage.multiRemove(['ACCESS_TOKEN', 'REFRESH_TOKEN']);
+    navigation.navigate('LoginStack');
+  };
+
   return (
     <ContentContainer containerStyle={styles.container}>
       {user.grade === '' && (
@@ -242,6 +247,7 @@ const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
           text={'Log Out'}
           viewStyle={styles.logoutView}
           textStyle={styles.logoutText}
+          onPress={logout}
         />
       </View>
     </ContentContainer>
