@@ -28,7 +28,11 @@ import {
 import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
 import { HomeNavigationProps } from '@navigator/Routes';
 import { QUERY_MEMBER_AROUND_ME } from '@api/query';
-import { MUTATION_LOCATION } from '@api/mutation';
+import {
+  MUTATION_LOCATION,
+  MUTATION_ACCEPT_MATCHING,
+  MUTATION_REQUEST_MATCHING,
+} from '@api/mutation';
 import { StyleSheets, Colors } from '@constants';
 import useLocation from '@hooks/useLocation';
 import { getApproxAge } from '@util/age';
@@ -126,6 +130,13 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
       };
     }, [permisstionGranted]),
   );
+
+  const [acceptHey] = useMutation(MUTATION_ACCEPT_MATCHING, {
+    notifyOnNetworkStatusChange: false,
+  });
+  const [requestHey] = useMutation(MUTATION_REQUEST_MATCHING, {
+    notifyOnNetworkStatusChange: false,
+  });
 
   const [updateLocation] = useMutation(MUTATION_LOCATION, {
     notifyOnNetworkStatusChange: false,

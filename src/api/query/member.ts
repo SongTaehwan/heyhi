@@ -33,9 +33,9 @@ export const QUERY_MEMBER_AROUND_ME = gql`
       birthday
       status
       thumbnail
-      # nationality {
-      #   code
-      # }
+      nationality {
+        code
+      }
       location {
         distance
         latitude
