@@ -14,7 +14,7 @@ export const QUERY_MEMBER = gql`
       }
       gender
       birthday
-      grade
+      # grade
     }
   }
 `;

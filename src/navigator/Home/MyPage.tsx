@@ -227,7 +227,7 @@ const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
             <HSpace space={20} />
             <ProfileContent
               name={name}
-              grade={user.grade}
+              // grade={user.grade}
               gender={user.gender}
               nationality={nationaliy}
               onPressSetting={goToSettings}
