@@ -1,5 +1,6 @@
 import { ListItem, Avatar, Button, Icon } from 'react-native-elements';
 import { View, StyleSheet, ImageSourcePropType } from 'react-native';
+import { AgeFromDateString } from 'age-calculator';
 import AsyncStorage from '@react-native-community/async-storage';
 import GeoLocation from 'react-native-geolocation-service';
 import React, { useState, useEffect } from 'react';
@@ -91,7 +92,25 @@ const styles = StyleSheet.create({
   },
 });
 
+interface Nationality {
+  code: string;
+}
+
+interface Member {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  nationality: Nationality;
+  gender: string;
+  birthday: string;
+  grade: string;
+}
+
 const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
+  const [user, setUser] = useState({} as Member);
+  const [name, setName] = useState('');
+  const [nationaliy, setNationality] = useState('');
   const [location, setLocation] = useState('');
   const setAddress = (): void => {
     GeoLocation.getCurrentPosition(
@@ -122,15 +141,19 @@ const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
 
   useEffect(() => {
     setAddress();
+    async function getStorage(): Promise<void> {
+      const _user = (await AsyncStorage.getItem('USER')) as string;
+      setUser(JSON.parse(_user));
+    }
+    getStorage();
   }, []);
 
-  const user = {
-    location: 'Paris',
-    email: 'heyhi@gmail.com',
-    grade: 'basic',
-    profile: '',
-    name: 'John Doe',
-  };
+  useEffect(() => {
+    setName(`${user.firstName} ${user.lastName}`);
+    user.nationality
+      ? setNationality(user.nationality.code)
+      : setNationality('');
+  }, [user.firstName, user.id, user.lastName, user.nationality]);
 
   const defaultChevron = {
     color: Colors.brightSkyBlue,
@@ -174,82 +197,88 @@ const MyPage = ({ navigation }: HomeNavigationProps<'MyPage'>): JSX.Element => {
   };
 
   const logout = async (): Promise<void> => {
-    await AsyncStorage.multiRemove(['ACCESS_TOKEN', 'REFRESH_TOKEN']);
+    await AsyncStorage.multiRemove(['ACCESS_TOKEN', 'REFRESH_TOKEN', 'USER']);
     navigation.navigate('LoginStack');
   };
 
   return (
     <ContentContainer containerStyle={styles.container}>
-      {user.grade === '' && (
-        <View style={styles.noticeWrap}>
-          <ImageView
-            resizeMode={'contain'}
-            source={'./assets/logoSmallWhiteHalf.png'}
-            style={styles.logo}
-          />
-          <Text style={styles.notice}>Become out Hey,Hi Member</Text>
-          <Icon
-            type={'entypo'}
-            name={'chevron-right'}
-            color={'white'}
-            size={20}
-            style={styles.noticeIcon}
-          />
-        </View>
+      {name !== '' && (
+        <>
+          {user.grade === '' && (
+            <View style={styles.noticeWrap}>
+              <ImageView
+                resizeMode={'contain'}
+                source={'./assets/logoSmallWhiteHalf.png'}
+                style={styles.logo}
+              />
+              <Text style={styles.notice}>Become out Hey,Hi Member</Text>
+              <Icon
+                type={'entypo'}
+                name={'chevron-right'}
+                color={'white'}
+                size={20}
+                style={styles.noticeIcon}
+              />
+            </View>
+          )}
+          <HorizontalView style={styles.profileWrap}>
+            <ProfileAvatar source={{ uri: user.profile }} />
+            <HSpace space={20} />
+            <ProfileContent
+              name={name}
+              grade={user.grade}
+              gender={user.gender}
+              nationality={nationaliy}
+              onPressSetting={goToSettings}
+            />
+          </HorizontalView>
+          <Divider />
+          <View style={styles.itemWrap}>
+            {list.map((item, i) => (
+              <ListItem
+                key={i}
+                title={item.title}
+                subtitle={item?.subtitle}
+                subtitleStyle={item?.subtitleStyle}
+                leftElement={
+                  <View style={styles.iconWrap}>
+                    <Icon
+                      type={'entypo'}
+                      name={item.icon}
+                      size={20}
+                      color={Colors.brightSkyBlue}
+                    />
+                  </View>
+                }
+                bottomDivider
+                chevron={
+                  item.chevron
+                    ? { ...defaultChevron, name: item.chevron.name }
+                    : defaultChevron
+                }
+                onPress={
+                  item.routeName
+                    ? (): void =>
+                        navigation.navigate('MyPageStack', {
+                          screen: item.routeName,
+                        })
+                    : item.onpress
+                }
+              />
+            ))}
+          </View>
+          <VSpace space={40} />
+          <View style={{ alignSelf: 'center' }}>
+            <Chip
+              text={'Log Out'}
+              viewStyle={styles.logoutView}
+              textStyle={styles.logoutText}
+              onPress={logout}
+            />
+          </View>
+        </>
       )}
-      <HorizontalView style={styles.profileWrap}>
-        <ProfileAvatar source={{ uri: user.profile }} />
-        <HSpace space={20} />
-        <ProfileContent
-          name={user.name}
-          grade={user.grade}
-          onPressSetting={goToSettings}
-        />
-      </HorizontalView>
-      <Divider />
-      <View style={styles.itemWrap}>
-        {list.map((item, i) => (
-          <ListItem
-            key={i}
-            title={item.title}
-            subtitle={item?.subtitle}
-            subtitleStyle={item?.subtitleStyle}
-            leftElement={
-              <View style={styles.iconWrap}>
-                <Icon
-                  type={'entypo'}
-                  name={item.icon}
-                  size={20}
-                  color={Colors.brightSkyBlue}
-                />
-              </View>
-            }
-            bottomDivider
-            chevron={
-              item.chevron
-                ? { ...defaultChevron, name: item.chevron.name }
-                : defaultChevron
-            }
-            onPress={
-              item.routeName
-                ? (): void =>
-                    navigation.navigate('MyPageStack', {
-                      screen: item.routeName,
-                    })
-                : item.onpress
-            }
-          />
-        ))}
-      </View>
-      <VSpace space={40} />
-      <View style={{ alignSelf: 'center' }}>
-        <Chip
-          text={'Log Out'}
-          viewStyle={styles.logoutView}
-          textStyle={styles.logoutText}
-          onPress={logout}
-        />
-      </View>
     </ContentContainer>
   );
 };
@@ -292,6 +321,7 @@ const ProfileContent = ({
   nationality: string;
   gender: 'MALE' | 'FEMALE';
   onPressSetting(): void;
+  age: number;
 }): JSX.Element => {
   return (
     <View style={{ flex: 1 }}>

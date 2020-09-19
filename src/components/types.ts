@@ -103,6 +103,7 @@ export interface ChipProps {
   viewStyle?: ViewStyle;
   textStyle?: TextStyle;
   color?: string;
+  onPress?: () => Promise<void>;
 }
 
 export type ChipType = FC<ChipProps>;

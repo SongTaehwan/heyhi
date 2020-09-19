@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { CommonActions } from '@react-navigation/native';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { Input } from 'react-native-elements';
 import React, { useRef } from 'react';
 import _isEqual from 'lodash/isEqual';
@@ -21,6 +21,7 @@ import {
 } from '@components';
 import { LoginNavigationProps } from '@navigator/Routes';
 import { MUTATION_SIGN_IN } from '@api/mutation';
+import { QUERY_MEMBER } from '@api/query';
 import { logError } from '@util/Error';
 import useValue from '@hooks/useValue';
 import useText from '@hooks/useText';
@@ -48,6 +49,12 @@ const initialFormError = {
 
 // NOTE: SignIn Component
 const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
+  const [getUser] = useLazyQuery(QUERY_MEMBER, {
+    onCompleted: async (data): Promise<void> => {
+      await AsyncStorage.setItem('USER', JSON.stringify(data.member));
+      goToMap();
+    },
+  });
   const [email, setEmail] = useText('', { isEmail: true, delayTime: 500 });
   const [password, setPassword] = useText('', { delayTime: 500 });
   const [formError, setFormError] = useValue(initialFormError, 300);
@@ -85,7 +92,7 @@ const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
         ['REFRESH_TOKEN', refreshToken],
       ]);
 
-      goToMap();
+      getUser({ variables: { email } });
     } catch (error) {
       console.log('error', error);
       setServerErrorMessage(error.message);
