@@ -3,11 +3,18 @@ import gql from 'graphql-tag';
 // TODO: Fragment
 
 export const QUERY_MEMBER = gql`
-  query QUERY_MEMBER($id: Int!) {
-    member(where: { id: $id }) {
+  query QUERY_MEMBER($email: String!) {
+    member(where: { email: $email }) {
       id
+      email
       firstName
       lastName
+      nationality {
+        code
+      }
+      gender
+      birthday
+      # grade
     }
   }
 `;

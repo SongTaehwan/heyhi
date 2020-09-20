@@ -135,6 +135,8 @@ export type SettingRoutes = {
 
 export type HomeRoutes = {
   Map: undefined;
-  Chat: undefined;
+  Chat: {
+    roomId: number;
+  };
   MyPage: undefined;
 };

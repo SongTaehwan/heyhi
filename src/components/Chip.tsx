@@ -32,7 +32,9 @@ const Chip = (props: ChipProps): JSX.Element => {
 
   return (
     <View style={viewStyle}>
-      <Text style={textStyle}>{props.text}</Text>
+      <Text style={textStyle} onPress={props.onPress}>
+        {props.text}
+      </Text>
     </View>
   );
 };
