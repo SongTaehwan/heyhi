@@ -20,7 +20,7 @@ import {
   ContentContainer,
 } from '@components';
 import { LoginNavigationProps } from '@navigator/Routes';
-import { MUTATION_SIGN_IN } from '@api/mutation';
+import { LOCAL_SET_PERSONAL_INFO, MUTATION_SIGN_IN } from '@api/mutation';
 import { QUERY_MEMBER } from '@api/query';
 import { logError } from '@util/Error';
 import useValue from '@hooks/useValue';
@@ -52,6 +52,7 @@ const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
   const [getUser] = useLazyQuery(QUERY_MEMBER, {
     onCompleted: async (data): Promise<void> => {
       await AsyncStorage.setItem('USER', JSON.stringify(data.member));
+      console.log(data);
       goToMap();
     },
   });
@@ -114,6 +115,8 @@ const Login = ({ navigation }: LoginNavigationProps<'Login'>): JSX.Element => {
       onError: logError(setServerErrorMessage),
     },
   );
+
+  // const [setEmail] = useMutation(LOCAL_SET_PERSONAL_INFO);
 
   const isFormDataValid = (): boolean => {
     if (!validator.isEmail(email)) {
