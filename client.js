@@ -1,22 +1,42 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, Observable } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
-import { RetryLink } from 'apollo-link-retry';
-import { ApolloClient } from 'apollo-client';
-import { onError } from 'apollo-link-error';
+import {
+  InMemoryCache
+} from 'apollo-cache-inmemory';
+import {
+  ApolloLink,
+  Observable
+} from 'apollo-link';
+import {
+  createHttpLink
+} from 'apollo-link-http';
+import {
+  RetryLink
+} from 'apollo-link-retry';
+import {
+  ApolloClient
+} from 'apollo-client';
+import {
+  onError
+} from 'apollo-link-error';
 import Config from 'react-native-config';
 import resolvers from './resolvers';
-import { typeDefs } from './schema';
+import {
+  typeDefs
+} from './schema';
 
 // TODO: Customize ApolloClient setting ie. error handling, advanced options and cache setting
 // TODO: dig into request Link logic
-const httpLink = createHttpLink({ uri: Config.API_HOST });
+const httpLink = createHttpLink({
+  uri: Config.API_HOST
+});
 
 const request = async (operation) => {
   const token = await AsyncStorage.getItem('ACCESS_TOKEN');
   console.log(token);
-  operation.setContext(({ headers = {} }) => ({
+  console.log('AUTH: ', Config.HEYHI_AUTHENTICATION)
+  operation.setContext(({
+    headers = {}
+  }) => ({
     headers: {
       ...headers,
       authorization: `Bearer ${token}`,
@@ -60,27 +80,32 @@ const getNewAccessToken = async (operation) => {
 
 const requestLink = new ApolloLink(
   (operation, forward) =>
-    new Observable((observer) => {
-      let handle;
-      Promise.resolve(operation)
-        .then((oper) => request(oper))
-        .then(() => {
-          handle = forward(operation).subscribe({
-            next: observer.next.bind(observer),
-            error: observer.error.bind(observer),
-            complete: observer.complete.bind(observer),
-          });
-        })
-        .catch(observer.error.bind(observer));
+  new Observable((observer) => {
+    let handle;
+    Promise.resolve(operation)
+      .then((oper) => request(oper))
+      .then(() => {
+        handle = forward(operation).subscribe({
+          next: observer.next.bind(observer),
+          error: observer.error.bind(observer),
+          complete: observer.complete.bind(observer),
+        });
+      })
+      .catch(observer.error.bind(observer));
 
-      return () => {
-        if (handle) handle.unsubscribe();
-      };
-    }),
+    return () => {
+      if (handle) handle.unsubscribe();
+    };
+  }),
 );
 
 const errorLink = onError(
-  ({ response, operation, graphQLErrors, networkError }) => {
+  ({
+    response,
+    operation,
+    graphQLErrors,
+    networkError
+  }) => {
     if (graphQLErrors) {
       // TODO: 엑세스 토큰 만료 시 서버로부터 응답 받을 메시지를 정하고 checkTokenValidation 로직 수정
       // const isTokenExpired = checkTokenValidation(graphQLErrors[0].message);
@@ -105,7 +130,11 @@ const errorLink = onError(
         });
       }
 
-      graphQLErrors.forEach(({ message, locations, path }) => {
+      graphQLErrors.forEach(({
+        message,
+        locations,
+        path
+      }) => {
         console.log(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
         );
