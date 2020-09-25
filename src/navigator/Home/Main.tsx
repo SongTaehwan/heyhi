@@ -4,15 +4,15 @@ import {
   checkMultiple,
   PERMISSIONS,
 } from 'react-native-permissions';
-import { View, Dimensions, StyleSheet, Platform } from 'react-native';
+import { View, Dimensions, StyleSheet, Platform, Alert } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import AsyncStorage from '@react-native-community/async-storage';
+import React, { useState, useCallback, useEffect } from 'react';
 import { GeoPosition } from 'react-native-geolocation-service';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import LinearGradient from 'react-native-linear-gradient';
 import { BlurView } from '@react-native-community/blur';
 import { ActivityIndicator } from 'react-native-paper';
-import React, { useState, useCallback } from 'react';
 import { Image, Icon } from 'react-native-elements';
 import RNExitApp from 'react-native-exit-app';
 import MapView from 'react-native-maps';
@@ -28,13 +28,19 @@ import {
 import { getRelativeWidth, getRelativeHeight } from '@util/Dimensions';
 import { HomeNavigationProps } from '@navigator/Routes';
 import { QUERY_MEMBER_AROUND_ME } from '@api/query';
-import { MUTATION_LOCATION } from '@api/mutation';
+import {
+  MUTATION_LOCATION,
+  MUTATION_ACCEPT_MATCHING,
+  MUTATION_REQUEST_MATCHING,
+} from '@api/mutation';
 import { StyleSheets, Colors } from '@constants';
 import useLocation from '@hooks/useLocation';
 import { getApproxAge } from '@util/age';
+import { logError } from '@util/Error';
 
 interface Item {
   id: number;
+  email: string;
   firstName: string;
   lastName: string;
   age: number;
@@ -42,15 +48,28 @@ interface Item {
   country: string;
   distance: number;
   uri: string;
+  isMatched: boolean;
+  requestedFromMe: boolean;
+  requestToMe: boolean;
 }
 
 const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
   const [pageIndex, setPageIndex] = useState(0);
-  const [currentItem, setItem] = useState({});
-  const [nearUserList, setNearUserList] = useState([]);
+  const [currentItem, setItem] = useState<Item>({} as Item);
+  const [nearUserList, setNearUserList] = useState<Item[]>([]);
   const [shouldFetch, setShouldFetch] = useState(false);
   const [trackingLocation, setTrackingLocation] = useState(false);
   const [permisstionGranted, getPermissionGranted] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const getUser = async (): Promise<void> => {
+      const userData = await AsyncStorage.getItem('USER');
+      setUser(JSON.parse(userData as string));
+    };
+
+    getUser();
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -127,6 +146,62 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
     }, [permisstionGranted]),
   );
 
+  const [acceptHey, { loading: acceptLoading }] = useMutation(
+    MUTATION_ACCEPT_MATCHING,
+    {
+      notifyOnNetworkStatusChange: false,
+      onCompleted: (data): void => {
+        console.log('ACCEPTED: ', data);
+
+        const updated = { ...currentItem, isMatched: true };
+        setItem(updated);
+        setNearUserList([updated]);
+
+        navigation.navigate('ChatRoom', { roomId: data.chatRoom.id });
+      },
+      onError: (e) => {
+        console.log('HI_ACCEPT_ERROR', e);
+      },
+    },
+  );
+
+  const [requestHey, { loading: requestLoading }] = useMutation(
+    MUTATION_REQUEST_MATCHING,
+    {
+      notifyOnNetworkStatusChange: false,
+      onCompleted: (data): void => {
+        console.log('REQUESTED: ', data);
+
+        setItem((prev) => ({
+          ...prev,
+          requestedFromMe: !prev.requestedFromMe,
+        }));
+        setNearUserList((prev) => {
+          const updated = prev.map((user) => {
+            if (user.id === currentItem.id) {
+              return {
+                ...user,
+                requestedFromMe: true,
+              };
+            } else {
+              return user;
+            }
+          });
+          return updated;
+        });
+      },
+      onError: (error) => {
+        const message = error.message.split(': ').pop() as string;
+
+        if (message.includes('There is already a match')) {
+          Alert.alert('Sorry :(', 'Already matched with someone');
+        }
+
+        console.log('ERROR_FROM_SERVER: ', message);
+      },
+    },
+  );
+
   const [updateLocation] = useMutation(MUTATION_LOCATION, {
     notifyOnNetworkStatusChange: false,
     onCompleted: useCallback(
@@ -135,8 +210,9 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
         console.log(updateMyLocation);
 
         if (shouldFetch === false) {
+          console.log('POLLING_TRIGGERED!');
           setShouldFetch(true);
-          startPolling(60000); // 1 min
+          startPolling(1000); // 1 min
         }
       },
       [shouldFetch],
@@ -164,7 +240,7 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
 
   const [err] = useLocation(trackingLocation, sendLocation, {
     enableHighAccuracy: true,
-    distanceFilter: 1000, // 1KM
+    distanceFilter: 50, // 1KM
     interval: 60000, // 3 min
     fastestInterval: 30000,
   });
@@ -172,19 +248,145 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
   const { loading, startPolling, stopPolling } = useQuery(
     QUERY_MEMBER_AROUND_ME,
     {
+      fetchPolicy: 'network-only',
       skip: !shouldFetch,
-      notifyOnNetworkStatusChange: false,
+      // notifyOnNetworkStatusChange: false,
       onCompleted: useCallback(
         ({ getAroundPeople } = { getAroundPeople: [] }) => {
+          console.log('trigger');
           if (!shouldFetch) {
             return;
           }
 
           if (getAroundPeople.length > 0) {
             console.log(getAroundPeople);
+            // const matchedUserList = getAroundPeople.filter(
+            //   ({ requestMatchings, requestedMatchings }) => {
+            //     const myEmail = user.email;
+
+            //     let isMatched = false;
+
+            //     requestMatchings.some(({ requestedMember, state }) => {
+            //       const isSentToMe = requestedMember.email === myEmail;
+
+            //       if (isSentToMe && state === 'ACCEPTED') {
+            //         isMatched = true;
+            //         return false;
+            //       }
+
+            //       if (isSentToMe && state === 'REQUESTED') {
+            //         return true;
+            //       }
+
+            //       return false;
+            //     });
+
+            //     requestedMatchings.some(({ requestMember, state }) => {
+            //       const sentFromMe = requestMember.email === myEmail;
+
+            //       if (sentFromMe && state === 'ACCEPTED') {
+            //         isMatched = true;
+            //         return false;
+            //       }
+
+            //       if (sentFromMe && state === 'REQUESTED') {
+            //         return true;
+            //       }
+
+            //       return false;
+            //     });
+
+            //     return isMatched;
+            //   },
+            // );
+
+            // if (matchedUserList.length > 0) {
+            //   const mappedMatchedUser = matchedUserList.map(
+            //     ({
+            //       id,
+            //       email,
+            //       firstName,
+            //       lastName,
+            //       nationality,
+            //       gender,
+            //       birthday,
+            //       photos,
+            //       distance,
+            //       requestMatchings,
+            //       requestedMatchings,
+            //     }) => {
+            //       const myEmail = user.email;
+
+            //       let isMatched = false;
+
+            //       const receivedRequest = requestMatchings.some(
+            //         ({ requestedMember, state }) => {
+            //           const isSentToMe = requestedMember.email === myEmail;
+
+            //           if (isSentToMe && state === 'ACCEPTED') {
+            //             isMatched = true;
+            //             return false;
+            //           }
+
+            //           if (isSentToMe && state === 'REQUESTED') {
+            //             return true;
+            //           }
+
+            //           return false;
+            //         },
+            //       );
+
+            //       const requestFromMe = requestedMatchings.some(
+            //         ({ requestMember, state }) => {
+            //           const sentFromMe = requestMember.email === myEmail;
+
+            //           if (sentFromMe && state === 'ACCEPTED') {
+            //             isMatched = true;
+            //             return false;
+            //           }
+
+            //           if (sentFromMe && state === 'REQUESTED') {
+            //             return true;
+            //           }
+
+            //           return false;
+            //         },
+            //       );
+
+            //       console.log(
+            //         'EMAIL: ',
+            //         firstName + ' ' + lastName,
+            //         receivedRequest,
+            //         requestFromMe,
+            //       );
+            //       return {
+            //         id,
+            //         email,
+            //         firstName,
+            //         lastName,
+            //         country: nationality?.code ?? 'KR',
+            //         gender,
+            //         age: getApproxAge(birthday),
+            //         uri:
+            //           photos?.map((pic) => pic.photo)[0] ??
+            //           'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
+            //         distance: distance ?? '100',
+            //         requestedFromMe: requestFromMe.length > 0,
+            //         requestToMe: receivedRequest.length > 0,
+            //         isMatched,
+            //       };
+            //     },
+            //   );
+
+            //   setNearUserList(mappedMatchedUser);
+            //   setItem(mappedMatchedUser[0]);
+            //   return;
+            // }
+
             const nearUsers = getAroundPeople.map(
               ({
                 id,
+                email,
                 firstName,
                 lastName,
                 nationality,
@@ -192,9 +394,56 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
                 birthday,
                 photos,
                 distance,
+                requestMatchings,
+                requestedMatchings,
               }) => {
+                const myEmail = user.email;
+
+                let isMatched = false;
+
+                const receivedRequest = requestMatchings.some(
+                  ({ requestedMember, state }) => {
+                    const isSentToMe = requestedMember.email === myEmail;
+
+                    if (isSentToMe && state === 'ACCEPTED') {
+                      isMatched = true;
+                      return false;
+                    }
+
+                    if (isSentToMe && state === 'REQUESTED') {
+                      return true;
+                    }
+
+                    return false;
+                  },
+                );
+
+                const requestFromMe = requestedMatchings.some(
+                  ({ requestMember, state }) => {
+                    const sentFromMe = requestMember.email === myEmail;
+
+                    if (sentFromMe && state === 'ACCEPTED') {
+                      isMatched = true;
+                      return false;
+                    }
+
+                    if (sentFromMe && state === 'REQUESTED') {
+                      return true;
+                    }
+
+                    return false;
+                  },
+                );
+
+                console.log(
+                  'EMAIL: ',
+                  firstName + ' ' + lastName,
+                  receivedRequest,
+                  requestFromMe,
+                );
                 return {
                   id,
+                  email,
                   firstName,
                   lastName,
                   country: nationality?.code ?? 'KR',
@@ -204,6 +453,9 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
                     photos?.map((pic) => pic.photo)[0] ??
                     'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg',
                   distance: distance ?? '100',
+                  requestedFromMe: requestFromMe.length > 0,
+                  requestToMe: receivedRequest.length > 0,
+                  isMatched,
                 };
               },
             );
@@ -249,15 +501,53 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
     setItem(nearUserList[slideIndex]);
   };
 
+  const handleHeyHi = (): void => {
+    const isAcceptAction = currentItem.requestToMe;
+
+    if (isAcceptAction) {
+      acceptHey({
+        variables: {
+          data: {
+            acceptMessage: 'Hi!',
+            requestedMember: { connect: { id: currentItem.id } },
+          },
+        },
+      });
+    } else {
+      requestHey({
+        variables: {
+          data: {
+            requestMessage: 'Hey!',
+            requestedMember: { connect: { id: currentItem.id } },
+          },
+        },
+      });
+    }
+  };
+
   if (_.isEmpty(currentItem)) {
-    return <ActivityIndicator />;
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'white',
+        }}>
+        <Text>
+          {loading
+            ? 'Loading people around you'
+            : 'Unfortunately there is no one around your position'}
+        </Text>
+        <View style={{ height: 50 }}>{loading && <ActivityIndicator />}</View>
+      </View>
+    );
   }
 
   return (
     <ContentContainer>
       <MapView style={styles.map} />
       <BlurView style={styles.blur} blurType={'light'} blurAmount={5} />
-
       <LinearGradient
         start={{ x: 0.0, y: 0 }}
         end={{ x: 0.0, y: 1 }}
@@ -310,8 +600,24 @@ const Main = ({ navigation }: HomeNavigationProps<'Map'>): JSX.Element => {
         />
         <BarButton
           round
+          loading={requestLoading || acceptLoading}
           containerStyle={{ paddingHorizontal: '10%' }}
-          title="Send Hey!"
+          disabled={
+            currentItem.isMatched ||
+            currentItem.requestedFromMe ||
+            requestLoading ||
+            acceptLoading
+          }
+          title={
+            currentItem.isMatched
+              ? 'Matched'
+              : currentItem.requestedFromMe
+              ? 'Already Sent Hey!'
+              : currentItem.requestToMe
+              ? 'Accept Request'
+              : 'Send Hey!'
+          }
+          onPress={handleHeyHi}
         />
         <VSpace space={getRelativeHeight(20)} />
       </LinearGradient>

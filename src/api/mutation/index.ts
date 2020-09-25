@@ -21,3 +21,7 @@ export {
 } from './local';
 
 export { MUTATION_LOCATION } from './location';
+export {
+  MUTATION_REQUEST_MATCHING,
+  MUTATION_ACCEPT_MATCHING,
+} from './matching';

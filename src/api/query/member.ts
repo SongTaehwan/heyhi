@@ -40,9 +40,9 @@ export const QUERY_MEMBER_AROUND_ME = gql`
       birthday
       status
       thumbnail
-      # nationality {
-      #   code
-      # }
+      nationality {
+        code
+      }
       location {
         distance
         latitude
@@ -71,16 +71,23 @@ export const QUERY_MEMBER_AROUND_ME = gql`
           gender
         }
       }
-      requestMatchings {
-        requestMessage
-        requestMember {
-          id
-          email
-          firstName
-          lastName
-          gender
-        }
+      requestMatchings(where: { state_in: [REQUESTED, ACCEPTED] }) {
         state
+        requestMember {
+          email
+        }
+        requestedMember {
+          email
+        }
+      }
+      requestedMatchings(where: { state_in: [REQUESTED, ACCEPTED] }) {
+        state
+        requestMember {
+          email
+        }
+        requestedMember {
+          email
+        }
       }
     }
   }
