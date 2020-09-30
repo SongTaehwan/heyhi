@@ -109,6 +109,7 @@ const UserInterest = ({
           photos: {
             create: photos,
           },
+          grade: 'basic',
           withdrawalMessage: '',
           agreement: 1,
           ...userInfo,
