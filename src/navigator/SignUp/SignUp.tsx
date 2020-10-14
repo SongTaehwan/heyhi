@@ -29,7 +29,7 @@ enum FORM_DATA_TYPE {
   PASSWORD = 'Password',
   PASSWORD_CONFIRM = 'Password Confirm',
   FIRST_NAME = 'First Name',
-  SECOND_NAME = 'Second Name',
+  SECOND_NAME = 'Last Name',
   COUNTRY = 'Nationality',
   BIRTH_DATE = 'Birth Date',
   GENDER = 'Gender',
